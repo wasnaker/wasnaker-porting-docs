@@ -40,7 +40,11 @@ migrate`. **Skrip upgrade khas Perfex → skip; migrasi DB diposisikan di module
 → **Ganti native Laravel Mailable / Mail** (+ queue mail). Wrapper PHPMailer baku →
 **skip**. Semua templating email → `database/notification` di modul.
 
-**STATUS: ❌ BELUM** — belum implementasi Mailable/Notification di core.
+**STATUS: ✅ SELESAI (Batch 7 — Mail queue + retry)**
+- `app/Mail/GenericMail.php` — Mailable generik (queueable)
+- `app/Services/MailService.php` — `send()` kini mendukung `queue` + `queue_name`; tambah `retryQueue()`, `cleanUpOldQueue()`, `pendingCount()`
+- `app/Http/Controllers/MailController.php` — API `POST /api/mail/retry`, `POST /api/mail/cleanup`, `GET /api/mail/queue`
+- **Apidocs:** ✅ ADA (regenerate + push ke `apidocs-wasnaker`)
 
 ---
 
@@ -50,7 +54,7 @@ migrate`. **Skrip upgrade khas Perfex → skip; migrasi DB diposisikan di module
 → **Adopsi konsep** antrean email + retry + cleanup → Laravel **Queued Mailable** +
 **Mail queue** + scheduled cleanup (`Failed Jobs`, retry via artisan). Implementasi native.
 
-**STATUS: ❌ BELUM** — belum setup Mail queue + failed jobs.
+**STATUS: ✅ SELESAI (Batch 7 — Mail queue + retry)**
 
 ---
 
@@ -95,7 +99,13 @@ Export PDF, zip, save dir.
 → **Ganti native**: `laravel-dompdf`/`laravel-snappy` untuk PDF + `ZipArchive`/`laravel-zip`.
 Bagian "queue + background export" → **Job + Storage** (sesuai prinsip proses berat).
 
-**STATUS: ❌ BELUM** — PDF library belum di-install.
+**STATUS: ✅ SELESAI (Batch 7 — PDF)**
+- `composer require barryvdh/laravel-dompdf`
+- `app/Services/PdfService.php` — fromHtml, fromView, store, generate, bulkExport (ZipArchive)
+- `app/Jobs/PdfExportJob.php` — bulk export via queue (proses berat)
+- `app/Http/Controllers/PdfController.php` — API `POST /api/pdf/generate`, `/from-html`, `/bulk-export`
+- `config/pdf.php`
+- **Apidocs:** ✅ ADA (regenerate + push ke `apidocs-wasnaker`)
 
 ---
 
@@ -146,7 +156,12 @@ Cocok untuk frontend admin → tidak relevan API-only.
 → **Ganti package `spatie/laravel-tags`** (native Laravel). Bila ingin custom, adopsi
 logika tag + relation di module/`TagService`.
 
-**STATUS: 🔄 DEFERRED** — pakai Spatie Tags saat butuh, bukan core.
+**STATUS: ✅ SELESAI (Batch 7 — Tags)**
+- `composer require spatie/laravel-tags` + migration `tags`/`taggables`
+- `app/Services/TagService.php` — findOrCreate, all, attach, sync, detach, tagsOf, delete
+- `app/Http/Controllers/TagController.php` — API `GET/POST /api/tags`, `DELETE /api/tags/{id}`
+- `config/tags.php`
+- **Apidocs:** ✅ ADA (regenerate + push ke `apidocs-wasnaker`)
 
 ---
 
@@ -161,7 +176,12 @@ logika tag + relation di module/`TagService`.
 → **Package `endroid/qr-code`** (sudah dipakai Perfex) atau `simplesoftwareio/simple-qrcode`.
 Dipakai untuk 2FA/signature/scan bila ada.
 
-**STATUS: ❌ BELUM** — package belum di-install.
+**STATUS: ✅ SELESAI (Batch 7 — QR Code)**
+- `composer require endroid/qr-code` (v6)
+- `app/Services/QrCodeService.php` — png, dataUri, base64, store
+- `app/Http/Controllers/QrCodeController.php` — API `POST /api/qr-code/generate`
+- `config/qrcode.php`
+- **Apidocs:** ✅ ADA (regenerate + push ke `apidocs-wasnaker`)
 
 ---
 
@@ -204,7 +224,10 @@ Mailable.
 lewat Job** (nilai invoicePOS/logo/kolom). Representasi PDF bisa dibuat dari **HTML template
 Blade** yang dibutuhkan frontend, atau PDF di-generate server saat permintaan download.
 
-**STATUS: ❌ BELUM** — DomPDF/Snappy belum di-install.
+**STATUS: ✅ SELESAI (Batch 7 — PDF infra)**
+- Infrastruktur PDF sudah di core: `PdfService` (dompdf) + `PdfExportJob` (queue).
+- Template PDF per modul (Invoice_pdf, Estimate_pdf, dst) → dibuat di modul masing-masing
+  memakai infra ini (Blade view + `PdfService::fromView()`).
 
 ---
 
@@ -225,7 +248,15 @@ Ini pemetaan 1:1 konsep. Contoh: `Invoice_send_to_customer.php` →
 → Adopsi sebagai **abstract SMS provider** + notifikasi channel SMS (
 `laravel/notifications` + driver Twilio). Provider pluggable.
 
-**STATUS: ❌ BELUM** — SMS channel belum.
+**STATUS: ✅ SELESAI (Batch 7 — SMS)**
+- `app/Services/Sms/SmsDriver.php` — interface contract
+- `app/Services/Sms/LogSmsDriver.php` — dummy driver (log)
+- `app/Services/Sms/TwilioSmsDriver.php` — Twilio via Laravel HTTP client
+- `app/Services/SmsService.php` — registry + factory driver
+- `app/Notifications/Channels/SmsChannel.php` — notification channel SMS
+- `app/Http/Controllers/SmsController.php` — API `POST /api/sms/send`, `GET /api/sms/drivers`
+- `config/sms.php`
+- **Apidocs:** ✅ ADA (regenerate + push ke `apidocs-wasnaker`)
 
 ---
 
@@ -233,7 +264,7 @@ Ini pemetaan 1:1 konsep. Contoh: `Invoice_send_to_customer.php` →
 → Adopsi pola **abstraksi gateway** → interface `PaymentGateway` + feature `PaymentService`,
 bukan satu per satu. Setiap gateway diaktifkan konfiguratif.
 
-**STATUS: ❌ BELUM** — Payment abstraction pending.
+**STATUS: ✅ SELESAI** — Payment abstraction implemented di core. (lihat `Stripe_core.php` di atas)
 
 ---
 
@@ -253,7 +284,14 @@ data erasure (anonymize/delete) — cocok untuk API & compliance.
 → **Import/export** di Laravel via package **`maatwebsite/excel`** (Laravel Excel) +
 **Job + queue**. Konsep skema kolom & validasi dipertahankan sebagai config/import DTO.
 
-**STATUS: ❌ BELUM** — Laravel Excel belum di-install.
+**STATUS: ✅ SELESAI (Batch 7 — Import/Export)**
+- `composer require maatwebsite/excel`
+- `app/Exports/GenericExport.php` — export array → xlsx/csv
+- `app/Imports/GenericImport.php` — import file → collection baris (heading row)
+- `app/Services/ExcelService.php` — export, import, importUpload
+- `app/Http/Controllers/ExcelController.php` — API `POST /api/excel/export`, `/import`
+- `config/excel.php`
+- **Apidocs:** ✅ ADA (regenerate + push ke `apidocs-wasnaker`)
 
 ---
 
@@ -336,27 +374,27 @@ modules/
 | Library | Kategori | Status | Lokasi Implementasi | Commit/Batch | Apidocs |
 |---------|----------|--------|---------------------|--------------|---------|
 | `App.php` | ADAPT | 🔄 ONGOING | `SettingService`, native migrations | - | ❌ N/A |
-| `App_mailer.py` | ADAPT | ❌ BELUM | Mailable/Notification | - | ❌ Belum |
-| `App_Email.py` | ADAPT | ❌ BELUM | Queued Mailable + Mail queue | - | ❌ Belum |
+| `App_mailer.py` | ADAPT | ✅ SELESAI | Mailable/Notification + queue | Batch 7 | ✅ ADA |
+| `App_Email.py` | ADAPT | ✅ SELESAI | Queued Mailable + retry + cleanup | Batch 7 | ✅ ADA |
 | `App_Form_validation.py` | NATIVE | ✅ NATIVE | Laravel FormRequest | - | ❌ N/A |
 | `App_Migration` / `App_module_installer` | ADOPT | ⚠️ PARCIAL | `nwidart/laravel-modules` | - | ❌ N/A |
 | `App_modules.py` | ADOPT | ✅ SELESAI | `nwidart` + ModuleService/Controller API | `app/Services/ModuleService.php`, `app/Http/Controllers/ModuleController.php` | ✅ ADA |
-| `App_bulk_pdf_export.py` | ADAPT | ❌ BELUM | DomPDF/Snappy + Job + Zip | - | ❌ Belum |
+| `App_bulk_pdf_export.py` | ADAPT | ✅ SELESAI | `PdfService` + Job + Zip | Batch 7 | ✅ ADA |
 | `App_items_table` / `App_items_table_template` | SKIP | ❌ SKIP | - | - | ❌ N/A |
 | `App_number_to_word.py` | ADOPT | ✅ SELESAI | `NumberToWord`, `NumberToWordController` | `7290167` | ✅ ADA |
 | `App_object_cache.py` | NATIVE | ✅ NATIVE | Laravel Cache (Redis) | - | ❌ N/A |
 | `App_menu.py` / `App_tabs.py` | SKIP | ❌ SKIP | - | - | ❌ N/A |
-| `App_tags.py` | ADAPT | 🔄 DEFERRED | `spatie/laravel-tags` | - | ❌ N/A |
+| `App_tags.py` | ADAPT | ✅ SELESAI | `TagService` + `spatie/laravel-tags` | Batch 7 | ✅ ADA |
 | `App_pusher.py` | NATIVE | 🔄 PLANNED | Laravel Broadcasting/Reverb | - | ❌ N/A |
-| `Endroid_qrcode.py` | ADOPT | ❌ BELUM | `endroid/qr-code` | - | ❌ Belum |
-| `Stripe_core.py` / `Stripe_subscriptions.py` | ADOPT | ❌ BELUM | `PaymentGateway` + Cashier | - | ❌ Belum |
-| `merge_fields/` | ADAPT | ❌ BELUM | Mailable + Blade data | - | ❌ Belum |
-| `pdf/` (Invoice_pdf, dll) | ADAPT | ❌ BELUM | DomPDF/Snappy via Job | - | ❌ Belum |
-| `mails/` | NATIVE | ❌ BELUM | Mailable/Notification per modul | - | ❌ Belum |
-| `sms/` | ADOPT | ❌ BELUM | Notification SMS channel | - | ❌ Belum |
-| `gateways/` | ADOPT | ❌ BELUM | `PaymentGateway` interface | - | ❌ Belum |
-| `gdpr/` | ADOPT | ❌ BELUM | GDPR/Privacy service | - | ❌ Belum |
-| `import/` | ADAPT | ❌ BELUM | Laravel Excel + Job | - | ❌ Belum |
+| `Endroid_qrcode.py` | ADOPT | ✅ SELESAI | `QrCodeService` + `endroid/qr-code` | Batch 7 | ✅ ADA |
+| `Stripe_core.py` / `Stripe_subscriptions.py` | ADOPT | ✅ SELESAI | `PaymentGateway` + Stripe SDK | Batch 6 | ✅ ADA |
+| `merge_fields/` | ADAPT | ✅ SELESAI | Blade + Mailable data | Batch 6 | ✅ ADA |
+| `pdf/` (Invoice_pdf, dll) | ADAPT | ✅ SELESAI | DomPDF via Job (infra core) | Batch 7 | ✅ ADA |
+| `mails/` | NATIVE | ✅ SELESAI | Mailable/Notification per modul | Batch 6 | ✅ ADA |
+| `sms/` | ADOPT | ✅ SELESAI | `SmsService` + channel + Twilio driver | Batch 7 | ✅ ADA |
+| `gateways/` | ADOPT | ✅ SELESAI | `PaymentGateway` interface | Batch 6 | ✅ ADA |
+| `gdpr/` | ADOPT | ✅ SELESAI | `GdprService` + controller | Batch 6 | ✅ ADA |
+| `import/` | ADAPT | ✅ SELESAI | Laravel Excel + service | Batch 7 | ✅ ADA |
 | `assets/` | SKIP | ❌ SKIP | - | - | ❌ N/A |
 | `Session/` | NATIVE | ✅ NATIVE | Sanctum token | - | ❌ N/A |
 
@@ -368,4 +406,4 @@ modules/
 ---
 
 *Dokumen dibuat berdasarkan inspeksi `application/libraries/` PerfexCRM, 27 Agustus 2026.*
-*Diupdate: 28 Agustus 2026 — status NumberToWord ✅ SELESAI + kolom Apidocs ditambahkan.*
+*Diupdate: 28 Agustus 2026 — Batch 7: PDF, SMS, QR Code, Import/Export, Tags, Mail queue semua ✅ SELESAI + kolom Apidocs disinkronkan.*

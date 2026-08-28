@@ -198,8 +198,10 @@ API cukup return data + frontend yang format).
 ### `tags_helper.py`
 **Adopsi:** logika tagging. Laravel ada package `laravel-tags` (Spatie) → gunakan itu.
 
-**STATUS: 🔄 DEFERRED** — pakai Spatie Tags saat butuh, bukan core
-- **Apidocs:** ❌ N/A
+**STATUS: ✅ SELESAI (Batch 7)** — `TagService` + `spatie/laravel-tags` terpasang
+- `app/Services/TagService.php` — findOrCreate, all, attach, sync, detach, tagsOf, delete
+- `app/Http/Controllers/TagController.php` — API `GET/POST /api/tags`, `DELETE /api/tags/{id}`
+- **Apidocs:** ✅ ADA
 
 ---
 
@@ -207,8 +209,8 @@ API cukup return data + frontend yang format).
 **Adopsi:** integrasi gateway → jadikan service/`PaymentGateway` interface.
 **Ganti:** invoice_pdf → pakai `barryvdh/laravel-dompdf` atau `laravel-snappy`.
 
-**STATUS: 🔄 DEFERRED** — bukan core, modul Payment terpisah
-- **Apidocs:** ❌ N/A
+**STATUS: ✅ SELESAI** — `PaymentService` + `StripePaymentGateway` di core; PDF via `PdfService` (dompdf)
+- **Apidocs:** ✅ ADA (Payment + Pdf)
 
 ---
 
@@ -286,8 +288,8 @@ app/
 | `staff_helper.py` | ADAPT | ⚠️ PENDING | Sales module | - | ❌ Belum |
 | Module helpers (invoices, projects, dll) | ADAPT | ⚠️ PENDING | `Sales/*Service` di module | - | ❌ Belum |
 | `misc_helper.py` | ADAPT | 🔄 PARTIAL | native / future | - | ❌ Belum |
-| `tags_helper.py` | ADAPT | 🔄 DEFERRED | Spatie Tags | - | ❌ N/A |
-| `payment_gateways_helper.py` | ADAPT | 🔄 DEFERRED | Payment module | - | ❌ N/A |
+| `tags_helper.py` | ADAPT | ✅ SELESAI | `TagService` + Spatie Tags | Batch 7 | ✅ ADA |
+| `payment_gateways_helper.py` | ADAPT | ✅ SELESAI | `PaymentService` + `PdfService` | Batch 6/7 | ✅ ADA |
 | View/frontend helpers (16 files) | SKIP | ❌ SKIP | - | - | ❌ N/A |
 
 **Legenda Apidocs:**
@@ -314,15 +316,17 @@ app/
 
 | Prioritas | Item | Catatan |
 |-----------|------|---------|
-| **High** | Sales Module domain services | `InvoiceService`, `EstimateService`, `ProjectService`, `LeadService`, `TaskService`, `CustomerService` — logika bisnis dari helper modul Perfex |
-| **High** | Sales Module API controllers + routes | Expose domain services via REST API |
+| **High** | Sales Module domain services | `InvoiceService`, `EstimateService`, `ProjectService`, `LeadService`, `TaskService`, `CustomerService` — logika bisnis dari helper modul Perfex. **Di repo `wasnaker-sales-module`**, bukan di core |
+| **High** | Sales Module API controllers + routes | Expose domain services via REST API (`wasnaker-sales-module`) |
 | **Medium** | Apply `HasMetaData` ke entity Sales (Customer, Project, Lead, Invoice, dll) | Trait sudah siap, tinggal pakai di model module |
 | **Medium** | Register relation resolvers di Sales module | `RelationService::registerResolver('customer', ...)` di `SalesServiceProvider` |
 | **Low** | Frontend menu (Next.js) untuk Settings, ActivityLog, Meta, Files, Relations | SPA pages consuming existing APIs |
 | **Low** | `general_helper.py` sisa → utility class | `generate_encryption_key`, `get_weekdays_between_dates` |
-| **Low** | Spatie Tags integration (jika butuh tagging) | `tags_helper.py` |
+| ✅ **SELESAI** | Spatie Tags integration | `TagService` + `spatie/laravel-tags` (Batch 7) |
+
+> **Catatan keputusan (28 Agustus 2026):** `wasnaker-core` sengaja menjadi **"modular-ready" tanpa modul di dalamnya**. Service bisnis Sales + controller-nya dikembangkan di paket terpisah `wasnaker/sales-module` (deploy berdampingan), bukan di core.
 
 ---
 
 *Dokumen dibuat berdasarkan inspeksi `application/helpers/` PerfexCRM, 27 Agustus 2026.*
-*Diupdate: 28 Agustus 2026 — status porting tiap helper + kolom Apidocs ditambahkan.*
+*Diupdate: 28 Agustus 2026 — status porting tiap helper + kolom Apidocs ditambahkan. Batch 7: Tags & Payment/PDF helper ✅ SELESAI; keputusan modular-ready tanpa modul dicatat.*

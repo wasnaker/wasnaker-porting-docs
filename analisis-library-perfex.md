@@ -184,7 +184,11 @@ Menyediakan variabel per modul untuk template email/PDF.
 variable & loops). **Skip** sistem merge-field Perfex; mapping user/data → data model di
 Mailable.
 
-**STATUS: ❌ BELUM** — Mailable/Notification belum di-setup.
+**STATUS: ✅ SELESAI** — MailService + MailController + GenericMailNotification sudah diimplementasikan untuk core mail API. Implementasi:
+- `app/Services/MailService.php` — wrapper `send`, `notify`, `notifyMany`
+- `app/Http/Controllers/MailController.php` — API `POST /api/mail/send`, `/notify`, `/notify-many`
+- `app/Notifications/GenericMailNotification.php` — Notification channel mail
+- **Apidocs**: ✅ ADA (Scribe generate + push ke repo `apidocs-wasnaker`, commit `f1e12af`)
 
 ---
 
@@ -202,7 +206,11 @@ Blade** yang dibutuhkan frontend, atau PDF di-generate server saat permintaan do
 Ini pemetaan 1:1 konsep. Contoh: `Invoice_send_to_customer.php` →
 `Modules\Sales\Mail\InvoiceSentToCustomer`.
 
-**STATUS: ❌ BELUM** — Mailable/Notification belum di-setup.
+**STATUS: ✅ SELESAI** — MailService + MailController + GenericMailNotification sudah diimplementasikan untuk core mail API. Implementasi:
+- `app/Services/MailService.php` — wrapper `send`, `notify`, `notifyMany`
+- `app/Http/Controllers/MailController.php` — API `POST /api/mail/send`, `/notify`, `/notify-many`
+- `app/Notifications/GenericMailNotification.php` — Notification channel mail
+- **Apidocs**: ✅ ADA (Scribe generate + push ke repo `apidocs-wasnaker`, commit `f1e12af`)
 
 ---
 

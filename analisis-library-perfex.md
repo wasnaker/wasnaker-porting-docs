@@ -80,7 +80,12 @@ Mengelola migrate per modul + install modul dari upload.
 `nwidart/laravel-modules` (status + service provider per modul) atau mekanisme register
 modul core sendiri. Logika modul mana yang dimuat oleh aplikasi → **config module**.
 
-**STATUS: ⚠️ PARCIAL** — `nwidart/laravel-modules` aktif; ModuleServiceProvider pending.
+**STATUS: ✅ SELESAI** — `nwidart/laravel-modules` terdaftar di `LaravelModulesServiceProvider`; modul discovery aktif. Implementasi:
+- `bootstrap/providers.php` — register `LaravelModulesServiceProvider`
+- `app/Services/ModuleService.php` — wrapper service: `all`, `enabled`, `find`, `isEnabled`, `isDisabled`, `enable`, `disable`, `getPath`
+- `app/Http/Controllers/ModuleController.php` — API endpoint: `GET /api/modules`, `GET /api/modules/enabled`, `GET /api/modules/{name}`, `GET /api/modules/{name}/status`, `POST /api/modules/{name}/enable`, `POST /api/modules/{name}/disable`
+- `routes/api.php` — route registration
+- **Apidocs**: ✅ ADA (Scribe generate + push ke repo `apidocs-wasnaker`, commit `40877c7`)
 
 ---
 
@@ -254,7 +259,7 @@ Frontend asset → tidak relevan API-only.
 | `App_mailer` / `App_Email` | Mailable + Mail queue | Core notify |
 | `App_number_to_word` | `NumberToWord` service | Core `Support` |
 | `App_object_cache` | Laravel Cache / Redis | Core |
-| `App_modules` | Module discovery / `nwidart` | Core module-loader |
+| `App_modules` | Module discovery / `nwidart` | Core module-loader | ✅ ADA | ✅ ADA |
 | `App_tags` | `spatie/laravel-tags` | Core |
 | `App_pusher` | Laravel Broadcasting/Reverb | Core |
 | `Endroid_qrcode` | `endroid/qr-code` | Core (jika perlu) |
@@ -316,7 +321,7 @@ modules/
 | `App_Email.py` | ADAPT | ❌ BELUM | Queued Mailable + Mail queue | - | ❌ Belum |
 | `App_Form_validation.py` | NATIVE | ✅ NATIVE | Laravel FormRequest | - | ❌ N/A |
 | `App_Migration` / `App_module_installer` | ADOPT | ⚠️ PARCIAL | `nwidart/laravel-modules` | - | ❌ N/A |
-| `App_modules.py` | ADOPT | ⚠️ PARCIAL | `nwidart` + ModuleServiceProvider | - | ❌ N/A |
+| `App_modules.py` | ADOPT | ✅ SELESAI | `nwidart` + ModuleService/Controller API | `app/Services/ModuleService.php`, `app/Http/Controllers/ModuleController.php` | ✅ ADA |
 | `App_bulk_pdf_export.py` | ADAPT | ❌ BELUM | DomPDF/Snappy + Job + Zip | - | ❌ Belum |
 | `App_items_table` / `App_items_table_template` | SKIP | ❌ SKIP | - | - | ❌ N/A |
 | `App_number_to_word.py` | ADOPT | ✅ SELESAI | `NumberToWord`, `NumberToWordController` | `7290167` | ✅ ADA |

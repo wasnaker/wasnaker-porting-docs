@@ -436,3 +436,25 @@ Total: 62 route terdaftar di `/api/v1`, 0 route tersisa di `/api` tanpa versi.
   tanpa token; `/api/v1/broadcasting/auth` 200+token; path lama 404.
 - Realtime E2E WebSocket: auth → subscribe `private-user.1` → event
   `notification.sent` diterima (via `/api/v1/broadcast/*`).
+
+### Struktur menu apidocs: top-level `api/v1` + subgroup (v2-ready)
+
+Keputusan lanjutan: menu dokumentasi mengikuti versi API — top-level `api/v1`,
+di dalamnya subgroup per domain. Saat `api/v2` tiba, tinggal muncul grup top-level
+kedua; subgroup per domain bisa dipakai ulang.
+
+Implementasi (commit `c384f15` core / `83b9a59` apidocs / `92e8280` sales-module):
+
+- Semua controller core: `@group api/v1` + `@subgroup <domain>` (Activity Logs,
+  Broadcasting, Custom Meta, Excel, Files, GDPR, Mail, Modules, Payment, Pdf,
+  QrCode, Relations, Settings, Sms, System, Tags, Utilities).
+- `ApiController`: route login (closure) diubah jadi method `login()` agar bisa
+  diberi annotation (`@subgroup System`).
+- `config/scribe.php`: `groups.order => ['api/v1']` + exclude `*/broadcasting/auth`
+  (controller framework internal, dipanggil otomatis laravel-echo — tidak perlu
+  masuk menu).
+- Sales module (repo `wasnaker-sales-module`): `@group api/v1` + `@subgroup Sales`
+  — perlu annotation **per-method** (class-level saja tidak terbaca Scribe untuk
+  modul nwidart; core controllers class-level tetap berfungsi).
+- Hasil: openapi hanya 1 tag (`api/v1`), 0 endpoint di grup `Endpoints`, 35 path;
+  sidebar HTML: `api/v1` → subgroup → endpoint.

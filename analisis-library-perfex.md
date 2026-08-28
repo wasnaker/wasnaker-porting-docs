@@ -171,7 +171,14 @@ Dipakai untuk 2FA/signature/scan bila ada.
 → **Adopsi** sebagai **module Payment Gateway** dengan package `laravel/cashier-stripe` atau
 sdk Stripe + service. Webhook → endpoint API + event listener.
 
-**STATUS: ❌ BELUM** — payment gateway module pending.
+**STATUS: ✅ SELESAI** — Payment gateway abstraction sudah diimplementasikan untuk core. Implementasi:
+- `app/Services/PaymentGateway/PaymentGatewayInterface.php` — interface contract
+- `app/Services/PaymentGateway/StripePaymentGateway.php` — Stripe implementasi (create_payment_intent, webhook verify)
+- `app/Services/PaymentService.php` — registry + factory gateway
+- `app/Http/Controllers/PaymentController.php` — API `GET /payment/gateways`, `POST /payment/intent`
+- `config/payment.php` — konfigurasi gateway
+- `composer.json` — require `stripe/stripe-php`
+- **Apidocs**: ✅ ADA (Scribe generate + push ke repo `apidocs-wasnaker`, commit `8a78830`)
 
 ---
 

@@ -221,13 +221,45 @@ allowedIncludes, paginate) — sangat cocok sebagai pengganti `data_tables_init(
 | Konsep Perfex | File | Padanan di Laravel API |
 |---------------|------|------------------------|
 | `render_datatable()` (thead) | `datatables_helper.php:299` | Frontend-only (API return data, bukan head) |
-| `data_tables_init()` (SSR SQL) | `datatables_helper.php:16` | **`spatie/laravel-query-builder`** + service query |
-| Table view (`$aColumns`/`$join`/`$where`) | `views/admin/tables/estimates.php` | Controller query + eager loading |
-| `get_estimates_where_sql_for_staff()` | models | **Global scope tenant + row-level permission** |
+| `data_tables_init()` (SSR SQL) | `datatables_helper.php:16` | **`spatie/laravel-query-builder`** ✅ Batch 9 |
+| Table view (`$aColumns`/`$join`/`$where`) | `views/admin/tables/estimates.php` | Controller query + eager loading (`allowedIncludes`) |
+| `get_estimates_where_sql_for_staff()` | models | **Global scope tenant + row-level permission** (⏳ saat modul) |
 | `initDataTable()` (JS) | `main.js:2699` | Frontend (bebas library) |
-| `fnserverparams` filter | main.js ajax.data | `filter[...]` query param (whitelist) |
-| `iTotalRecords/iTotalDisplayRecords` | output | `meta.total` + `meta.total_filtered` |
-| response `aaData` (HTML sel) | tables/*.php | `data` = JSON resource (tanpa HTML) |
+| `fnserverparams` filter | main.js ajax.data | `filter[...]` query param (whitelist) ✅ Batch 9 |
+| `iTotalRecords/iTotalDisplayRecords` | output | `meta.total` + `meta.total_filtered` ✅ Batch 9 |
+| response `aaData` (HTML sel) | tables/*.php | `data` = JSON resource (tanpa HTML) ✅ Batch 9 |
+
+---
+
+## 7. Status Implementasi — ✅ SELESAI (Batch 9)
+
+**STATUS: ✅ SELESAI (Batch 9 — Server-side list API di core)**
+
+Referensi implementasi: `ActivityLogController@index` (resource core pertama yang
+memakai kontrak ini; pola sama untuk semua endpoint list modul ke depan).
+
+- `composer require spatie/laravel-query-builder` (^6.4)
+- `GET /api/activity-logs` kini menerima:
+  - `?sort=-created_at,id` — whitelist kolom (prefix `-` = DESC); sort di luar
+    whitelist → **400** (fail-closed, anti-injection)
+  - `&filter[tenant_id]=1`, `filter[causer_id]`, `filter[subject_type]`,
+    `filter[subject_id]` (exact) + `filter[description]=x` (partial/LIKE)
+  - `&search=...` — pencarian global (description + subject_type), padanan
+    `search[value]` data_tables_init
+  - `&include=causer,subject,tenant` — eager load relasi (padanan `$join`)
+  - `&per_page=&page=` — pagination (padanan start/length)
+- Envelope: `data` + `links` (first/last/next/prev) + `meta`:
+  `current_page, from, last_page, per_page, to, total, total_filtered`
+  (`total` = sebelum filter = iTotalRecords; `total_filtered` = setelah filter
+  = iTotalDisplayRecords)
+- Data = JSON murni, tanpa HTML (render_datatable/aaData tidak dibawa)
+- **Apidocs:** ✅ ADA (regenerate + push ke `apidocs-wasnaker`)
+
+Catatan saat uji E2E:
+- Bracket query param (`filter[...]`) **harus di-URL-encode** (`%5B`/`%5D`);
+  bracket mentah di curl/nginx bisa drop atau kena SPA catch-all.
+- Sort/filter di luar whitelist → spatie mengembalikan 400 JSON (bukan diam-diam
+  diabaikan) — perilaku fail-closed yang diinginkan.
 
 ---
 
@@ -245,3 +277,4 @@ allowedIncludes, paginate) — sangat cocok sebagai pengganti `data_tables_init(
 
 *Dokumen dibuat berdasarkan reverse-engineering `datatables_helper.php`, `initDataTable()` di
 main.js, dan `views/admin/tables/estimates.php`, 27 Agustus 2026.*
+*Diupdate: 29 Agustus 2026 — Batch 9: server-side list API (spatie/laravel-query-builder) ✅ SELESAI.*

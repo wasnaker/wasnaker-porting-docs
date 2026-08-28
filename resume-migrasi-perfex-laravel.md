@@ -369,3 +369,70 @@ Tahapan teknis berikutnya dapat diarahkan pada:
 > - `identifikasi-core-perfex.md` — modul core yang jadi module (Kelompok 1–6).
 > - `analisis-helper-perfex.md` — keputusan adopsi 45 helper PerfexCRM
 >   (ADOP / ADAPT / SKIP / NATIVE) untuk backend API-only.
+
+---
+
+## 12. Keputusan: API Versioning — semua endpoint di `/api/v1` (tanpa kecuali)
+
+**Status: ✅ DITERAPKAN (29 Agustus 2026, commit `9e99863` core / `45a21aa` apidocs)**
+
+Keputusan: **seluruh** endpoint API — termasuk `health` dan `broadcasting/auth` —
+di-versi-kan di bawah prefix `/api/v1`. Tidak ada pengecualian. Alasan:
+
+- Modul Sales sudah terlanjur memakai `/api/v1/sales` → tanpa versioning terjadi
+  inkonsistensi prefix.
+- Fase development, belum ada klien eksternal → sekarang waktu termurah untuk
+  menetapkan kontrak stabil. Breaking change berikutnya → `v2`, path lama tetap
+  hidup (tidak langsung dihapus) setelah ada klien di luar kendali kita.
+
+### Yang dimodifikasi (persis)
+
+| File | Perubahan |
+|------|-----------|
+| `routes/api.php` | Seluruh isi dibungkus `Route::prefix('v1')->group(...)` |
+| `bootstrap/app.php` | `withBroadcasting` prefix `api` → `api/v1` (auth channel) |
+| `app/Http/Controllers/BroadcastController.php` | Docblock path auth diperbarui |
+| `~/.hermes/skills/legacy-php-porting` | Konvensi path di skill disesuaikan |
+| `~/ws-e2e.js` | Script tes realtime: base URL + path disesuaikan ke `/api/v1` |
+
+### Perpindahan path (semua `api/*` → `api/v1/*`)
+
+| Grup | Contoh path lama → baru |
+|------|------------------------|
+| Infra | `GET /api/health` → `/api/v1/health` (public, tanpa token) |
+| Auth | `GET /api/login` (named `login`) → `/api/v1/login` |
+| User | `GET /api/user` → `/api/v1/user` |
+| Settings | `GET/PUT/DELETE /api/settings/{key}`, `POST /api/settings/bulk` → `/api/v1/...` |
+| Activity Logs | `GET /api/activity-logs...` → `/api/v1/activity-logs...` |
+| Custom Meta | `/api/meta/{type}/{id}/...` → `/api/v1/meta/...` |
+| Relations | `/api/relations/...` → `/api/v1/relations/...` |
+| NumberToWord | `/api/number-to-word/...` → `/api/v1/number-to-word/...` |
+| Modules | `/api/modules...` → `/api/v1/modules...` |
+| Files | `/api/files...` → `/api/v1/files...` |
+| Mail | `/api/mail/...` → `/api/v1/mail/...` |
+| Payment | `/api/payment/...` → `/api/v1/payment/...` |
+| GDPR | `/api/gdpr/...` → `/api/v1/gdpr/...` |
+| PDF | `/api/pdf/...` → `/api/v1/pdf/...` |
+| SMS | `/api/sms/...` → `/api/v1/sms/...` |
+| QR Code | `/api/qr-code/...` → `/api/v1/qr-code/...` |
+| Excel | `/api/excel/...` → `/api/v1/excel/...` |
+| Tags | `/api/tags...` → `/api/v1/tags...` |
+| Broadcasting | `GET /api/broadcast/config`, `POST /api/broadcast/test`, `POST /api/broadcasting/auth` → `/api/v1/...` |
+| Sales (module) | sudah `/api/v1/sales` — tidak berubah |
+
+Total: 62 route terdaftar di `/api/v1`, 0 route tersisa di `/api` tanpa versi.
+
+### Perilaku path lama
+
+- Path lama `/api/*` → **404** (tanpa alias/redirect — sengaja, fase dev).
+- `routes/web.php` catch-all SPA sudah mengecualikan `api(?:/|$)` → aman.
+- Klien wajib update prefix: frontend Next.js (dicatat, dikerjakan saat frontend
+  dibuka lagi), script tes (`~/ws-e2e.js` sudah diperbarui).
+
+### Verifikasi
+
+- `php artisan route:list` — 62 route `api/v1`, 0 sisa.
+- HTTP: `/api/v1/health` 200 tanpa token; `/api/v1/activity-logs` 200+token / 401
+  tanpa token; `/api/v1/broadcasting/auth` 200+token; path lama 404.
+- Realtime E2E WebSocket: auth → subscribe `private-user.1` → event
+  `notification.sent` diterima (via `/api/v1/broadcast/*`).

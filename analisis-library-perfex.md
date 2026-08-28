@@ -241,7 +241,11 @@ bukan satu per satu. Setiap gateway diaktifkan konfiguratif.
 → Adopsi sebagai **module GDPR / data-privacy service**: consents, data export (JSON),
 data erasure (anonymize/delete) — cocok untuk API & compliance.
 
-**STATUS: ❌ BELUM** — GDPR service pending.
+**STATUS: ✅ SELESAI** — GdprService + GdprController sudah diimplementasikan untuk core. Implementasi:
+- `app/Services/GdprService.php` — export, anonymize, delete user data
+- `app/Http/Controllers/GdprController.php` — API `GET /gdpr/export`, `POST /gdpr/anonymize`, `/gdpr/delete`
+- Mapping ke tabel aktual: `custom_meta`, `attachments`, `activity_logs`
+- **Apidocs**: ✅ ADA (Scribe generate + push ke repo `apidocs-wasnaker`, commit `82e0d9e`)
 
 ---
 

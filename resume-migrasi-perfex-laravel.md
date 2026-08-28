@@ -458,3 +458,15 @@ Implementasi (commit `c384f15` core / `83b9a59` apidocs / `92e8280` sales-module
   modul nwidart; core controllers class-level tetap berfungsi).
 - Hasil: openapi hanya 1 tag (`api/v1`), 0 endpoint di grup `Endpoints`, 35 path;
   sidebar HTML: `api/v1` → subgroup → endpoint.
+
+### Sidebar collapsible (tambahan setelah menu api/v1)
+
+Tema Scribe v4 tidak punya klik-untuk-collapse pada heading grup (hanya scrollspy —
+grup aktif selalu terbuka). Dengan satu grup top-level, sidebar terkesan permanen
+terbuka. Solusi: `scripts/post-scribe-inject.sh` (repo core) meng-inject JS kecil ke
+`index.html` hasil generate (idempoten):
+- klik heading grup level-1 → expand/collapse subheader
+- MutationObserver menjaga state collapse saat scrollspy menambah `.visible`
+- state tersimpan di localStorage (bertahan saat reload)
+- **WAJIB dijalankan SETELAH setiap `php artisan scribe:generate --force`**
+- Teruji fungsional via jsdom: 7/7 PASS (commit `ba59f1e` core / `9ad7897` apidocs)

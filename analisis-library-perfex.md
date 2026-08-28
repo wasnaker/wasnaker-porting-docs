@@ -168,7 +168,14 @@ logika tag + relation di module/`TagService`.
 ### `App_pusher.py` — realtime via Pusher 🔄 NATIVE
 → Laravel **Broadcasting** (pusher/ably/reverb). `Reverb` sudah ada di plan stack.
 
-**STATUS: 🔄 PLANNED** — Reverb untuk realtime.
+**STATUS: ✅ SELESAI (Batch 8 — Realtime via Reverb)**
+- `composer require laravel/reverb` (v1.11) + `config/reverb.php`
+- `app/Events/NotificationSent.php` — `ShouldBroadcastNow`, broadcast ke private channel `user.{id}`, event name `notification.sent`
+- `routes/channels.php` — auth callback `user.{id}` (hanya pemilik user)
+- `bootstrap/app.php` — `withBroadcasting()` prefix `api` + middleware `auth:sanctum` → `POST /api/broadcasting/auth` (token Sanctum, API-only, tanpa session)
+- `app/Http/Controllers/BroadcastController.php` — API `GET /api/broadcast/config` (parameter publik koneksi) + `POST /api/broadcast/test` (trigger notifikasi realtime)
+- Server: `php artisan reverb:start --host=0.0.0.0 --port=8080`
+- **Apidocs:** ✅ ADA (regenerate + push ke `apidocs-wasnaker`)
 
 ---
 
@@ -385,7 +392,7 @@ modules/
 | `App_object_cache.py` | NATIVE | ✅ NATIVE | Laravel Cache (Redis) | - | ❌ N/A |
 | `App_menu.py` / `App_tabs.py` | SKIP | ❌ SKIP | - | - | ❌ N/A |
 | `App_tags.py` | ADAPT | ✅ SELESAI | `TagService` + `spatie/laravel-tags` | Batch 7 | ✅ ADA |
-| `App_pusher.py` | NATIVE | 🔄 PLANNED | Laravel Broadcasting/Reverb | - | ❌ N/A |
+| `App_pusher.py` | NATIVE | ✅ SELESAI | Laravel Broadcasting/Reverb | Batch 8 | ✅ ADA |
 | `Endroid_qrcode.py` | ADOPT | ✅ SELESAI | `QrCodeService` + `endroid/qr-code` | Batch 7 | ✅ ADA |
 | `Stripe_core.py` / `Stripe_subscriptions.py` | ADOPT | ✅ SELESAI | `PaymentGateway` + Stripe SDK | Batch 6 | ✅ ADA |
 | `merge_fields/` | ADAPT | ✅ SELESAI | Blade + Mailable data | Batch 6 | ✅ ADA |
@@ -406,4 +413,4 @@ modules/
 ---
 
 *Dokumen dibuat berdasarkan inspeksi `application/libraries/` PerfexCRM, 27 Agustus 2026.*
-*Diupdate: 28 Agustus 2026 — Batch 7: PDF, SMS, QR Code, Import/Export, Tags, Mail queue semua ✅ SELESAI + kolom Apidocs disinkronkan.*
+*Diupdate: 29 Agustus 2026 — Batch 8: Realtime (App_pusher → Laravel Broadcasting + Reverb) ✅ SELESAI. Semua library core selesai.*

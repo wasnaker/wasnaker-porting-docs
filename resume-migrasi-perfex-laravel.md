@@ -453,9 +453,13 @@ Implementasi (commit `c384f15` core / `83b9a59` apidocs / `92e8280` sales-module
 - `config/scribe.php`: `groups.order => ['api/v1']` + exclude `*/broadcasting/auth`
   (controller framework internal, dipanggil otomatis laravel-echo — tidak perlu
   masuk menu).
-- Sales module (repo `wasnaker-sales-module`): `@group api/v1` + `@subgroup Sales`
-  — perlu annotation **per-method** (class-level saja tidak terbaca Scribe untuk
-  modul nwidart; core controllers class-level tetap berfungsi).
+- Sales module (repo `wasnaker-sales-module`): `@group api/v1` + `@subgroup Sales`.
+  **Pitfall ditemukan:** docblock `@group`/`@subgroup` HARUS di SEBELUM deklarasi
+  `class X extends Controller` — docblock yang ditaruh setelah `{` melekat ke
+  member pertama (bukan class), sehingga class-level tidak terbaca dan endpoint
+  nyasar ke grup `Endpoints`. Solusi sementara awal (annotation per-method)
+  membuat Scribe merender heading subgroup BERULANG per endpoint (System x3,
+  Sales x5) — dihindari. Commit `77c9b6b` core / `607e051` sales-module.
 - Hasil: openapi hanya 1 tag (`api/v1`), 0 endpoint di grup `Endpoints`, 35 path;
   sidebar HTML: `api/v1` → subgroup → endpoint.
 

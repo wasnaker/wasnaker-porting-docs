@@ -470,7 +470,8 @@ grup aktif selalu terbuka). Dengan satu grup top-level, sidebar terkesan permane
 terbuka. Solusi: `scripts/post-scribe-inject.sh` (repo core) meng-inject JS kecil ke
 `index.html` hasil generate (idempoten):
 - klik heading grup level-1 → expand/collapse subheader
-- MutationObserver menjaga state collapse saat scrollspy menambah `.visible`
+- klik heading subgroup level-2 → expand/collapse endpoint-nya (accordion penuh)
+- ikon caret ▸/▾ tersinkron dua arah (klik + scrollspy) via MutationObserver
 - state tersimpan di localStorage (bertahan saat reload)
 - **WAJIB dijalankan SETELAH setiap `php artisan scribe:generate --force`**
-- Teruji fungsional via jsdom: 7/7 PASS (commit `ba59f1e` core / `9ad7897` apidocs)
+- Teruji fungsional via jsdom: 15/15 PASS (commit `a0b7ec3` core / `2af5470` apidocs)

@@ -108,6 +108,13 @@ Kalau modul akan dipakai lintas app/klien berbeda dengan siklus rilis sendiri
 (`naker/module-sales`, dst). **YAGNI sekarang** — 1 produk internal, monorepo
 backend cukup.
 
+### STATUS 30 Agu 2026 — terealisasi ✅
+Opsi C dijalankan: core generik diekstrak jadi composer package
+`spine/laravel-spine` (repo `laravelspine/laravelspine`, namespace `Spine\`).
+wasnaker-core = konsumen pertama (app ramping: auth/user/tenant);
+`spine.lan` = konsumen dev (Laravel fresh, path repo). Endpoint `/api/v1/*`
+terverifikasi E2E di kedua konsumen. Detail: tracker Batch 11.
+
 ### Trade-off yang jujur
 - Monorepo backend: semua modul naik versi bersama-sama (coupling rilis) —
   untuk 1 produk internal ini justru keuntungan (satu deploy, satu versi API).

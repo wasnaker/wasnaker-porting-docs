@@ -122,7 +122,7 @@ terverifikasi E2E di kedua konsumen. Detail: tracker Batch 11.
 
 ---
 
-## Topik 3 — Opini: Laravel + Inertia vs API-only + Next.js
+## Topik 3 — Opini: Laravel + Inertia vs API-only + Next.js ✅ DIPUTUSKAN (30 Agu 2026)
 
 Inertia = **paradigma berbeda** dari rencana kita sekarang: Laravel jadi satu
 aplikasi penuh (server-rendered pages, React/Vue/Svelte di-hydrate via adapter
@@ -177,14 +177,22 @@ TIDAK ada lapisan REST API antara frontend dan backend.
 - Jika ragu: Next.js + API lebih aman untuk masa depan multi-client, dan
   tidak perlu dibongkar — Inertia bisa dievaluasi per-modul nanti.
 
+### Keputusan (30 Agu 2026) ✅
+
+**Backend: Spine (Laravel API-only) tetap. Frontend: Next.js terpisah.**
+
+Alasan: multi-client (mobile/API publik/integrasi) tetap bernilai; frontend
+Next.js sudah dibangun (SPA catch-all di nginx + web.php fallback); balik arah
+ke Inertia = biaya konversi tanpa keuntungan jelas untuk target multi-client.
+
 ---
 
 ## Open Questions (belum diputuskan)
 
 1. ~~Nama final: `laravel-modular-api` vs `laravel-api-core`~~ ✅ **Spine / Laravel Spine** (Topik 1)
 2. Frontend: repo terpisah (rekomendasi) vs ikut monorepo penuh (Opsi B).
-3. Frontend: **Inertia (monolith) vs Next.js (SPA)** — tergantung ada/tidaknya
-   client non-browser; lihat Topik 3.
+3. ~~Frontend: **Inertia (monolith) vs Next.js (SPA)**~~ ✅ **Next.js terpisah**
+   (Topik 3, 30 Agu 2026).
 4. Rename repo GitHub `lrvl-wasnaker_core` → nama final + update remote lokal
    + composer.json name + APP_NAME + README + default modul dikosongkan.
 5. Sales module: tetap di vendor (composer package) atau pindah ke

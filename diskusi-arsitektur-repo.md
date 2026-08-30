@@ -113,11 +113,70 @@ backend cukup.
 
 ---
 
+## Topik 3 — Opini: Laravel + Inertia vs API-only + Next.js
+
+Inertia = **paradigma berbeda** dari rencana kita sekarang: Laravel jadi satu
+aplikasi penuh (server-rendered pages, React/Vue/Svelte di-hydrate via adapter
+Inertia), controller return Inertia response, data lewat props, auth session —
+TIDAK ada lapisan REST API antara frontend dan backend.
+
+### Perbandingan jujur
+
+| Kriteria | Inertia (monolith modern) | API-only + Next.js (rencana sekarang) |
+|----------|---------------------------|---------------------------------------|
+| Kecepatan shipping CRUD (25 modul form-heavy) | ⚡ Sangat cepat — tanpa lapisan API, tanpa state management, tanpa fetch boilerplate; Ziggy untuk route | Lebih lambat — tiap fitur butuh endpoint + Scribe + fetch + state |
+| Multi-client (mobile, API publik, integrasi) | ❌ Bukan untuk ini — frontend terikat ke server (session, satu origin) | ✅ Justru kekuatannya |
+| Tim frontend/backend paralel | Satu tim, satu repo, satu deploy | Bisa terpisah, deploy independen |
+| Realtime (Reverb/Echo) | Bisa (Echo), tapi SPA lebih alami | Natural |
+| Kontrol UX/state kompleks (kanban, drag-drop, chat) | Cukup (React tetap dipakai) | Maksimal |
+| Complexity | Rendah (satu origin, satu auth) | Tinggi (dua origin, token auth) |
+
+### Posisi saya
+
+1. **Inertia tidak menggantikan API** — dia menggantikan *SPA terpisah*.
+   Kalau target punya client non-browser (mobile, integrasi, API publik),
+   API-only tetap wajib; Inertia hanya mengubah frontend utama.
+
+2. **Untuk 25 modul CRUD internal (pola Perfex: form-heavy admin panel),
+   Inertia adalah pilihan yang lebih lazy dan produktif** daripada
+   Next.js + API. Tanpa lapisan API, tiap modul = model + controller +
+   Inertia page — bukan model + controller + endpoint + docs + fetch + state.
+
+3. **Keputusan backend TIDAK berubah**: core modular (`laravel-modular-api`)
+   tetap dipakai apa pun pilihan frontend. Modul nwidart jalan sama di app
+   Inertia (web routes) maupun API-only. Inertia menyentuh frontend, bukan
+   arsitektur backend.
+
+4. **Jangan campur tanpa alasan**: Inertia untuk panel + API untuk eksternal
+   = dua surface, dua auth (session + token) — kompleksitas ganda. Terima
+   kalau memang butuh keduanya (panel internal + API publik), bukan karena
+   ragu.
+
+5. **Biaya konversi**: frontend Next.js sudah dibuat (SPA catch-all di nginx
+   + web.php fallback). Pindah ke Inertia = hapus fallback SPA, pasang
+   Inertia middleware + Ziggy, tulis ulang halaman sebagai Inertia pages.
+   Balik arah yang harus diperhitungkan.
+
+### Rekomendasi
+
+- Pertahankan core **API-only versioned** (keputusan sudah benar & sudah
+  dibangun; Scribe/Sanctum/multi-client tetap bernilai untuk client lain).
+- Untuk frontend utama: putuskan berdasarkan **ada/tidaknya client
+  non-browser**:
+  - Hanya browser internal → **Inertia** (lebih cepat, lebih sedikit kode)
+  - Ada mobile/API publik/third-party → **Next.js terpisah** (rencana sekarang)
+- Jika ragu: Next.js + API lebih aman untuk masa depan multi-client, dan
+  tidak perlu dibongkar — Inertia bisa dievaluasi per-modul nanti.
+
+---
+
 ## Open Questions (belum diputuskan)
 
 1. Nama final: `laravel-modular-api` vs `laravel-api-core` — pilih satu.
 2. Frontend: repo terpisah (rekomendasi) vs ikut monorepo penuh (Opsi B).
-3. Rename repo GitHub `lrvl-wasnaker_core` → nama final + update remote lokal
+3. Frontend: **Inertia (monolith) vs Next.js (SPA)** — tergantung ada/tidaknya
+   client non-browser; lihat Topik 3.
+4. Rename repo GitHub `lrvl-wasnaker_core` → nama final + update remote lokal
    + composer.json name + APP_NAME + README + default modul dikosongkan.
-4. Sales module: tetap di vendor (composer package) atau pindah ke
+5. Sales module: tetap di vendor (composer package) atau pindah ke
    `modules/Sales` saat monorepo dibentuk.

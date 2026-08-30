@@ -147,7 +147,7 @@ Belum = endpoint ada tapi docs belum; N/A = tanpa endpoint.
 | 8 | App_pusher → Laravel Broadcasting + Reverb (realtime) | ✅ Port | ADA | `broadcast/config`, `broadcast/test`; auth via `POST /api/v1/broadcasting/auth` |
 | 9 | data_tables_init → spatie/laravel-query-builder list API | ✅ Port | ADA | `?sort=&filter[]=&search=&include=`; envelope data+links+meta |
 | Infra | API versioning `/api/v1` tanpa kecuali; menu apidocs subgroup per domain (v2-ready); sidebar accordion v3 (inject post-scribe + jsdom test) | ✅ Port | ADA | Keputusan 29 Agu 2026; apidocs repo dipush terpisah |
-| Sales | `modules_statuses.json` = `{"Sales": true}` TAPI `modules/` tidak ada di repo (tidak pernah di-commit; git ls-files kosong). `/api/v1/sales` di openapi.yaml = sisa docs dari state lama | ⏳ HILANG | ADA (stale) | **Action:** restore modul Sales atau set `"Sales": false` + regenerate Scribe — nwidart enabled tanpa folder modul bisa error saat boot |
+| Sales | Modul TERPISAH di `wasnaker-sales-module/` (repo/checkout sendiri, struktur nwidart lengkap: module.json, routes, app/Http/Controllers, tests) — **BUKAN bagian core**. `modules_statuses.json` di core = `{"Sales": true}` (aktif saat di-mount). `/api/v1/sales` di openapi = endpoint modul | ✅ Modul (di luar core) | ADA | Hard rule: module code TIDAK pernah masuk core; di-mount ke `modules/Sales` saat deploy/dev. Catatan: repo modul belum punya git remote — perlu di-push ke repo sendiri |
 
 ---
 

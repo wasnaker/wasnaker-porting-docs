@@ -1,78 +1,76 @@
 # Daftar Lengkap Hook — app.ciptamasjaya.co.id
 
-*Ground truth: grep `do_action()` di `application/` + `modules/` aplikasi legacy (total **528 hook unik**), 30 Agu 2026. Status port: `✅` sudah, `⏳` ditunda, `SKIP` tidak relevan API-only, `NATIVE` pakai bawaan Laravel.*
+*Ground truth: `do_action()` di `application/` + `modules/` (total **528 hook unik**), 30 Agu 2026.*
 
 ## A. BACKEND — wajib ada di backend
-
-### A.1 Sudah di-port ke Spine — event class + dispatch nyata (5) ✅
+### A.1 Sudah di-port ke Spine — event class + dispatch nyata (6) ✅
 | Hook | Frekuensi | Event Spine |
 |---|---|---|
 | `sms_trigger_triggered` | 1 | `Spine\Events\SmsSent` |
+| `notification_created` | 1 | `Spine\Events\NotificationSent` |
 | `module_uninstalled` | 1 | `Spine\Events\ModuleUninstalled` |
 | `module_installed` | 1 | `Spine\Events\ModuleInstalled` |
 | `module_deactivated` | 1 | `Spine\Events\ModuleDeactivated` |
 | `module_activated` | 1 | `Spine\Events\ModuleActivated` |
-*Catatan: `SettingUpdated` (dispatched di `SettingService::set()`) menutup keluarga hook settings-save; `before_update_backup_options` masuk ke sini saat dipicu.*
-
 ### A.2 Dipetakan ke native Laravel — tanpa kode baru (19) ✅
 | Hook | Frekuensi | Target native |
 |---|---|---|
-| `email_template_sent` | 4 | Illuminate\Mail\Events\MessageSent |
-| `failed_to_send_email_template` | 3 | Illuminate\Mail\Events\MessageSending |
-| `after_staff_login` | 3 | Illuminate\Auth\Events\Login |
-| `before_user_reset_password` | 2 | PasswordReset |
-| `before_staff_login` | 2 | Illuminate\Auth\Events\Login |
-| `after_user_reset_password` | 2 | PasswordReset |
-| `after_contact_login` | 2 | Illuminate\Auth\Events\Login |
-| `smtp_test_email_success` | 1 | Mail test flow |
-| `smtp_test_email_failed` | 1 | Mail test flow |
-| `set_password_email_sent` | 1 | PasswordReset |
-| `modules_loaded` | 1 | ServiceProvider::boot() |
-| `forgot_password_email_sent` | 1 | PasswordReset |
-| `before_staff_logout` | 1 | Illuminate\Auth\Events\Logout |
-| `before_send_test_smtp_email` | 1 | Mail test flow |
-| `before_contact_logout` | 1 | Illuminate\Auth\Events\Logout |
-| `before_client_login` | 1 | Illuminate\Auth\Events\Login |
-| `after_user_logout` | 1 | Illuminate\Auth\Events\Logout |
-| `after_client_logout` | 1 | Illuminate\Auth\Events\Logout |
-| `admin_init` | 1 | ServiceProvider::boot() |
-
-### A.3 Deferred di Spine — nyusul saat fitur dibangun (31) ⏳
+| `email_template_sent` | 4 | `Illuminate\Mail\Events\MessageSent` |
+| `failed_to_send_email_template` | 3 | `Illuminate\Mail\Events\MessageSending` |
+| `after_staff_login` | 3 | `Illuminate\Auth\Events\Login` |
+| `before_user_reset_password` | 2 | `Illuminate\Auth\Events\PasswordReset` |
+| `before_staff_login` | 2 | `Illuminate\Auth\Events\Login` |
+| `after_user_reset_password` | 2 | `Illuminate\Auth\Events\PasswordReset` |
+| `after_contact_login` | 2 | `Illuminate\Auth\Events\Login` |
+| `smtp_test_email_success` | 1 | `Mail test flow (native)` |
+| `smtp_test_email_failed` | 1 | `Mail test flow (native)` |
+| `set_password_email_sent` | 1 | `PasswordBroker (native)` |
+| `modules_loaded` | 1 | `ServiceProvider::boot()` |
+| `forgot_password_email_sent` | 1 | `PasswordBroker (native)` |
+| `before_staff_logout` | 1 | `Illuminate\Auth\Events\Logout` |
+| `before_send_test_smtp_email` | 1 | `Mail test flow (native)` |
+| `before_contact_logout` | 1 | `Illuminate\Auth\Events\Logout` |
+| `before_client_login` | 1 | `Illuminate\Auth\Events\Login` |
+| `after_user_logout` | 1 | `Illuminate\Auth\Events\Logout` |
+| `after_client_logout` | 1 | `Illuminate\Auth\Events\Logout` |
+| `admin_init` | 1 | `ServiceProvider::boot()` |
+### A.3 Deferred di Spine — nyusul saat fitur dibangun (33) ⏳
 | Hook | Frekuensi | Catatan |
 |---|---|---|
-| `before_remove_iso_logo` | 2 | CRUD staff app konsumen |
-| `before_remove_contact_profile_image` | 2 | CRUD staff app konsumen |
-| `before_cron_run` | 2 | CRUD staff app konsumen |
-| `staff_profile_access` | 1 | CRUD staff app konsumen |
-| `staff_member_updated` | 1 | CRUD staff app konsumen |
-| `staff_member_profile_updated` | 1 | CRUD staff app konsumen |
-| `staff_member_deleted` | 1 | CRUD staff app konsumen |
-| `staff_member_created` | 1 | CRUD staff app konsumen |
-| `edit_logged_in_staff_profile` | 1 | CRUD staff app konsumen |
-| `before_upload_ticket_attachment` | 1 | validasi FileService |
-| `before_upload_staff_profile_image` | 1 | validasi FileService |
-| `before_upload_signature_image_attachment` | 1 | validasi FileService |
-| `before_upload_project_discussion_comment_attachment` | 1 | validasi FileService |
-| `before_upload_project_attachment` | 1 | validasi FileService |
-| `before_upload_newsfeed_attachment` | 1 | validasi FileService |
-| `before_upload_iso_logo_attachment` | 1 | validasi FileService |
-| `before_upload_favicon_attachment` | 1 | validasi FileService |
-| `before_upload_expense_attachment` | 1 | validasi FileService |
-| `before_upload_estimate_request_attachment` | 1 | validasi FileService |
-| `before_upload_contract_attachment` | 1 | validasi FileService |
-| `before_upload_contact_profile_image` | 1 | validasi FileService |
-| `before_upload_company_logo_attachment` | 1 | validasi FileService |
-| `before_upload_client_attachment` | 1 | validasi FileService |
-| `before_update_backup_options` | 1 | → SettingUpdated saat settings-save |
-| `before_staff_change_language` | 1 | CRUD staff app konsumen |
-| `before_remove_staff_profile_image` | 1 | CRUD staff app konsumen |
-| `before_remove_project_file` | 1 | CRUD staff app konsumen |
-| `before_remove_favicon` | 1 | CRUD staff app konsumen |
-| `before_remove_company_logo` | 1 | CRUD staff app konsumen |
-| `before_delete_staff_member` | 1 | CRUD staff app konsumen |
-| `after_cron_run` | 1 | CRUD staff app konsumen |
-
-### A.4 Domain → modul bisnis (273) ⏳
+| `before_remove_iso_logo` | 2 | — (menunggu fitur Spine) |
+| `before_remove_contact_profile_image` | 2 | — (menunggu fitur Spine) |
+| `before_cron_run` | 2 | — (cron Spine) |
+| `staff_profile_access` | 1 | — (CRUD staff (app konsumen)) |
+| `staff_member_updated` | 1 | — (CRUD staff (app konsumen)) |
+| `staff_member_profile_updated` | 1 | — (CRUD staff (app konsumen)) |
+| `staff_member_deleted` | 1 | — (CRUD staff (app konsumen)) |
+| `staff_member_created` | 1 | — (CRUD staff (app konsumen)) |
+| `pdf_construct` | 1 | — (PdfService (lifecycle)) |
+| `pdf_close` | 1 | — (PdfService (lifecycle)) |
+| `edit_logged_in_staff_profile` | 1 | — (CRUD staff (app konsumen)) |
+| `before_upload_ticket_attachment` | 1 | — (validasi FileService) |
+| `before_upload_staff_profile_image` | 1 | — (validasi FileService) |
+| `before_upload_signature_image_attachment` | 1 | — (validasi FileService) |
+| `before_upload_project_discussion_comment_attachment` | 1 | — (validasi FileService) |
+| `before_upload_project_attachment` | 1 | — (validasi FileService) |
+| `before_upload_newsfeed_attachment` | 1 | — (validasi FileService) |
+| `before_upload_iso_logo_attachment` | 1 | — (validasi FileService) |
+| `before_upload_favicon_attachment` | 1 | — (validasi FileService) |
+| `before_upload_expense_attachment` | 1 | — (validasi FileService) |
+| `before_upload_estimate_request_attachment` | 1 | — (validasi FileService) |
+| `before_upload_contract_attachment` | 1 | — (validasi FileService) |
+| `before_upload_contact_profile_image` | 1 | — (validasi FileService) |
+| `before_upload_company_logo_attachment` | 1 | — (validasi FileService) |
+| `before_upload_client_attachment` | 1 | — (validasi FileService) |
+| `before_update_backup_options` | 1 | — (SettingUpdated saat settings-save) |
+| `before_staff_change_language` | 1 | — (CRUD staff (app konsumen)) |
+| `before_remove_staff_profile_image` | 1 | — (menunggu fitur Spine) |
+| `before_remove_project_file` | 1 | — (menunggu fitur Spine) |
+| `before_remove_favicon` | 1 | — (menunggu fitur Spine) |
+| `before_remove_company_logo` | 1 | — (menunggu fitur Spine) |
+| `before_delete_staff_member` | 1 | — (CRUD staff (app konsumen)) |
+| `after_cron_run` | 1 | — (cron Spine) |
+### A.4 Domain → modul bisnis (258) ⏳
 | Hook | Frekuensi |
 |---|---|
 | `after_update_task` | 5 |
@@ -110,7 +108,6 @@
 | `task_checklist_item_finished` | 1 |
 | `task_checklist_item_created` | 1 |
 | `task_assignee_added` | 1 |
-| `settings_group_end` | 1 |
 | `schedule_status_changed` | 1 |
 | `schedule_sent` | 1 |
 | `schedule_send_to_customer_already_sent` | 1 |
@@ -132,13 +129,11 @@
 | `proposal_converted_to_estimate` | 1 |
 | `proposal_accepted` | 1 |
 | `project_copied` | 1 |
-| `pdf_close` | 1 |
 | `office_status_changed` | 1 |
 | `office_sent` | 1 |
 | `office_send_to_customer_already_sent` | 1 |
 | `office_declined` | 1 |
 | `office_accepted` | 1 |
-| `notification_created` | 1 |
 | `note_updated` | 1 |
 | `note_deleted` | 1 |
 | `note_created` | 1 |
@@ -211,7 +206,6 @@
 | `contact_email_verified` | 1 |
 | `contact_deleted` | 1 |
 | `client_status_changed` | 1 |
-| `client_area_after_project_overview` | 1 |
 | `billing_status_changed` | 1 |
 | `billing_sent` | 1 |
 | `billing_declined` | 1 |
@@ -223,11 +217,7 @@
 | `before_unpin_post` | 1 |
 | `before_ticket_deleted` | 1 |
 | `before_template_deleted` | 1 |
-| `before_start_render_content` | 1 |
 | `before_schedule_deleted` | 1 |
-| `before_save_completed_checklist_visibility` | 1 |
-| `before_render_payment_gateway_settings` | 1 |
-| `before_render_invoice_template` | 1 |
 | `before_pin_post` | 1 |
 | `before_payment_deleted` | 1 |
 | `before_office_deleted` | 1 |
@@ -240,7 +230,6 @@
 | `before_invoice_deleted` | 1 |
 | `before_inspection_deleted` | 1 |
 | `before_get_payment_gateways` | 1 |
-| `before_expense_form_template_close` | 1 |
 | `before_expense_form_name` | 1 |
 | `before_estimate_request_deleted` | 1 |
 | `before_estimate_deleted` | 1 |
@@ -278,13 +267,10 @@
 | `after_tangki_added` | 1 |
 | `after_sterilizer_added` | 1 |
 | `after_sky_lift_added` | 1 |
-| `after_single_knowledge_base_article_customers_area` | 1 |
 | `after_scissor_lift_added` | 1 |
 | `after_schedule_updated` | 1 |
 | `after_schedule_added` | 1 |
-| `after_render_invoice_template` | 1 |
 | `after_quotation_updated` | 1 |
-| `after_pusher_cluster_option` | 1 |
 | `after_proposal_updated` | 1 |
 | `after_petir_added` | 1 |
 | `after_pesawat_tenaga_added` | 1 |
@@ -305,7 +291,6 @@
 | `after_licence_added` | 1 |
 | `after_leads_settings` | 1 |
 | `after_lead_email_activity` | 1 |
-| `after_kb_groups_customers_area` | 1 |
 | `after_jib_crane_added` | 1 |
 | `after_invoice_updated` | 1 |
 | `after_invoice_added` | 1 |
@@ -323,7 +308,6 @@
 | `after_estimate_added` | 1 |
 | `after_elevator_added` | 1 |
 | `after_department_added` | 1 |
-| `after_customers_area_files` | 1 |
 | `after_customer_billing_and_shipping_tab` | 1 |
 | `after_customer_admins_tab` | 1 |
 | `after_credit_note_deleted` | 1 |
@@ -347,10 +331,7 @@
 | `after_alarm_kebakaran_added` | 1 |
 | `after_add_project` | 1 |
 | `after_add_discussion_comment` | 1 |
-| `admin_area_after_project_progress` | 1 |
-*Event dibuat di `modules/<N>/Providers/EventServiceProvider.php` saat modul di-port — JANGAN masuk package Spine (hard rule).*
-
-## B. FRONTEND / VIEW — SKIP untuk API-only (174)
+## B. FRONTEND / VIEW — SKIP untuk API-only
 | Hook | Frekuensi |
 |---|---|
 | `load_pdf_language` | 10 |
@@ -364,6 +345,7 @@
 | `after_user_data_widget_tabs` | 2 |
 | `after_user_data_widge_tabs_content` | 2 |
 | `after_inspection_view_as_client_link` | 2 |
+| `after_clients_area_init` | 2 |
 | `after_calendar_filters` | 2 |
 | `web_to_lead_form_start` | 1 |
 | `web_to_lead_form_end` | 1 |
@@ -376,6 +358,7 @@
 | `staff_render_permissions` | 1 |
 | `staff_member_edit_view_profile` | 1 |
 | `setup_menu_resetted` | 1 |
+| `settings_group_end` | 1 |
 | `quotation_html_viewed` | 1 |
 | `proposal_html_viewed` | 1 |
 | `pre_upload_module` | 1 |
@@ -394,6 +377,7 @@
 | `customers_navigation_end` | 1 |
 | `customers_navigation_after_profile` | 1 |
 | `customers_content_container_start` | 1 |
+| `customers_area_knowledge_base_construct` | 1 |
 | `customers_after_js_scripts_load` | 1 |
 | `customers_after_body_start` | 1 |
 | `credit_note_menu_links_start` | 1 |
@@ -401,6 +385,7 @@
 | `clients_login_form_start` | 1 |
 | `clients_login_form_end` | 1 |
 | `clients_authentication_constructor` | 1 |
+| `client_area_after_project_overview` | 1 |
 | `billing_html_viewed` | 1 |
 | `before_update_setup_menu` | 1 |
 | `before_update_aside_menu` | 1 |
@@ -410,6 +395,7 @@
 | `before_system_info` | 1 |
 | `before_subscriptions_table` | 1 |
 | `before_subscriptions_email_templates` | 1 |
+| `before_start_render_content` | 1 |
 | `before_staff_myprofile` | 1 |
 | `before_staff_email_templates` | 1 |
 | `before_sms_gateways_settings` | 1 |
@@ -418,8 +404,11 @@
 | `before_save_hidden_table_columns` | 1 |
 | `before_save_dashboard_widgets_visibility` | 1 |
 | `before_save_dashboard_widgets_order` | 1 |
+| `before_save_completed_checklist_visibility` | 1 |
 | `before_render_tickets_list_table` | 1 |
 | `before_render_project_view` | 1 |
+| `before_render_payment_gateway_settings` | 1 |
+| `before_render_invoice_template` | 1 |
 | `before_render_aside_menu` | 1 |
 | `before_proposals_email_templates` | 1 |
 | `before_projects_email_templates` | 1 |
@@ -435,6 +424,7 @@
 | `before_get_tabs` | 1 |
 | `before_generate_short_link` | 1 |
 | `before_gdpr_email_templates` | 1 |
+| `before_expense_form_template_close` | 1 |
 | `before_estimates_email_templates` | 1 |
 | `before_estimate_request_email_templates` | 1 |
 | `before_do_bulk_action_for_tickets` | 1 |
@@ -464,6 +454,7 @@
 | `app_estimate_request_form_footer` | 1 |
 | `app_customers_head` | 1 |
 | `app_customers_footer` | 1 |
+| `app_base_after_construct_action` | 1 |
 | `app_admin_head` | 1 |
 | `app_admin_footer` | 1 |
 | `app_admin_authentication_head` | 1 |
@@ -471,6 +462,7 @@
 | `after_system_last_info_row` | 1 |
 | `after_system_info_files_permissions` | 1 |
 | `after_sms_trigger_textarea_content` | 1 |
+| `after_single_knowledge_base_article_customers_area` | 1 |
 | `after_settings_group_view` | 1 |
 | `after_settings_e_sign_fields` | 1 |
 | `after_scorecards_tabs_content` | 1 |
@@ -479,9 +471,11 @@
 | `after_render_top_search` | 1 |
 | `after_render_single_setup_menu` | 1 |
 | `after_render_single_aside_menu` | 1 |
+| `after_render_invoice_template` | 1 |
 | `after_render_aside_menu` | 1 |
 | `after_quotations_tabs_content` | 1 |
 | `after_quotation_view_as_client_link` | 1 |
+| `after_pusher_cluster_option` | 1 |
 | `after_proposal_view_as_client_link` | 1 |
 | `after_pdf_signature_settings_fields` | 1 |
 | `after_pdf_document_formats` | 1 |
@@ -494,6 +488,7 @@
 | `after_leads_kanban_card_icons` | 1 |
 | `after_lead_tabs_content` | 1 |
 | `after_lead_lead_tabs` | 1 |
+| `after_kb_groups_customers_area` | 1 |
 | `after_js_scripts_render` | 1 |
 | `after_jobreports_tabs_content` | 1 |
 | `after_jobreport_view_as_client_link` | 1 |
@@ -510,6 +505,7 @@
 | `after_customers_area_sub_menu_end` | 1 |
 | `after_customers_area_files_heading` | 1 |
 | `after_customers_area_files_dropzone` | 1 |
+| `after_customers_area_files` | 1 |
 | `after_customer_pdf_signature` | 1 |
 | `after_custom_profile_tab_content` | 1 |
 | `after_custom_fields_select_options` | 1 |
@@ -525,25 +521,21 @@
 | `after_billings_tabs_content` | 1 |
 | `after_billing_view_as_client_link` | 1 |
 | `after_admin_login_form_start` | 1 |
+| `admin_area_after_project_progress` | 1 |
 | `add_single_ticket_tab_menu_item` | 1 |
 | `add_single_ticket_tab_menu_content` | 1 |
-*Kategori: html_viewed, tabs, menu, widget, forms, settings views, upload-anchored view hooks — frontend (Next.js) yang menangani, bukan backend.*
-
-## C. INFRA / bootstrap — NATIVE (26)
+## C. INFRA / bootstrap — NATIVE
 | Hook | Frekuensi |
 |---|---|
-| `after_clients_area_init` | 2 |
 | `schedule_converted_to_jobreport` | 1 |
 | `pre_upgrade_database` | 1 |
 | `pre_uninstall_module` | 1 |
 | `pre_deactivate_module` | 1 |
 | `pre_admin_init` | 1 |
 | `pre_activate_module` | 1 |
-| `pdf_construct` | 1 |
 | `model_init` | 1 |
 | `inspection_converted_to_jobreport` | 1 |
 | `database_updated` | 1 |
-| `customers_area_knowledge_base_construct` | 1 |
 | `clients_init` | 1 |
 | `before_update_database` | 1 |
 | `before_perform_update` | 1 |
@@ -551,11 +543,9 @@
 | `before_admin_gdpr_settings` | 1 |
 | `auto_upgrade_failed_to_extract_zip_file` | 1 |
 | `app_init` | 1 |
-| `app_base_after_construct_action` | 1 |
 | `after_jobreport_updated` | 1 |
 | `after_jobreport_copy` | 1 |
 | `after_jobreport_added` | 1 |
 | `after_client_register_logged_in` | 1 |
 | `after_client_register` | 1 |
 | `admin_auth_init` | 1 |
-*Digantikan ServiceProvider + Middleware + Composer autoload (keputusan `analisis-hook-perfex.md` Bagian A).*

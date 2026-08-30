@@ -1,8 +1,8 @@
 # Hooks `app.ciptamasjaya.co.id` — application/ (BEFORE → AFTER)
 
-*Ground truth: setiap pemanggilan `do_action()` di **`application/`** (modules/ dikecualikan), 30 Agu 2026 — **418 kejadian**, 150 file. Pola: gist JamesSimpson (per file + nomor baris) + kolom AFTER.*
+*Ground truth: setiap `do_action()` di **`application/`** (modules/ dikecualikan), 30 Agu 2026 — **418 kejadian**, 150 file. Pola gist JamesSimpson + kolom AFTER.*
 
-Status: `✅ ported` = event Spine sudah dibuat, `✅ native` = pakai event Laravel bawaan, `⏳` = ditunda (fitur/modul belum dibangun), `SKIP` = frontend (API-only), `NATIVE` = ServiceProvider/Middleware.
+Status: `✅ ported` = event Spine, `✅ native` = event Laravel bawaan, `⏳ Spine` = menunggu fitur Spine, `⏳ modul` = saat modul di-port, `SKIP` = frontend, `NATIVE` = ServiceProvider/Middleware.
 
 ## `application/core/AdminController.php`
 | Line | Hook (BEFORE) | AFTER (Spine) | Status |
@@ -45,7 +45,7 @@ Status: `✅ ported` = event Spine sudah dibuat, `✅ native` = pakai event Lara
 ## `application/helpers/database_helper.php`
 | Line | Hook (BEFORE) | AFTER (Spine) | Status |
 |---|---|---|---|
-| 108 | `hooks()->do_action('notification_created')` | — | ⏳ modul |
+| 108 | `hooks()->do_action('notification_created')` | `Spine\Events\NotificationSent` | ✅ ported |
 
 ## `application/helpers/deprecated_helper.php`
 | Line | Hook (BEFORE) | AFTER (Spine) | Status |
@@ -84,19 +84,19 @@ Status: `✅ ported` = event Spine sudah dibuat, `✅ native` = pakai event Lara
 ## `application/helpers/upload_helper.php`
 | Line | Hook (BEFORE) | AFTER (Spine) | Status |
 |---|---|---|---|
-| 39 | `hooks()->do_action('before_upload_estimate_request_attachment')` | — | ⏳ validasi FileService |
-| 117 | `hooks()->do_action('before_upload_newsfeed_attachment')` | — | ⏳ validasi FileService |
-| 165 | `hooks()->do_action('before_upload_project_attachment')` | — | ⏳ validasi FileService |
-| 277 | `hooks()->do_action('before_upload_contract_attachment')` | — | ⏳ validasi FileService |
-| 511 | `hooks()->do_action('before_upload_client_attachment')` | — | ⏳ validasi FileService |
-| 567 | `hooks()->do_action('before_upload_expense_attachment')` | — | ⏳ validasi FileService |
-| 602 | `hooks()->do_action('before_upload_ticket_attachment')` | — | ⏳ validasi FileService |
-| 655 | `hooks()->do_action('before_upload_company_logo_attachment')` | — | ⏳ validasi FileService |
-| 709 | `hooks()->do_action('before_upload_signature_image_attachment')` | — | ⏳ validasi FileService |
-| 752 | `hooks()->do_action('before_upload_favicon_attachment')` | — | ⏳ validasi FileService |
-| 789 | `hooks()->do_action('before_upload_staff_profile_image')` | — | ⏳ validasi FileService |
-| 857 | `hooks()->do_action('before_upload_contact_profile_image')` | — | ⏳ validasi FileService |
-| 938 | `hooks()->do_action('before_upload_project_discussion_comment_attachment')` | — | ⏳ validasi FileService |
+| 39 | `hooks()->do_action('before_upload_estimate_request_attachment')` | — (validasi FileService) | ⏳ Spine |
+| 117 | `hooks()->do_action('before_upload_newsfeed_attachment')` | — (validasi FileService) | ⏳ Spine |
+| 165 | `hooks()->do_action('before_upload_project_attachment')` | — (validasi FileService) | ⏳ Spine |
+| 277 | `hooks()->do_action('before_upload_contract_attachment')` | — (validasi FileService) | ⏳ Spine |
+| 511 | `hooks()->do_action('before_upload_client_attachment')` | — (validasi FileService) | ⏳ Spine |
+| 567 | `hooks()->do_action('before_upload_expense_attachment')` | — (validasi FileService) | ⏳ Spine |
+| 602 | `hooks()->do_action('before_upload_ticket_attachment')` | — (validasi FileService) | ⏳ Spine |
+| 655 | `hooks()->do_action('before_upload_company_logo_attachment')` | — (validasi FileService) | ⏳ Spine |
+| 709 | `hooks()->do_action('before_upload_signature_image_attachment')` | — (validasi FileService) | ⏳ Spine |
+| 752 | `hooks()->do_action('before_upload_favicon_attachment')` | — (validasi FileService) | ⏳ Spine |
+| 789 | `hooks()->do_action('before_upload_staff_profile_image')` | — (validasi FileService) | ⏳ Spine |
+| 857 | `hooks()->do_action('before_upload_contact_profile_image')` | — (validasi FileService) | ⏳ Spine |
+| 938 | `hooks()->do_action('before_upload_project_discussion_comment_attachment')` | — (validasi FileService) | ⏳ Spine |
 
 ## `application/hooks/InitHook.php`
 | Line | Hook (BEFORE) | AFTER (Spine) | Status |
@@ -117,13 +117,13 @@ Status: `✅ ported` = event Spine sudah dibuat, `✅ native` = pakai event Lara
 ## `application/controllers/Clients.php`
 | Line | Hook (BEFORE) | AFTER (Spine) | Status |
 |---|---|---|---|
-| 19 | `hooks()->do_action('after_clients_area_init')` | ServiceProvider/Middleware (native) | NATIVE |
-| 1139 | `hooks()->do_action('before_remove_contact_profile_image')` | — | ⏳ menunggu fitur Spine |
+| 19 | `hooks()->do_action('after_clients_area_init')` | — (frontend Next.js) | SKIP |
+| 1139 | `hooks()->do_action('before_remove_contact_profile_image')` | — (menunggu fitur Spine) | ⏳ Spine |
 
 ## `application/controllers/Contacts.php`
 | Line | Hook (BEFORE) | AFTER (Spine) | Status |
 |---|---|---|---|
-| 30 | `hooks()->do_action('after_clients_area_init')` | ServiceProvider/Middleware (native) | NATIVE |
+| 30 | `hooks()->do_action('after_clients_area_init')` | — (frontend Next.js) | SKIP |
 
 ## `application/controllers/Contract.php`
 | Line | Hook (BEFORE) | AFTER (Spine) | Status |
@@ -159,7 +159,7 @@ Status: `✅ ported` = event Spine sudah dibuat, `✅ native` = pakai event Lara
 ## `application/controllers/Knowledge_base.php`
 | Line | Hook (BEFORE) | AFTER (Spine) | Status |
 |---|---|---|---|
-| 15 | `hooks()->do_action('customers_area_knowledge_base_construct')` | ServiceProvider/Middleware (native) | NATIVE |
+| 15 | `hooks()->do_action('customers_area_knowledge_base_construct')` | — (frontend Next.js) | SKIP |
 
 ## `application/controllers/Proposal.php`
 | Line | Hook (BEFORE) | AFTER (Spine) | Status |
@@ -244,8 +244,8 @@ Status: `✅ ported` = event Spine sudah dibuat, `✅ native` = pakai event Lara
 ## `application/controllers/admin/Settings.php`
 | Line | Hook (BEFORE) | AFTER (Spine) | Status |
 |---|---|---|---|
-| 175 | `hooks()->do_action('before_remove_company_logo')` | — | ⏳ menunggu fitur Spine |
-| 197 | `hooks()->do_action('before_remove_favicon')` | — | ⏳ menunggu fitur Spine |
+| 175 | `hooks()->do_action('before_remove_company_logo')` | — (menunggu fitur Spine) | ⏳ Spine |
+| 197 | `hooks()->do_action('before_remove_favicon')` | — (menunggu fitur Spine) | ⏳ Spine |
 
 ## `application/controllers/admin/Staff.php`
 | Line | Hook (BEFORE) | AFTER (Spine) | Status |
@@ -254,11 +254,11 @@ Status: `✅ ported` = event Spine sudah dibuat, `✅ native` = pakai event Lara
 | 119 | `hooks()->do_action('before_save_dashboard_widgets_order')` | — (frontend Next.js) | SKIP |
 | 132 | `hooks()->do_action('before_save_dashboard_widgets_visibility')` | — (frontend Next.js) | SKIP |
 | 148 | `hooks()->do_action('before_save_hidden_table_columns')` | — (frontend Next.js) | SKIP |
-| 157 | `hooks()->do_action('before_staff_change_language')` | — | ⏳ menunggu fitur Spine |
-| 208 | `hooks()->do_action('edit_logged_in_staff_profile')` | — | ⏳ menunggu fitur Spine |
-| 246 | `hooks()->do_action('before_remove_staff_profile_image')` | — | ⏳ menunggu fitur Spine |
-| 288 | `hooks()->do_action('staff_profile_access')` | — | ⏳ menunggu fitur Spine |
-| 442 | `hooks()->do_action('before_save_completed_checklist_visibility')` | — | ⏳ modul |
+| 157 | `hooks()->do_action('before_staff_change_language')` | — (CRUD staff (app konsumen)) | ⏳ Spine |
+| 208 | `hooks()->do_action('edit_logged_in_staff_profile')` | — (CRUD staff (app konsumen)) | ⏳ Spine |
+| 246 | `hooks()->do_action('before_remove_staff_profile_image')` | — (menunggu fitur Spine) | ⏳ Spine |
+| 288 | `hooks()->do_action('staff_profile_access')` | — (CRUD staff (app konsumen)) | ⏳ Spine |
+| 442 | `hooks()->do_action('before_save_completed_checklist_visibility')` | — (frontend Next.js) | SKIP |
 
 ## `application/controllers/admin/Tasks.php`
 | Line | Hook (BEFORE) | AFTER (Spine) | Status |
@@ -327,7 +327,7 @@ Status: `✅ ported` = event Spine sudah dibuat, `✅ native` = pakai event Lara
 | 1198 | `hooks()->do_action('contact_deleted')` | — | ⏳ modul |
 | 1318 | `hooks()->do_action('contact_status_changed')` | — | ⏳ modul |
 | 1345 | `hooks()->do_action('client_status_changed')` | — | ⏳ modul |
-| 1666 | `hooks()->do_action('before_remove_contact_profile_image')` | — | ⏳ menunggu fitur Spine |
+| 1666 | `hooks()->do_action('before_remove_contact_profile_image')` | — (menunggu fitur Spine) | ⏳ Spine |
 
 ## `application/models/Contracts_model.php`
 | Line | Hook (BEFORE) | AFTER (Spine) | Status |
@@ -354,8 +354,8 @@ Status: `✅ ported` = event Spine sudah dibuat, `✅ native` = pakai event Lara
 ## `application/models/Cron_model.php`
 | Line | Hook (BEFORE) | AFTER (Spine) | Status |
 |---|---|---|---|
-| 47 | `hooks()->do_action('before_cron_run')` | — | ⏳ menunggu fitur Spine |
-| 103 | `hooks()->do_action('after_cron_run')` | — | ⏳ menunggu fitur Spine |
+| 47 | `hooks()->do_action('before_cron_run')` | — (cron Spine) | ⏳ Spine |
+| 103 | `hooks()->do_action('after_cron_run')` | — (cron Spine) | ⏳ Spine |
 | 303 | `hooks()->do_action('after_ticket_status_changed')` | — | ⏳ modul |
 | 408 | `hooks()->do_action('before_check_recurring_tasks')` | — | ⏳ modul |
 | 485 | `hooks()->do_action('after_check_recurring_tasks')` | — | ⏳ modul |
@@ -455,7 +455,7 @@ Status: `✅ ported` = event Spine sudah dibuat, `✅ native` = pakai event Lara
 ## `application/models/Projects_model.php`
 | Line | Hook (BEFORE) | AFTER (Spine) | Status |
 |---|---|---|---|
-| 479 | `hooks()->do_action('before_remove_project_file')` | — | ⏳ menunggu fitur Spine |
+| 479 | `hooks()->do_action('before_remove_project_file')` | — (menunggu fitur Spine) | ⏳ Spine |
 | 851 | `hooks()->do_action('after_add_project')` | — | ⏳ modul |
 | 1049 | `hooks()->do_action('project_status_changed')` | — | ⏳ modul |
 | 1067 | `hooks()->do_action('after_update_project')` | — | ⏳ modul |
@@ -475,11 +475,11 @@ Status: `✅ ported` = event Spine sudah dibuat, `✅ native` = pakai event Lara
 ## `application/models/Staff_model.php`
 | Line | Hook (BEFORE) | AFTER (Spine) | Status |
 |---|---|---|---|
-| 17 | `hooks()->do_action('before_delete_staff_member')` | — | ⏳ menunggu fitur Spine |
-| 321 | `hooks()->do_action('staff_member_deleted')` | — | ⏳ menunggu fitur Spine |
-| 489 | `hooks()->do_action('staff_member_created')` | — | ⏳ menunggu fitur Spine |
-| 640 | `hooks()->do_action('staff_member_updated')` | — | ⏳ menunggu fitur Spine |
-| 692 | `hooks()->do_action('staff_member_profile_updated')` | — | ⏳ menunggu fitur Spine |
+| 17 | `hooks()->do_action('before_delete_staff_member')` | — (CRUD staff (app konsumen)) | ⏳ Spine |
+| 321 | `hooks()->do_action('staff_member_deleted')` | — (CRUD staff (app konsumen)) | ⏳ Spine |
+| 489 | `hooks()->do_action('staff_member_created')` | — (CRUD staff (app konsumen)) | ⏳ Spine |
+| 640 | `hooks()->do_action('staff_member_updated')` | — (CRUD staff (app konsumen)) | ⏳ Spine |
+| 692 | `hooks()->do_action('staff_member_profile_updated')` | — (CRUD staff (app konsumen)) | ⏳ Spine |
 
 ## `application/models/Tasks_model.php`
 | Line | Hook (BEFORE) | AFTER (Spine) | Status |
@@ -591,8 +591,8 @@ Status: `✅ ported` = event Spine sudah dibuat, `✅ native` = pakai event Lara
 ## `application/libraries/pdf/App_pdf.php`
 | Line | Hook (BEFORE) | AFTER (Spine) | Status |
 |---|---|---|---|
-| 86 | `hooks()->do_action('pdf_construct')` | ServiceProvider/Middleware (native) | NATIVE |
-| 182 | `hooks()->do_action('pdf_close')` | — | ⏳ modul |
+| 86 | `hooks()->do_action('pdf_construct')` | — (PdfService (lifecycle)) | ⏳ Spine |
+| 182 | `hooks()->do_action('pdf_close')` | — (PdfService (lifecycle)) | ⏳ Spine |
 | 191 | `hooks()->do_action('pdf_header')` | — (frontend Next.js) | SKIP |
 | 201 | `hooks()->do_action('pdf_footer')` | — (frontend Next.js) | SKIP |
 
@@ -639,7 +639,7 @@ Status: `✅ ported` = event Spine sudah dibuat, `✅ native` = pakai event Lara
 ## `application/views/admin/includes/alerts.php`
 | Line | Hook (BEFORE) | AFTER (Spine) | Status |
 |---|---|---|---|
-| 31 | `hooks()->do_action('before_start_render_content')` | — | ⏳ modul |
+| 31 | `hooks()->do_action('before_start_render_content')` | — (frontend Next.js) | SKIP |
 
 ## `application/views/admin/includes/aside.php`
 | Line | Hook (BEFORE) | AFTER (Spine) | Status |
@@ -714,8 +714,8 @@ Status: `✅ ported` = event Spine sudah dibuat, `✅ native` = pakai event Lara
 ## `application/views/admin/invoices/invoice_template.php`
 | Line | Hook (BEFORE) | AFTER (Spine) | Status |
 |---|---|---|---|
-| 30 | `hooks()->do_action('before_render_invoice_template')` | — | ⏳ modul |
-| 747 | `hooks()->do_action('after_render_invoice_template')` | — | ⏳ modul |
+| 30 | `hooks()->do_action('before_render_invoice_template')` | — (frontend Next.js) | SKIP |
+| 747 | `hooks()->do_action('after_render_invoice_template')` | — (frontend Next.js) | SKIP |
 
 ## `application/views/admin/estimates/estimate_preview_template.php`
 | Line | Hook (BEFORE) | AFTER (Spine) | Status |
@@ -727,7 +727,7 @@ Status: `✅ ported` = event Spine sudah dibuat, `✅ native` = pakai event Lara
 |---|---|---|---|
 | 72 | `hooks()->do_action('before_settings_group_view')` | — (frontend Next.js) | SKIP |
 | 74 | `hooks()->do_action('after_settings_group_view')` | — (frontend Next.js) | SKIP |
-| 192 | `hooks()->do_action('settings_group_end')` | — | ⏳ modul |
+| 192 | `hooks()->do_action('settings_group_end')` | — (frontend Next.js) | SKIP |
 
 ## `application/views/admin/settings/includes/cronjob.php`
 | Line | Hook (BEFORE) | AFTER (Spine) | Status |
@@ -761,7 +761,7 @@ Status: `✅ ported` = event Spine sudah dibuat, `✅ native` = pakai event Lara
 ## `application/views/admin/settings/includes/payment_gateways.php`
 | Line | Hook (BEFORE) | AFTER (Spine) | Status |
 |---|---|---|---|
-| 35 | `hooks()->do_action('before_render_payment_gateway_settings')` | — | ⏳ modul |
+| 35 | `hooks()->do_action('before_render_payment_gateway_settings')` | — (frontend Next.js) | SKIP |
 
 ## `application/views/admin/settings/includes/pdf.php`
 | Line | Hook (BEFORE) | AFTER (Spine) | Status |
@@ -772,7 +772,7 @@ Status: `✅ ported` = event Spine sudah dibuat, `✅ native` = pakai event Lara
 ## `application/views/admin/settings/includes/pusher.php`
 | Line | Hook (BEFORE) | AFTER (Spine) | Status |
 |---|---|---|---|
-| 8 | `hooks()->do_action('after_pusher_cluster_option')` | — | ⏳ modul |
+| 8 | `hooks()->do_action('after_pusher_cluster_option')` | — (frontend Next.js) | SKIP |
 
 ## `application/views/admin/settings/includes/sales.php`
 | Line | Hook (BEFORE) | AFTER (Spine) | Status |
@@ -851,7 +851,7 @@ Status: `✅ ported` = event Spine sudah dibuat, `✅ native` = pakai event Lara
 | Line | Hook (BEFORE) | AFTER (Spine) | Status |
 |---|---|---|---|
 | 43 | `hooks()->do_action('before_expense_form_name')` | — | ⏳ modul |
-| 310 | `hooks()->do_action('before_expense_form_template_close')` | — | ⏳ modul |
+| 310 | `hooks()->do_action('before_expense_form_template_close')` | — (frontend Next.js) | SKIP |
 
 ## `application/views/admin/tickets/add.php`
 | Line | Hook (BEFORE) | AFTER (Spine) | Status |
@@ -873,7 +873,7 @@ Status: `✅ ported` = event Spine sudah dibuat, `✅ native` = pakai event Lara
 ## `application/views/admin/projects/project_overview.php`
 | Line | Hook (BEFORE) | AFTER (Spine) | Status |
 |---|---|---|---|
-| 150 | `hooks()->do_action('admin_area_after_project_progress')` | — | ⏳ modul |
+| 150 | `hooks()->do_action('admin_area_after_project_progress')` | — (frontend Next.js) | SKIP |
 
 ## `application/views/admin/projects/view.php`
 | Line | Hook (BEFORE) | AFTER (Spine) | Status |
@@ -987,22 +987,22 @@ Status: `✅ ported` = event Spine sudah dibuat, `✅ native` = pakai event Lara
 |---|---|---|---|
 | 5 | `hooks()->do_action('after_customers_area_files_heading')` | — (frontend Next.js) | SKIP |
 | 13 | `hooks()->do_action('after_customers_area_files_dropzone')` | — (frontend Next.js) | SKIP |
-| 89 | `hooks()->do_action('after_customers_area_files')` | — | ⏳ modul |
+| 89 | `hooks()->do_action('after_customers_area_files')` | — (frontend Next.js) | SKIP |
 
 ## `application/views/themes/perfex/views/home.php`
 | Line | Hook (BEFORE) | AFTER (Spine) | Status |
 |---|---|---|---|
-| 15 | `hooks()->do_action('client_area_after_project_overview')` | — | ⏳ modul |
+| 15 | `hooks()->do_action('client_area_after_project_overview')` | — (frontend Next.js) | SKIP |
 
 ## `application/views/themes/perfex/views/knowledge_base.php`
 | Line | Hook (BEFORE) | AFTER (Spine) | Status |
 |---|---|---|---|
-| 17 | `hooks()->do_action('after_kb_groups_customers_area')` | — | ⏳ modul |
+| 17 | `hooks()->do_action('after_kb_groups_customers_area')` | — (frontend Next.js) | SKIP |
 
 ## `application/views/themes/perfex/views/knowledge_base_article.php`
 | Line | Hook (BEFORE) | AFTER (Spine) | Status |
 |---|---|---|---|
-| 42 | `hooks()->do_action('after_single_knowledge_base_article_customers_area')` | — | ⏳ modul |
+| 42 | `hooks()->do_action('after_single_knowledge_base_article_customers_area')` | — (frontend Next.js) | SKIP |
 
 ## `application/views/themes/perfex/views/login.php`
 | Line | Hook (BEFORE) | AFTER (Spine) | Status |

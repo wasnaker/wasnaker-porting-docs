@@ -25,25 +25,27 @@ Lokasi: repo `wasnaker-porting-docs` (bukan core — porting/analisis docs terpi
 
 ---
 
-## Topik 1 — Nama Core Generik
+## Topik 1 — Nama Core Generik ✅ DIPUTUSKAN (30 Agu 2026)
 
 Core adalah **API-only + Modular Monolith** (kombinasi #2 dan #8 dari daftar
-pola Laravel). Nama yang diusulkan:
+pola Laravel).
 
-**`laravel-modular-api`** (repo: `wasnaker/laravel-modular-api`)
+**KEPUTUSAN — Brand: `Spine` / Produk: Laravel Spine**
 
-- "modular" = nilai jual utama: pasang-copot modul bisnis via nwidart
-- "api" = bentuk headless/API-only
-- Alternatif terpendek: `laravel-api-core` (kehilangan sinyal modular)
-- Package name (bila jadi composer package): `naker/laravel-modular-api`
-
-Deskripsi (gabungan):
-> API-only modular core untuk Laravel — infrastruktur lintas-modul (settings,
-> activity log, meta, files, relations, mail, pdf, sms, qr-code, excel, tags,
-> gdpr, payment gateway, module manager) + API versioning v1 + Sanctum + Scribe
-> docs + list API query-builder + realtime Reverb. Siap dipasangi modul bisnis
-> via nwidart/laravel-modules. Core TIDAK pernah berisi kode modul — modul
-> hidup terpisah dan di-mount.
+- **Brand (trademark, satu kata)**: `Spine` — modul seperti vertebra menempel
+  ke tulang punggung core
+- **Nama produk/distribusi**: Laravel Spine (repo: `laravel-spine`)
+- **Package name** (bila jadi composer package): `spine/core`
+- **Tagline**: *The modular core for building business applications.*
+- **Deskripsi teknis**: API-first, modular via nwidart/laravel-modules,
+  Sanctum + Scribe docs + API versioning v1 + list API query-builder +
+  Realtime Reverb; pasang-copot modul bisnis. Core TIDAK pernah berisi kode
+  modul — modul hidup terpisah dan di-mount.
+- Catatan trademark: "Laravel" = trademark Laravel LLC — aman sebagai nama
+  distribusi (pola "Laravel Breeze/Jetstream"), brand inti tetap satu kata
+  `Spine` agar tidak bergantung izin merek Laravel.
+- Alternatif yang dilewati: `laravel-modular-api`, `laravel-api-core`,
+  `Modulus`, `Dock`.
 
 ---
 
@@ -172,7 +174,7 @@ TIDAK ada lapisan REST API antara frontend dan backend.
 
 ## Open Questions (belum diputuskan)
 
-1. Nama final: `laravel-modular-api` vs `laravel-api-core` — pilih satu.
+1. ~~Nama final: `laravel-modular-api` vs `laravel-api-core`~~ ✅ **Spine / Laravel Spine** (Topik 1)
 2. Frontend: repo terpisah (rekomendasi) vs ikut monorepo penuh (Opsi B).
 3. Frontend: **Inertia (monolith) vs Next.js (SPA)** — tergantung ada/tidaknya
    client non-browser; lihat Topik 3.

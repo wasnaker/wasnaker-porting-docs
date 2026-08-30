@@ -81,20 +81,36 @@ Migration: `create_custom_meta_table`
 
 ---
 
-## Struktur File Hasil Port
+## Struktur File Hasil Port (realita di wasnaker-core, 30 Agu 2026)
 
 ```
 wasnaker-core/app/
-├── Support/
-│   └── Helpers/
-│       ├── Str.php          # dari func_helper.php (string utilities)
-│       ├── Number.php       # dari sales_helper.php (formatter)
-│       └── Time.php         # dari func_helper.php (time utilities)
-├── Services/
-│   ├── SettingService.php       # dari settings_helper.php
-│   └── ActivityLogService.php   # dari database_helper.php (log_activity)
-└── Traits/
-    └── HasMetaData.php          # dari user_meta_helper.php
+├── Support/Helpers/          # Batch 1 — ✅
+│   ├── Str.php               # dari func_helper.php (string utilities)
+│   ├── Number.php            # dari sales_helper.php (formatter)
+│   └── Time.php              # dari func_helper.php (time utilities)
+├── Services/                 # ✅ semua ter-port
+│   ├── SettingService.php    # Batch 2 — settings_helper.php
+│   ├── ActivityLogService.php# Batch 2 — database_helper.php (log_activity)
+│   ├── FileService.php       # Batch 5 — files_helper.php
+│   ├── RelationService.php   # Batch 6 — relation_helper.php (core inti + hook)
+│   ├── MailService.php       # Batch 7
+│   ├── PdfService.php        # Batch 7
+│   ├── SmsService.php        # Batch 7 (+ Sms/ subdir drivers)
+│   ├── QrCodeService.php     # Batch 7
+│   ├── ExcelService.php      # Batch 7
+│   ├── TagService.php        # Batch 7
+│   ├── ModuleService.php     # discovery modul
+│   ├── GdprService.php       # export/anonymize/delete
+│   ├── NumberToWord.php      # number-to-word
+│   ├── PaymentService.php    # Batch 7+ (PaymentGateway/ subdir)
+│   └── ... 
+├── Traits/
+│   └── HasMetaData.php       # Batch 3 — ✅
+├── Models/                   # Setting, ActivityLog, CustomMeta, Attachment, Tenant, User
+├── Http/Controllers/         # 17 controller, semua di belakang /api/v1/* + auth:sanctum
+└── routes/api.php            # prefix v1 (versioning tanpa kecuali)
+database/migrations/          # settings, activity_logs, custom_meta, attachments, tag_tables
 ```
 
 ---
@@ -115,17 +131,23 @@ wasnaker-core/app/
 
 ---
 
-## Status Porting
+## Status Porting (disinkronkan dengan kode, 30 Agu 2026)
 
-| Helper | Versi Perfex | Versi Laravel | Status | Catatan |
-|--------|--------------|---------------|--------|---------|
-| func_helper.php → Str/Time | application/helpers/func_helper.php | app/Support/Helpers/ | ✅ Port | Batch 1 (ini) |
-| sales_helper.php → Number (format) | application/helpers/sales_helper.php | app/Support/Helpers/Number.php | ✅ Port | Batch 1 (ini) |
-| settings_helper.php → SettingService | application/helpers/settings_helper.php | app/Services/SettingService.php | ⏳ Pending migration | Batch 2 |
-| database_helper.php → ActivityLogService | application/helpers/database_helper.php | app/Services/ActivityLogService.php | ⏳ Pending migration | Batch 2 |
-| user_meta_helper.php → HasMetaData | application/helpers/user_meta_helper.php | app/Traits/HasMetaData.php | ⏳ Pending migration | Batch 3 |
-| relation_helper.php | application/helpers/relation_helper.php | TBD | ⏳ Belum tentu | Diskusi terpisah |
-| files_helper.php → FileService | application/helpers/files_helper.php | app/Services/FileService.php | ⏳ Nanti | Batch N |
+Kolom **Apidocs**: ADA = Scribe digenerate + pushed ke `apidocs-wasnaker`;
+Belum = endpoint ada tapi docs belum; N/A = tanpa endpoint.
+
+| Batch | Cakupan | Status | Apidocs | Catatan |
+|-------|---------|--------|---------|---------|
+| 1 | func_helper → Str/Time; sales_helper → Number | ✅ Port | N/A | Helper murni, tanpa endpoint |
+| 2 | settings_helper → SettingService; database_helper → ActivityLogService | ✅ Port | ADA | `settings`, `settings/bulk`, `activity-logs` |
+| 3 | user_meta_helper → HasMetaData trait + CustomMeta | ✅ Port | ADA | `meta/{type}/{id}...` (nested polymorphic) |
+| 5 | files_helper → FileService + Attachment + FileController | ✅ Port | ADA | `files`, `files/limits`, upload Storage per-tenant |
+| 6 | relation_helper → RelationService (core inti + module hook `registerResolver()`) | ✅ Port | ADA | `relations/types`; unregistered type → 404 |
+| 7 | PDF, SMS, QR Code, Import/Export (Excel), Tags, Mail queue | ✅ Port | ADA | `pdf/*`, `sms/*`, `qr-code/*`, `excel/*`, `tags`, `mail/*`; NumberToWord & Payment juga ada (`number-to-word/*`, `payment/*`) |
+| 8 | App_pusher → Laravel Broadcasting + Reverb (realtime) | ✅ Port | ADA | `broadcast/config`, `broadcast/test`; auth via `POST /api/v1/broadcasting/auth` |
+| 9 | data_tables_init → spatie/laravel-query-builder list API | ✅ Port | ADA | `?sort=&filter[]=&search=&include=`; envelope data+links+meta |
+| Infra | API versioning `/api/v1` tanpa kecuali; menu apidocs subgroup per domain (v2-ready); sidebar accordion v3 (inject post-scribe + jsdom test) | ✅ Port | ADA | Keputusan 29 Agu 2026; apidocs repo dipush terpisah |
+| Sales | `/api/v1/sales` tercatat di openapi.yaml; direktori `modules/` kosong di checkout saat ini | ⏳ Cek | ADA | Modul Sales belum terlihat di checkout ini — perlu verifikasi lokasi sebenarnya |
 
 ---
 

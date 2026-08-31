@@ -1,4 +1,4 @@
-# Hooks & Filters `app.ciptamasjaya.co.id` — application/ (BEFORE → AFTER)
+# Hooks & Filters — application/ (BEFORE → AFTER)
 
 *Ground truth 30 Agu 2026: **418 kejadian do_action** + **468 kejadian apply_filters** di `application/` (modules/ dikecualikan), gaya gist JamesSimpson + kolom AFTER.*
 

@@ -1,4 +1,4 @@
-# Daftar Lengkap Hook & Filter — app.ciptamasjaya.co.id
+# Daftar Lengkap Hook & Filter — aplikasi legacy
 
 *Ground truth 30 Agu 2026: **528 hook unik** (`do_action`) + **539 filter unik** (`apply_filters`) dari `application/` + `modules/`.*
 

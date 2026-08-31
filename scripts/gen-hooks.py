@@ -188,7 +188,7 @@ def write_lengkap(action_names, filter_names):
     b = [(c, n) for n, c in action_names.items() if map_action(n)[1] == 'SKIP']
     c = [(c, n) for n, c in action_names.items() if map_action(n)[1] == 'NATIVE']
 
-    md = ["# Daftar Lengkap Hook & Filter — app.ciptamasjaya.co.id", "",
+    md = ["# Daftar Lengkap Hook & Filter — aplikasi legacy", "",
           f"*Ground truth 30 Agu 2026: **{len(action_names)} hook unik** (`do_action`) + **{len(filter_names)} filter unik** (`apply_filters`) dari `application/` + `modules/`.*", ""]
     md += ["## A. BACKEND — do_action (wajib ada di backend)", ""]
     md += section(f"### A.1 Sudah di-port ke Spine ({len(a1)}) ✅", a1, map_action, with_after=True)
@@ -206,7 +206,7 @@ def write_lengkap(action_names, filter_names):
 def write_ba(actions, filters):
     total_a = sum(len(r) for r in actions.values())
     total_f = sum(len(r) for r in filters.values())
-    md = ["# Hooks & Filters `app.ciptamasjaya.co.id` — application/ (BEFORE → AFTER)", "",
+    md = ["# Hooks & Filters — application/ (BEFORE → AFTER)", "",
           f"*Ground truth 30 Agu 2026: **{total_a} kejadian do_action** + **{total_f} kejadian apply_filters** di `application/` (modules/ dikecualikan), gaya gist JamesSimpson + kolom AFTER.*", "",
           "Status: `✅ ported` = event Spine, `✅ native` = Laravel bawaan, `⏳ Spine` = menunggu fitur Spine, `⏳ modul` = saat modul di-port, `SKIP` = frontend, `NATIVE` = ServiceProvider/Middleware.", ""]
     md.append("## do_action() — per kejadian")

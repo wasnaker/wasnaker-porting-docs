@@ -98,6 +98,7 @@ FILTER_NATIVE = {
 }
 FILTER_SPINE = {
     'notification_data': 'NotificationCreating (mutasi payload)',
+    'email_template_parsed': 'MailSending (mutasi payload)',
     'pdf_format_array': 'PdfCreating (mutasi payload)',
     'pdf_signature_break_lines': 'PdfCreating (mutasi payload)',
     'proposal_html_pdf_data': 'PdfCreating (mutasi payload)',

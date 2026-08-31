@@ -1119,7 +1119,7 @@ Status: `✅ ported` = event Spine, `✅ native` = Laravel bawaan, `⏳ Spine` =
 ### `application/helpers/email_templates_helper.php`
 | Line | Filter (BEFORE) | AFTER (Laravel) | Status |
 |---|---|---|---|
-| 72 | `hooks()->apply_filters('email_template_parsed', …)` | Pipeline / Eloquent model events | ⏳ |
+| 72 | `hooks()->apply_filters('email_template_parsed', …)` | `Spine\Events\MailSending` (mutasi payload) | ✅ ported |
 
 ### `application/helpers/emails_tracking_helper.php`
 | Line | Filter (BEFORE) | AFTER (Laravel) | Status |

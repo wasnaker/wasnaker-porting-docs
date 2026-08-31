@@ -914,7 +914,7 @@
 | `estimate_file_name_admin_area` | 1 | — (frontend Next.js) | SKIP |
 | `estimate_currency_disabled` | 1 | Pipeline / Eloquent model events | ⏳ |
 | `estimate_currency_attributes` | 1 | Pipeline / Eloquent model events | ⏳ |
-| `email_template_parsed` | 1 | Pipeline / Eloquent model events | ⏳ |
+| `email_template_parsed` | 1 | `Spine\Events\MailSending` (mutasi payload) | ✅ ported |
 | `download_file_path` | 1 | Pipeline / Eloquent model events | ⏳ |
 | `disable_navigation_on_public_ticket_view` | 1 | — (frontend Next.js) | SKIP |
 | `deprecated_hook_trigger_error` | 1 | — (frontend Next.js) | SKIP |

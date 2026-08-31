@@ -97,6 +97,7 @@ FILTER_NATIVE = {
     'send_email_template_to': 'Mailable (native)',
 }
 FILTER_SPINE = {
+    'notification_data': 'NotificationCreating (mutasi payload)',
     'pdf_format_array': 'PdfCreating (mutasi payload)',
     'pdf_signature_break_lines': 'PdfCreating (mutasi payload)',
     'proposal_html_pdf_data': 'PdfCreating (mutasi payload)',

@@ -792,7 +792,7 @@
 | `null_columns_sort_as_last` | 1 | — (frontend Next.js) | SKIP |
 | `notifications_merge_fields` | 1 | Pipeline / Eloquent model events | ⏳ |
 | `notifications_limit` | 1 | Pipeline / Eloquent model events | ⏳ |
-| `notification_data` | 1 | Pipeline / Eloquent model events | ⏳ |
+| `notification_data` | 1 | `Spine\Events\NotificationCreating` (mutasi payload) | ✅ ported |
 | `not_importable_leads_fields` | 1 | — (frontend Next.js) | SKIP |
 | `not_importable_clients_fields` | 1 | — (frontend Next.js) | SKIP |
 | `new_contract_default_content` | 1 | — (frontend Next.js) | SKIP |

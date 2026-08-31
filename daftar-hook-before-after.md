@@ -1087,7 +1087,7 @@ Status: `✅ ported` = event Spine, `✅ native` = Laravel bawaan, `⏳ Spine` =
 ### `application/helpers/database_helper.php`
 | Line | Filter (BEFORE) | AFTER (Laravel) | Status |
 |---|---|---|---|
-| 94 | `hooks()->apply_filters('notification_data', …)` | Pipeline / Eloquent model events | ⏳ |
+| 94 | `hooks()->apply_filters('notification_data', …)` | `Spine\Events\NotificationCreating` (mutasi payload) | ✅ ported |
 
 ### `application/helpers/datatables_helper.php`
 | Line | Filter (BEFORE) | AFTER (Laravel) | Status |

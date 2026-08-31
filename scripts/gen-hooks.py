@@ -25,6 +25,9 @@ SPINE_EVENTS = {
     'notification_created': 'NotificationSent',
     'pdf_construct': 'PdfCreating',
     'pdf_close': 'PdfCreated',
+    'before_send_test_smtp_email': 'MailTesting',
+    'smtp_test_email_success': 'MailTested (success)',
+    'smtp_test_email_failed': 'MailTested (failure)',
 }
 NATIVE_MAP = {
     'after_staff_login': 'Illuminate\\Auth\\Events\\Login',
@@ -47,9 +50,6 @@ NATIVE_MAP = {
 SPINE_DEFERRED = {
     'before_cron_run': 'cron Spine',
     'after_cron_run': 'cron Spine',
-    'before_send_test_smtp_email': 'MailService::testSmtp (belum ada)',
-    'smtp_test_email_success': 'MailService::testSmtp (belum ada)',
-    'smtp_test_email_failed': 'MailService::testSmtp (belum ada)',
     'before_update_backup_options': 'SettingUpdated saat settings-save',
     'staff_member_created': 'CRUD staff (app konsumen)',
     'staff_member_updated': 'CRUD staff (app konsumen)',
@@ -89,12 +89,20 @@ INFRA_KW = ['modules_loaded', 'admin_init', 'before_update_database', 'database_
 SKIP_FORCE = {
     'after_pusher_cluster_option', 'settings_group_end', 'before_save_completed_checklist_visibility',
     'before_start_render_content', 'before_expense_form_template_close', 'after_kb_groups_customers_area',
+    'app_happy_text_regex', 'app_happy_text_color',
 }
 
 # ---------------- klasifikasi apply_filters ----------------
 FILTER_NATIVE = {
     'staff_can': 'Gate/permission (native)',
     'send_email_template_to': 'Mailable (native)',
+    'csrf_exclude_uris': 'config (native)',
+    'markdown_extensions': 'config (native)',
+    'mark_down_safe_mode': 'config (native)',
+    'html5_video_extensions': 'config (native)',
+    'delete_old_temporary_files_older_than': 'config (native)',
+    'automatic_calling_codes_enabled': 'config (native)',
+    'all_countries': 'data seed (native)',
 }
 FILTER_SPINE = {
     'notification_data': 'NotificationCreating (mutasi payload)',
@@ -142,7 +150,7 @@ def map_filter(name):
         return f"`Spine\\Events\\{FILTER_SPINE[name].split(' ')[0]}` (mutasi payload)", '✅ ported'
     if any(k in name for k in FILTER_KW_NATIVE):
         return 'Gate/permission (native)', '✅ native'
-    if any(k in name for k in FRONTEND_KW) or name.startswith('_html') or name.endswith('_html') \
+    if any(k in name for k in FRONTEND_KW) or name in SKIP_FORCE or name.startswith('_html') or name.endswith('_html') \
             or 'table' in name or 'select' in name or 'option' in name:
         return '— (frontend Next.js)', 'SKIP'
     if any(k in name for k in INFRA_KW):

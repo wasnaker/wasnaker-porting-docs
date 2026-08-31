@@ -4,12 +4,14 @@
 
 ## A. BACKEND — do_action (wajib ada di backend)
 
-## ### A.1 Sudah di-port ke Spine (28) ✅
+## ### A.1 Sudah di-port ke Spine (31) ✅
 
 | Hook | Frekuensi | AFTER | Status |
 |---|---|---|---|
 | `before_remove_iso_logo` | 2 | `Spine\Events\FileDeleting` | ✅ ported |
 | `before_remove_contact_profile_image` | 2 | `Spine\Events\FileDeleting` | ✅ ported |
+| `smtp_test_email_success` | 1 | `Spine\Events\MailTested (success)` | ✅ ported |
+| `smtp_test_email_failed` | 1 | `Spine\Events\MailTested (failure)` | ✅ ported |
 | `sms_trigger_triggered` | 1 | `Spine\Events\SmsSent` | ✅ ported |
 | `pdf_construct` | 1 | `Spine\Events\PdfCreating` | ✅ ported |
 | `pdf_close` | 1 | `Spine\Events\PdfCreated` | ✅ ported |
@@ -32,6 +34,7 @@
 | `before_upload_contact_profile_image` | 1 | `Spine\Events\FileUploading` | ✅ ported |
 | `before_upload_company_logo_attachment` | 1 | `Spine\Events\FileUploading` | ✅ ported |
 | `before_upload_client_attachment` | 1 | `Spine\Events\FileUploading` | ✅ ported |
+| `before_send_test_smtp_email` | 1 | `Spine\Events\MailTesting` | ✅ ported |
 | `before_remove_staff_profile_image` | 1 | `Spine\Events\FileDeleting` | ✅ ported |
 | `before_remove_project_file` | 1 | `Spine\Events\FileDeleting` | ✅ ported |
 | `before_remove_favicon` | 1 | `Spine\Events\FileDeleting` | ✅ ported |
@@ -58,7 +61,7 @@
 | `after_client_logout` | 1 | `Illuminate\Auth\Events\Logout` | ✅ native |
 | `admin_init` | 1 | `ServiceProvider::boot()` | ✅ native |
 
-## ### A.3 Deferred di Spine (14) ⏳
+## ### A.3 Deferred di Spine (11) ⏳
 
 | Hook | Frekuensi | AFTER | Status |
 |---|---|---|---|
@@ -68,12 +71,9 @@
 | `staff_member_profile_updated` | 1 | — (CRUD staff (app konsumen)) | ⏳ Spine |
 | `staff_member_deleted` | 1 | — (CRUD staff (app konsumen)) | ⏳ Spine |
 | `staff_member_created` | 1 | — (CRUD staff (app konsumen)) | ⏳ Spine |
-| `smtp_test_email_success` | 1 | — (MailService::testSmtp (belum ada)) | ⏳ Spine |
-| `smtp_test_email_failed` | 1 | — (MailService::testSmtp (belum ada)) | ⏳ Spine |
 | `edit_logged_in_staff_profile` | 1 | — (CRUD staff (app konsumen)) | ⏳ Spine |
 | `before_update_backup_options` | 1 | — (SettingUpdated saat settings-save) | ⏳ Spine |
 | `before_staff_change_language` | 1 | — (CRUD staff (app konsumen)) | ⏳ Spine |
-| `before_send_test_smtp_email` | 1 | — (MailService::testSmtp (belum ada)) | ⏳ Spine |
 | `before_delete_staff_member` | 1 | — (CRUD staff (app konsumen)) | ⏳ Spine |
 | `after_cron_run` | 1 | — (cron Spine) | ⏳ Spine |
 
@@ -801,8 +801,8 @@
 | `money_after_format_with_currency` | 1 | Pipeline / Eloquent model events | ⏳ |
 | `migration_tables_to_replace_old_links` | 1 | — (frontend Next.js) | SKIP |
 | `merge_field_logo_img_width` | 1 | — (frontend Next.js) | SKIP |
-| `markdown_extensions` | 1 | Pipeline / Eloquent model events | ⏳ |
-| `mark_down_safe_mode` | 1 | Pipeline / Eloquent model events | ⏳ |
+| `markdown_extensions` | 1 | `config (native)` | ✅ native |
+| `mark_down_safe_mode` | 1 | `config (native)` | ✅ native |
 | `logo_href` | 1 | Pipeline / Eloquent model events | ⏳ |
 | `licences_table_additional_columns_sql` | 1 | — (frontend Next.js) | SKIP |
 | `licence_status_pdf_color` | 1 | — (frontend Next.js) | SKIP |
@@ -863,7 +863,7 @@
 | `html_purify_safe_iframe_regexp` | 1 | Pipeline / Eloquent model events | ⏳ |
 | `html_purify_content` | 1 | — (frontend Next.js) | SKIP |
 | `html_purifier_config` | 1 | Pipeline / Eloquent model events | ⏳ |
-| `html5_video_extensions` | 1 | Pipeline / Eloquent model events | ⏳ |
+| `html5_video_extensions` | 1 | `config (native)` | ✅ native |
 | `help_menu_item_text` | 1 | — (frontend Next.js) | SKIP |
 | `help_menu_item_link` | 1 | — (frontend Next.js) | SKIP |
 | `global_search_result_query` | 1 | — (frontend Next.js) | SKIP |
@@ -920,7 +920,7 @@
 | `deprecated_hook_trigger_error` | 1 | — (frontend Next.js) | SKIP |
 | `deprecated_function_trigger_error` | 1 | — (frontend Next.js) | SKIP |
 | `delete_two_checkout_log_older_than_days` | 1 | ServiceProvider/config (native) | NATIVE |
-| `delete_old_temporary_files_older_than` | 1 | Pipeline / Eloquent model events | ⏳ |
+| `delete_old_temporary_files_older_than` | 1 | `config (native)` | ✅ native |
 | `default_lead_status_color` | 1 | — (frontend Next.js) | SKIP |
 | `default_estimate_request_status_color` | 1 | — (frontend Next.js) | SKIP |
 | `datatables_sql_query_results` | 1 | — (frontend Next.js) | SKIP |
@@ -949,7 +949,7 @@
 | `customer_have_transactions` | 1 | Pipeline / Eloquent model events | ⏳ |
 | `customer_has_subscriptions` | 1 | Pipeline / Eloquent model events | ⏳ |
 | `custom_fields_where_items_table_add_edit_preview` | 1 | — (frontend Next.js) | SKIP |
-| `csrf_exclude_uris` | 1 | Pipeline / Eloquent model events | ⏳ |
+| `csrf_exclude_uris` | 1 | `config (native)` | ✅ native |
 | `cron_retry_email_queue_seconds` | 1 | ServiceProvider/config (native) | NATIVE |
 | `cron_functions_execute_seconds` | 1 | Pipeline / Eloquent model events | ⏳ |
 | `credit_note_pdf_header_before_custom_fields` | 1 | — (frontend Next.js) | SKIP |
@@ -1084,14 +1084,14 @@
 | `available_tracking_templates` | 1 | Pipeline / Eloquent model events | ⏳ |
 | `available_merge_fields` | 1 | Pipeline / Eloquent model events | ⏳ |
 | `available_date_formats` | 1 | `Spine\Events\DateFormatting` (mutasi payload) | ✅ ported |
-| `automatic_calling_codes_enabled` | 1 | Pipeline / Eloquent model events | ⏳ |
+| `automatic_calling_codes_enabled` | 1 | `config (native)` | ✅ native |
 | `app_view_data` | 1 | — (frontend Next.js) | SKIP |
 | `app_payment_gateways` | 1 | Pipeline / Eloquent model events | ⏳ |
-| `app_happy_text_regex` | 1 | Pipeline / Eloquent model events | ⏳ |
+| `app_happy_text_regex` | 1 | — (frontend Next.js) | SKIP |
 | `app_happy_text_color` | 1 | — (frontend Next.js) | SKIP |
 | `app_format_money` | 1 | Pipeline / Eloquent model events | ⏳ |
 | `app_decimal_places` | 1 | Pipeline / Eloquent model events | ⏳ |
-| `all_countries` | 1 | Pipeline / Eloquent model events | ⏳ |
+| `all_countries` | 1 | `data seed (native)` | ✅ native |
 | `all_contacts_table_row` | 1 | — (frontend Next.js) | SKIP |
 | `all_client_attachments` | 1 | Pipeline / Eloquent model events | ⏳ |
 | `alert_class` | 1 | Pipeline / Eloquent model events | ⏳ |

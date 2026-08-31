@@ -199,9 +199,9 @@ Status: `✅ ported` = event Spine, `✅ native` = Laravel bawaan, `⏳ Spine` =
 ### `application/controllers/admin/Emails.php`
 | Line | Hook (BEFORE) | AFTER (Spine) | Status |
 |---|---|---|---|
-| 240 | `hooks()->do_action('before_send_test_smtp_email')` | — (MailService::testSmtp (belum ada)) | ⏳ Spine |
-| 272 | `hooks()->do_action('smtp_test_email_success')` | — (MailService::testSmtp (belum ada)) | ⏳ Spine |
-| 276 | `hooks()->do_action('smtp_test_email_failed')` | — (MailService::testSmtp (belum ada)) | ⏳ Spine |
+| 240 | `hooks()->do_action('before_send_test_smtp_email')` | `Spine\Events\MailTesting` | ✅ ported |
+| 272 | `hooks()->do_action('smtp_test_email_success')` | `Spine\Events\MailTested (success)` | ✅ ported |
+| 276 | `hooks()->do_action('smtp_test_email_failed')` | `Spine\Events\MailTested (failure)` | ✅ ported |
 
 ### `application/controllers/admin/Expenses.php`
 | Line | Hook (BEFORE) | AFTER (Spine) | Status |
@@ -1039,7 +1039,7 @@ Status: `✅ ported` = event Spine, `✅ native` = Laravel bawaan, `⏳ Spine` =
 ### `application/core/App_Security.php`
 | Line | Filter (BEFORE) | AFTER (Laravel) | Status |
 |---|---|---|---|
-| 19 | `hooks()->apply_filters('csrf_exclude_uris', …)` | Pipeline / Eloquent model events | ⏳ |
+| 19 | `hooks()->apply_filters('csrf_exclude_uris', …)` | `config (native)` | ✅ native |
 
 ### `application/helpers/admin_helper.php`
 | Line | Filter (BEFORE) | AFTER (Laravel) | Status |
@@ -1059,7 +1059,7 @@ Status: `✅ ported` = event Spine, `✅ native` = Laravel bawaan, `⏳ Spine` =
 | 763 | `hooks()->apply_filters('customer_have_transactions', …)` | Pipeline / Eloquent model events | ⏳ |
 | 806 | `hooks()->apply_filters('get_contact_permissions', …)` | Gate/permission (native) | ✅ native |
 | 1142 | `hooks()->apply_filters('all_client_attachments', …)` | Pipeline / Eloquent model events | ⏳ |
-| 1246 | `hooks()->apply_filters('automatic_calling_codes_enabled', …)` | Pipeline / Eloquent model events | ⏳ |
+| 1246 | `hooks()->apply_filters('automatic_calling_codes_enabled', …)` | `config (native)` | ✅ native |
 
 ### `application/helpers/core_hooks_helper.php`
 | Line | Filter (BEFORE) | AFTER (Laravel) | Status |
@@ -1069,7 +1069,7 @@ Status: `✅ ported` = event Spine, `✅ native` = Laravel bawaan, `⏳ Spine` =
 ### `application/helpers/countries_helper.php`
 | Line | Filter (BEFORE) | AFTER (Laravel) | Status |
 |---|---|---|---|
-| 11 | `hooks()->apply_filters('all_countries', …)` | Pipeline / Eloquent model events | ⏳ |
+| 11 | `hooks()->apply_filters('all_countries', …)` | `data seed (native)` | ✅ native |
 
 ### `application/helpers/credit_notes_helper.php`
 | Line | Filter (BEFORE) | AFTER (Laravel) | Status |
@@ -1137,10 +1137,10 @@ Status: `✅ ported` = event Spine, `✅ native` = Laravel bawaan, `⏳ Spine` =
 ### `application/helpers/files_helper.php`
 | Line | Filter (BEFORE) | AFTER (Laravel) | Status |
 |---|---|---|---|
-| 123 | `hooks()->apply_filters('html5_video_extensions', …)` | Pipeline / Eloquent model events | ⏳ |
-| 488 | `hooks()->apply_filters('markdown_extensions', …)` | Pipeline / Eloquent model events | ⏳ |
-| 507 | `hooks()->apply_filters('mark_down_safe_mode', …)` | Pipeline / Eloquent model events | ⏳ |
-| 617 | `hooks()->apply_filters('delete_old_temporary_files_older_than', …)` | Pipeline / Eloquent model events | ⏳ |
+| 123 | `hooks()->apply_filters('html5_video_extensions', …)` | `config (native)` | ✅ native |
+| 488 | `hooks()->apply_filters('markdown_extensions', …)` | `config (native)` | ✅ native |
+| 507 | `hooks()->apply_filters('mark_down_safe_mode', …)` | `config (native)` | ✅ native |
+| 617 | `hooks()->apply_filters('delete_old_temporary_files_older_than', …)` | `config (native)` | ✅ native |
 
 ### `application/helpers/func_helper.php`
 | Line | Filter (BEFORE) | AFTER (Laravel) | Status |
@@ -1161,7 +1161,7 @@ Status: `✅ ported` = event Spine, `✅ native` = Laravel bawaan, `⏳ Spine` =
 | 666 | `hooks()->apply_filters('to_sql_date_formatted', …)` | `Spine\Events\DateFormatting` (mutasi payload) | ✅ ported |
 | 712 | `hooks()->apply_filters('before_get_locales', …)` | — (frontend Next.js) | SKIP |
 | 723 | `hooks()->apply_filters('before_get_locale', …)` | — (frontend Next.js) | SKIP |
-| 855 | `hooks()->apply_filters('app_happy_text_regex', …)` | Pipeline / Eloquent model events | ⏳ |
+| 855 | `hooks()->apply_filters('app_happy_text_regex', …)` | — (frontend Next.js) | SKIP |
 | 858 | `hooks()->apply_filters('app_happy_text_color', …)` | — (frontend Next.js) | SKIP |
 
 ### `application/helpers/invoices_helper.php`

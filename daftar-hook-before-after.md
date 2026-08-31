@@ -199,9 +199,9 @@ Status: `✅ ported` = event Spine, `✅ native` = Laravel bawaan, `⏳ Spine` =
 ### `application/controllers/admin/Emails.php`
 | Line | Hook (BEFORE) | AFTER (Spine) | Status |
 |---|---|---|---|
-| 240 | `hooks()->do_action('before_send_test_smtp_email')` | `Mail test flow (native)` | ✅ native |
-| 272 | `hooks()->do_action('smtp_test_email_success')` | `Mail test flow (native)` | ✅ native |
-| 276 | `hooks()->do_action('smtp_test_email_failed')` | `Mail test flow (native)` | ✅ native |
+| 240 | `hooks()->do_action('before_send_test_smtp_email')` | — (MailService::testSmtp (belum ada)) | ⏳ Spine |
+| 272 | `hooks()->do_action('smtp_test_email_success')` | — (MailService::testSmtp (belum ada)) | ⏳ Spine |
+| 276 | `hooks()->do_action('smtp_test_email_failed')` | — (MailService::testSmtp (belum ada)) | ⏳ Spine |
 
 ### `application/controllers/admin/Expenses.php`
 | Line | Hook (BEFORE) | AFTER (Spine) | Status |
@@ -1150,15 +1150,15 @@ Status: `✅ ported` = event Spine, `✅ native` = Laravel bawaan, `⏳ Spine` =
 ### `application/helpers/general_helper.php`
 | Line | Filter (BEFORE) | AFTER (Laravel) | Status |
 |---|---|---|---|
-| 274 | `hooks()->apply_filters('get_current_date_format', …)` | Pipeline / Eloquent model events | ⏳ |
-| 471 | `hooks()->apply_filters('available_date_formats', …)` | Pipeline / Eloquent model events | ⏳ |
+| 274 | `hooks()->apply_filters('get_current_date_format', …)` | `Spine\Events\DateFormatting` (mutasi payload) | ✅ ported |
+| 471 | `hooks()->apply_filters('available_date_formats', …)` | `Spine\Events\DateFormatting` (mutasi payload) | ✅ ported |
 | 517 | `hooks()->apply_filters('before_get_language_text', …)` | — (frontend Next.js) | SKIP |
 | 536 | `hooks()->apply_filters('after_get_language_text', …)` | — (frontend Next.js) | SKIP |
-| 577 | `hooks()->apply_filters('after_format_date', …)` | Pipeline / Eloquent model events | ⏳ |
-| 616 | `hooks()->apply_filters('after_format_datetime', …)` | Pipeline / Eloquent model events | ⏳ |
-| 633 | `hooks()->apply_filters('before_sql_date_format', …)` | Pipeline / Eloquent model events | ⏳ |
-| 639 | `hooks()->apply_filters('to_sql_date_formatted', …)` | Pipeline / Eloquent model events | ⏳ |
-| 666 | `hooks()->apply_filters('to_sql_date_formatted', …)` | Pipeline / Eloquent model events | ⏳ |
+| 577 | `hooks()->apply_filters('after_format_date', …)` | `Spine\Events\DateFormatting` (mutasi payload) | ✅ ported |
+| 616 | `hooks()->apply_filters('after_format_datetime', …)` | `Spine\Events\DateFormatting` (mutasi payload) | ✅ ported |
+| 633 | `hooks()->apply_filters('before_sql_date_format', …)` | `Spine\Events\DateFormatting` (mutasi payload) | ✅ ported |
+| 639 | `hooks()->apply_filters('to_sql_date_formatted', …)` | `Spine\Events\DateFormatting` (mutasi payload) | ✅ ported |
+| 666 | `hooks()->apply_filters('to_sql_date_formatted', …)` | `Spine\Events\DateFormatting` (mutasi payload) | ✅ ported |
 | 712 | `hooks()->apply_filters('before_get_locales', …)` | — (frontend Next.js) | SKIP |
 | 723 | `hooks()->apply_filters('before_get_locale', …)` | — (frontend Next.js) | SKIP |
 | 855 | `hooks()->apply_filters('app_happy_text_regex', …)` | Pipeline / Eloquent model events | ⏳ |

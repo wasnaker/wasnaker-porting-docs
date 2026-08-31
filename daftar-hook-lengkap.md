@@ -37,7 +37,7 @@
 | `before_remove_favicon` | 1 | `Spine\Events\FileDeleting` | ✅ ported |
 | `before_remove_company_logo` | 1 | `Spine\Events\FileDeleting` | ✅ ported |
 
-## ### A.2 Native Laravel (19) ✅
+## ### A.2 Native Laravel (16) ✅
 
 | Hook | Frekuensi | AFTER | Status |
 |---|---|---|---|
@@ -48,20 +48,17 @@
 | `before_staff_login` | 2 | `Illuminate\Auth\Events\Login` | ✅ native |
 | `after_user_reset_password` | 2 | `Illuminate\Auth\Events\PasswordReset` | ✅ native |
 | `after_contact_login` | 2 | `Illuminate\Auth\Events\Login` | ✅ native |
-| `smtp_test_email_success` | 1 | `Mail test flow (native)` | ✅ native |
-| `smtp_test_email_failed` | 1 | `Mail test flow (native)` | ✅ native |
 | `set_password_email_sent` | 1 | `PasswordBroker (native)` | ✅ native |
 | `modules_loaded` | 1 | `ServiceProvider::boot()` | ✅ native |
 | `forgot_password_email_sent` | 1 | `PasswordBroker (native)` | ✅ native |
 | `before_staff_logout` | 1 | `Illuminate\Auth\Events\Logout` | ✅ native |
-| `before_send_test_smtp_email` | 1 | `Mail test flow (native)` | ✅ native |
 | `before_contact_logout` | 1 | `Illuminate\Auth\Events\Logout` | ✅ native |
 | `before_client_login` | 1 | `Illuminate\Auth\Events\Login` | ✅ native |
 | `after_user_logout` | 1 | `Illuminate\Auth\Events\Logout` | ✅ native |
 | `after_client_logout` | 1 | `Illuminate\Auth\Events\Logout` | ✅ native |
 | `admin_init` | 1 | `ServiceProvider::boot()` | ✅ native |
 
-## ### A.3 Deferred di Spine (11) ⏳
+## ### A.3 Deferred di Spine (14) ⏳
 
 | Hook | Frekuensi | AFTER | Status |
 |---|---|---|---|
@@ -71,9 +68,12 @@
 | `staff_member_profile_updated` | 1 | — (CRUD staff (app konsumen)) | ⏳ Spine |
 | `staff_member_deleted` | 1 | — (CRUD staff (app konsumen)) | ⏳ Spine |
 | `staff_member_created` | 1 | — (CRUD staff (app konsumen)) | ⏳ Spine |
+| `smtp_test_email_success` | 1 | — (MailService::testSmtp (belum ada)) | ⏳ Spine |
+| `smtp_test_email_failed` | 1 | — (MailService::testSmtp (belum ada)) | ⏳ Spine |
 | `edit_logged_in_staff_profile` | 1 | — (CRUD staff (app konsumen)) | ⏳ Spine |
 | `before_update_backup_options` | 1 | — (SettingUpdated saat settings-save) | ⏳ Spine |
 | `before_staff_change_language` | 1 | — (CRUD staff (app konsumen)) | ⏳ Spine |
+| `before_send_test_smtp_email` | 1 | — (MailService::testSmtp (belum ada)) | ⏳ Spine |
 | `before_delete_staff_member` | 1 | — (CRUD staff (app konsumen)) | ⏳ Spine |
 | `after_cron_run` | 1 | — (cron Spine) | ⏳ Spine |
 
@@ -599,7 +599,7 @@
 | `jobreport_html_pdf_data` | 3 | — (frontend Next.js) | SKIP |
 | `email_template_from_headers` | 3 | — (frontend Next.js) | SKIP |
 | `before_set_inspection_statuses` | 3 | Pipeline / Eloquent model events | ⏳ |
-| `to_sql_date_formatted` | 2 | Pipeline / Eloquent model events | ⏳ |
+| `to_sql_date_formatted` | 2 | `Spine\Events\DateFormatting` (mutasi payload) | ✅ ported |
 | `ticket_message_without_html_for_non_admin` | 2 | Pipeline / Eloquent model events | ⏳ |
 | `task_priorities_select` | 2 | — (frontend Next.js) | SKIP |
 | `task_copy_statuses` | 2 | Pipeline / Eloquent model events | ⏳ |
@@ -879,7 +879,7 @@
 | `get_invoice` | 1 | Pipeline / Eloquent model events | ⏳ |
 | `get_goal_types` | 1 | Pipeline / Eloquent model events | ⏳ |
 | `get_dashboard_widgets` | 1 | — (frontend Next.js) | SKIP |
-| `get_current_date_format` | 1 | Pipeline / Eloquent model events | ⏳ |
+| `get_current_date_format` | 1 | `Spine\Events\DateFormatting` (mutasi payload) | ✅ ported |
 | `get_contact_permissions` | 1 | Gate/permission (native) | ✅ native |
 | `format_schedule_number` | 1 | Pipeline / Eloquent model events | ⏳ |
 | `format_quotation_number` | 1 | Pipeline / Eloquent model events | ⏳ |
@@ -1015,7 +1015,7 @@
 | `before_staff_update_profile` | 1 | Pipeline / Eloquent model events | ⏳ |
 | `before_staff_status_change` | 1 | Pipeline / Eloquent model events | ⏳ |
 | `before_staff_change_password` | 1 | Pipeline / Eloquent model events | ⏳ |
-| `before_sql_date_format` | 1 | Pipeline / Eloquent model events | ⏳ |
+| `before_sql_date_format` | 1 | `Spine\Events\DateFormatting` (mutasi payload) | ✅ ported |
 | `before_single_setting_updated_in_loop` | 1 | Pipeline / Eloquent model events | ⏳ |
 | `before_settings_updated` | 1 | Pipeline / Eloquent model events | ⏳ |
 | `before_set_telegram_statuses` | 1 | Pipeline / Eloquent model events | ⏳ |
@@ -1083,7 +1083,7 @@
 | `before_add_kb_article` | 1 | Pipeline / Eloquent model events | ⏳ |
 | `available_tracking_templates` | 1 | Pipeline / Eloquent model events | ⏳ |
 | `available_merge_fields` | 1 | Pipeline / Eloquent model events | ⏳ |
-| `available_date_formats` | 1 | Pipeline / Eloquent model events | ⏳ |
+| `available_date_formats` | 1 | `Spine\Events\DateFormatting` (mutasi payload) | ✅ ported |
 | `automatic_calling_codes_enabled` | 1 | Pipeline / Eloquent model events | ⏳ |
 | `app_view_data` | 1 | — (frontend Next.js) | SKIP |
 | `app_payment_gateways` | 1 | Pipeline / Eloquent model events | ⏳ |
@@ -1098,8 +1098,8 @@
 | `ajax_on_total_items` | 1 | Pipeline / Eloquent model events | ⏳ |
 | `after_invoice_sent_template_statement` | 1 | Pipeline / Eloquent model events | ⏳ |
 | `after_get_language_text` | 1 | — (frontend Next.js) | SKIP |
-| `after_format_datetime` | 1 | Pipeline / Eloquent model events | ⏳ |
-| `after_format_date` | 1 | Pipeline / Eloquent model events | ⏳ |
+| `after_format_datetime` | 1 | `Spine\Events\DateFormatting` (mutasi payload) | ✅ ported |
+| `after_format_date` | 1 | `Spine\Events\DateFormatting` (mutasi payload) | ✅ ported |
 | `admin_total_project_tasks_where` | 1 | Pipeline / Eloquent model events | ⏳ |
 | `admin_project_progress_color` | 1 | — (frontend Next.js) | SKIP |
 | `admin_body_class` | 1 | — (frontend Next.js) | SKIP |

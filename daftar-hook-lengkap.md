@@ -4,11 +4,13 @@
 
 ## A. BACKEND — do_action (wajib ada di backend)
 
-## ### A.1 Sudah di-port ke Spine (20) ✅
+## ### A.1 Sudah di-port ke Spine (22) ✅
 
 | Hook | Frekuensi | AFTER | Status |
 |---|---|---|---|
 | `sms_trigger_triggered` | 1 | `Spine\Events\SmsSent` | ✅ ported |
+| `pdf_construct` | 1 | `Spine\Events\PdfCreating` | ✅ ported |
+| `pdf_close` | 1 | `Spine\Events\PdfCreated` | ✅ ported |
 | `notification_created` | 1 | `Spine\Events\NotificationSent` | ✅ ported |
 | `module_uninstalled` | 1 | `Spine\Events\ModuleUninstalled` | ✅ ported |
 | `module_installed` | 1 | `Spine\Events\ModuleInstalled` | ✅ ported |
@@ -53,7 +55,7 @@
 | `after_client_logout` | 1 | `Illuminate\Auth\Events\Logout` | ✅ native |
 | `admin_init` | 1 | `ServiceProvider::boot()` | ✅ native |
 
-## ### A.3 Deferred di Spine (19) ⏳
+## ### A.3 Deferred di Spine (17) ⏳
 
 | Hook | Frekuensi | AFTER | Status |
 |---|---|---|---|
@@ -65,8 +67,6 @@
 | `staff_member_profile_updated` | 1 | — (CRUD staff (app konsumen)) | ⏳ Spine |
 | `staff_member_deleted` | 1 | — (CRUD staff (app konsumen)) | ⏳ Spine |
 | `staff_member_created` | 1 | — (CRUD staff (app konsumen)) | ⏳ Spine |
-| `pdf_construct` | 1 | — (PdfService (lifecycle)) | ⏳ Spine |
-| `pdf_close` | 1 | — (PdfService (lifecycle)) | ⏳ Spine |
 | `edit_logged_in_staff_profile` | 1 | — (CRUD staff (app konsumen)) | ⏳ Spine |
 | `before_update_backup_options` | 1 | — (SettingUpdated saat settings-save) | ⏳ Spine |
 | `before_staff_change_language` | 1 | — (CRUD staff (app konsumen)) | ⏳ Spine |
@@ -566,10 +566,10 @@
 
 | Hook | Frekuensi | AFTER | Status |
 |---|---|---|---|
-| `pdf_info_and_table_separator` | 23 | — (PdfService) | ⏳ Spine |
+| `pdf_info_and_table_separator` | 23 | `Spine\Events\PdfCreating` (mutasi payload) | ✅ ported |
 | `scorecards_table_additional_columns_sql` | 12 | — (frontend Next.js) | SKIP |
 | `pdf_logo_url` | 12 | — (frontend Next.js) | SKIP |
-| `pdf_format_array` | 10 | — (PdfService) | ⏳ Spine |
+| `pdf_format_array` | 10 | `Spine\Events\PdfCreating` (mutasi payload) | ✅ ported |
 | `pdf_fonts_list` | 10 | — (frontend Next.js) | SKIP |
 | `show_more_link_task_attachments` | 9 | — (frontend Next.js) | SKIP |
 | `get_upload_path_by_type` | 9 | — (frontend Next.js) | SKIP |
@@ -613,10 +613,10 @@
 | `quotation_number_format` | 2 | Pipeline / Eloquent model events | ⏳ |
 | `pusher_options` | 2 | — (frontend Next.js) | SKIP |
 | `proposals_relation_table_columns` | 2 | — (frontend Next.js) | SKIP |
-| `proposal_html_pdf_data` | 2 | — (PdfService) | ⏳ Spine |
+| `proposal_html_pdf_data` | 2 | `Spine\Events\PdfCreating` (mutasi payload) | ✅ ported |
 | `projects_table_default_order` | 2 | — (frontend Next.js) | SKIP |
 | `projects_activity_dashboard_limit` | 2 | — (frontend Next.js) | SKIP |
-| `pdf_signature_break_lines` | 2 | — (PdfService) | ⏳ Spine |
+| `pdf_signature_break_lines` | 2 | `Spine\Events\PdfCreating` (mutasi payload) | ✅ ported |
 | `old_filter_name` | 2 | — (frontend Next.js) | SKIP |
 | `office_html_pdf_data` | 2 | — (frontend Next.js) | SKIP |
 | `jobreports_table_additional_columns_sql` | 2 | — (frontend Next.js) | SKIP |
@@ -844,10 +844,10 @@
 | `invoice_pdf_header_after_due_date` | 1 | — (frontend Next.js) | SKIP |
 | `invoice_pdf_header_after_date` | 1 | — (frontend Next.js) | SKIP |
 | `invoice_pdf_header_after_custom_fields` | 1 | — (frontend Next.js) | SKIP |
-| `invoice_overdue_notice_attach_pdf` | 1 | — (PdfService) | ⏳ Spine |
+| `invoice_overdue_notice_attach_pdf` | 1 | `Spine\Events\PdfCreating` (mutasi payload) | ✅ ported |
 | `invoice_object_before_send_to_client` | 1 | Pipeline / Eloquent model events | ⏳ |
 | `invoice_merge_fields` | 1 | Pipeline / Eloquent model events | ⏳ |
-| `invoice_due_notice_attach_pdf` | 1 | — (PdfService) | ⏳ Spine |
+| `invoice_due_notice_attach_pdf` | 1 | `Spine\Events\PdfCreating` (mutasi payload) | ✅ ported |
 | `invoice_currency_disabled` | 1 | Pipeline / Eloquent model events | ⏳ |
 | `invoice_currency_attributes` | 1 | Pipeline / Eloquent model events | ⏳ |
 | `invoice_batch_payments_merge_fields` | 1 | Pipeline / Eloquent model events | ⏳ |

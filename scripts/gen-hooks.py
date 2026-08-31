@@ -23,6 +23,8 @@ SPINE_EVENTS = {
     'module_activated': 'ModuleActivated',
     'module_deactivated': 'ModuleDeactivated',
     'notification_created': 'NotificationSent',
+    'pdf_construct': 'PdfCreating',
+    'pdf_close': 'PdfCreated',
 }
 NATIVE_MAP = {
     'after_staff_login': 'Illuminate\\Auth\\Events\\Login',
@@ -57,8 +59,6 @@ SPINE_DEFERRED = {
     'edit_logged_in_staff_profile': 'CRUD staff (app konsumen)',
     'staff_profile_access': 'CRUD staff (app konsumen)',
     'before_staff_change_language': 'CRUD staff (app konsumen)',
-    'pdf_construct': 'PdfService (lifecycle)',
-    'pdf_close': 'PdfService (lifecycle)',
 }
 FRONTEND_KW = ['html_viewed', '_view', '_tabs', '_tab_', 'sidebar', 'menu', 'widget', 'forms_table',
     '_footer', '_head', '_body', '_css', '_js', 'table_', '_table', 'dashboard', 'calendar', '_modal',
@@ -97,9 +97,12 @@ FILTER_NATIVE = {
     'send_email_template_to': 'Mailable (native)',
 }
 FILTER_SPINE = {
-    'pdf_info_and_table_separator': 'PdfService',
-    'pdf_signature_break_lines': 'PdfService',
-    'proposal_html_pdf_data': 'PdfService',
+    'pdf_format_array': 'PdfCreating (mutasi payload)',
+    'pdf_signature_break_lines': 'PdfCreating (mutasi payload)',
+    'proposal_html_pdf_data': 'PdfCreating (mutasi payload)',
+    'pdf_info_and_table_separator': 'PdfCreating (mutasi payload)',
+    'invoice_overdue_notice_attach_pdf': 'PdfCreating (mutasi payload)',
+    'invoice_due_notice_attach_pdf': 'PdfCreating (mutasi payload)',
 }
 FILTER_KW_NATIVE = ['_can', 'permission', 'is_staff_member', 'has_permission']
 
@@ -126,7 +129,7 @@ def map_filter(name):
     if name in FILTER_NATIVE:
         return f"`{FILTER_NATIVE[name]}`", '✅ native'
     if name in FILTER_SPINE:
-        return f"— ({FILTER_SPINE[name]})", '⏳ Spine'
+        return f"`Spine\\Events\\{FILTER_SPINE[name].split(' ')[0]}` (mutasi payload)", '✅ ported'
     if any(k in name for k in FILTER_KW_NATIVE):
         return 'Gate/permission (native)', '✅ native'
     if any(k in name for k in FRONTEND_KW) or name.startswith('_html') or name.endswith('_html') \
@@ -135,7 +138,7 @@ def map_filter(name):
     if any(k in name for k in INFRA_KW):
         return 'ServiceProvider/config (native)', 'NATIVE'
     if name.startswith('pdf_') or '_pdf' in name:
-        return '— (PdfService)', '⏳ Spine'
+        return '`Spine\\Events\\PdfCreating` (mutasi payload)', '✅ ported'
     return 'Pipeline / Eloquent model events', '⏳'
 
 

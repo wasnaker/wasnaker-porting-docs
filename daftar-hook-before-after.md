@@ -593,8 +593,8 @@ Status: `✅ ported` = event Spine, `✅ native` = Laravel bawaan, `⏳ Spine` =
 ### `application/libraries/pdf/App_pdf.php`
 | Line | Hook (BEFORE) | AFTER (Spine) | Status |
 |---|---|---|---|
-| 86 | `hooks()->do_action('pdf_construct')` | — (PdfService (lifecycle)) | ⏳ Spine |
-| 182 | `hooks()->do_action('pdf_close')` | — (PdfService (lifecycle)) | ⏳ Spine |
+| 86 | `hooks()->do_action('pdf_construct')` | `Spine\Events\PdfCreating` | ✅ ported |
+| 182 | `hooks()->do_action('pdf_close')` | `Spine\Events\PdfCreated` | ✅ ported |
 | 191 | `hooks()->do_action('pdf_header')` | — (frontend Next.js) | SKIP |
 | 201 | `hooks()->do_action('pdf_footer')` | — (frontend Next.js) | SKIP |
 
@@ -1199,7 +1199,7 @@ Status: `✅ ported` = event Spine, `✅ native` = Laravel bawaan, `⏳ Spine` =
 |---|---|---|---|
 | 72 | `hooks()->apply_filters('pdf_logo_url', …)` | — (frontend Next.js) | SKIP |
 | 101 | `hooks()->apply_filters('pdf_fonts_list', …)` | — (frontend Next.js) | SKIP |
-| 142 | `hooks()->apply_filters('pdf_format_array', …)` | — (PdfService) | ⏳ Spine |
+| 142 | `hooks()->apply_filters('pdf_format_array', …)` | `Spine\Events\PdfCreating` (mutasi payload) | ✅ ported |
 
 ### `application/helpers/projects_helper.php`
 | Line | Filter (BEFORE) | AFTER (Laravel) | Status |
@@ -1357,7 +1357,7 @@ Status: `✅ ported` = event Spine, `✅ native` = Laravel bawaan, `⏳ Spine` =
 ### `application/controllers/Proposal.php`
 | Line | Filter (BEFORE) | AFTER (Laravel) | Status |
 |---|---|---|---|
-| 84 | `hooks()->apply_filters('proposal_html_pdf_data', …)` | — (PdfService) | ⏳ Spine |
+| 84 | `hooks()->apply_filters('proposal_html_pdf_data', …)` | `Spine\Events\PdfCreating` (mutasi payload) | ✅ ported |
 | 98 | `hooks()->apply_filters('proposal_customers_area_view_data', …)` | — (frontend Next.js) | SKIP |
 
 ### `application/controllers/admin/Clients.php`
@@ -1516,8 +1516,8 @@ Status: `✅ ported` = event Spine, `✅ native` = Laravel bawaan, `⏳ Spine` =
 | 382 | `hooks()->apply_filters('before_invoice_added', …)` | Pipeline / Eloquent model events | ⏳ |
 | 585 | `hooks()->apply_filters('invoices_ids_available_for_merging', …)` | Pipeline / Eloquent model events | ⏳ |
 | 808 | `hooks()->apply_filters('before_invoice_updated', …)` | Pipeline / Eloquent model events | ⏳ |
-| 1359 | `hooks()->apply_filters('invoice_overdue_notice_attach_pdf', …)` | — (PdfService) | ⏳ Spine |
-| 1445 | `hooks()->apply_filters('invoice_due_notice_attach_pdf', …)` | — (PdfService) | ⏳ Spine |
+| 1359 | `hooks()->apply_filters('invoice_overdue_notice_attach_pdf', …)` | `Spine\Events\PdfCreating` (mutasi payload) | ✅ ported |
+| 1445 | `hooks()->apply_filters('invoice_due_notice_attach_pdf', …)` | `Spine\Events\PdfCreating` (mutasi payload) | ✅ ported |
 | 1529 | `hooks()->apply_filters('invoice_object_before_send_to_client', …)` | Pipeline / Eloquent model events | ⏳ |
 | 1539 | `hooks()->apply_filters('after_invoice_sent_template_statement', …)` | Pipeline / Eloquent model events | ⏳ |
 
@@ -1876,15 +1876,15 @@ Status: `✅ ported` = event Spine, `✅ native` = Laravel bawaan, `⏳ Spine` =
 ### `application/libraries/pdf/PDF_Signature.php`
 | Line | Filter (BEFORE) | AFTER (Laravel) | Status |
 |---|---|---|---|
-| 51 | `hooks()->apply_filters('pdf_signature_break_lines', …)` | — (PdfService) | ⏳ Spine |
+| 51 | `hooks()->apply_filters('pdf_signature_break_lines', …)` | `Spine\Events\PdfCreating` (mutasi payload) | ✅ ported |
 | 99 | `hooks()->apply_filters('blank_signature_line', …)` | — (frontend Next.js) | SKIP |
-| 109 | `hooks()->apply_filters('pdf_signature_break_lines', …)` | — (PdfService) | ⏳ Spine |
+| 109 | `hooks()->apply_filters('pdf_signature_break_lines', …)` | `Spine\Events\PdfCreating` (mutasi payload) | ✅ ported |
 | 128 | `hooks()->apply_filters('pdf_customer_signature_image_path', …)` | — (frontend Next.js) | SKIP |
 
 ### `application/libraries/pdf/Proposal_pdf.php`
 | Line | Filter (BEFORE) | AFTER (Laravel) | Status |
 |---|---|---|---|
-| 27 | `hooks()->apply_filters('proposal_html_pdf_data', …)` | — (PdfService) | ⏳ Spine |
+| 27 | `hooks()->apply_filters('proposal_html_pdf_data', …)` | `Spine\Events\PdfCreating` (mutasi payload) | ✅ ported |
 
 ### `application/views/admin/search.php`
 | Line | Filter (BEFORE) | AFTER (Laravel) | Status |
@@ -2243,12 +2243,12 @@ Status: `✅ ported` = event Spine, `✅ native` = Laravel bawaan, `⏳ Spine` =
 | 54 | `hooks()->apply_filters('credit_note_pdf_header_after_project', …)` | — (frontend Next.js) | SKIP |
 | 57 | `hooks()->apply_filters('credit_note_pdf_header_before_custom_fields', …)` | — (frontend Next.js) | SKIP |
 | 67 | `hooks()->apply_filters('credit_note_pdf_header_after_custom_fields', …)` | — (frontend Next.js) | SKIP |
-| 75 | `hooks()->apply_filters('pdf_info_and_table_separator', …)` | — (PdfService) | ⏳ Spine |
+| 75 | `hooks()->apply_filters('pdf_info_and_table_separator', …)` | `Spine\Events\PdfCreating` (mutasi payload) | ✅ ported |
 
 ### `application/views/themes/perfex/views/estimatepdf.php`
 | Line | Filter (BEFORE) | AFTER (Laravel) | Status |
 |---|---|---|---|
-| 74 | `hooks()->apply_filters('pdf_info_and_table_separator', …)` | — (PdfService) | ⏳ Spine |
+| 74 | `hooks()->apply_filters('pdf_info_and_table_separator', …)` | `Spine\Events\PdfCreating` (mutasi payload) | ✅ ported |
 
 ### `application/views/themes/perfex/views/invoicepdf.php`
 | Line | Filter (BEFORE) | AFTER (Laravel) | Status |
@@ -2259,7 +2259,7 @@ Status: `✅ ported` = event Spine, `✅ native` = Laravel bawaan, `⏳ Spine` =
 | 66 | `hooks()->apply_filters('invoice_pdf_header_after_project_name', …)` | — (frontend Next.js) | SKIP |
 | 69 | `hooks()->apply_filters('invoice_pdf_header_before_custom_fields', …)` | — (frontend Next.js) | SKIP |
 | 79 | `hooks()->apply_filters('invoice_pdf_header_after_custom_fields', …)` | — (frontend Next.js) | SKIP |
-| 87 | `hooks()->apply_filters('pdf_info_and_table_separator', …)` | — (PdfService) | ⏳ Spine |
+| 87 | `hooks()->apply_filters('pdf_info_and_table_separator', …)` | `Spine\Events\PdfCreating` (mutasi payload) | ✅ ported |
 
 ### `application/views/themes/perfex/views/open_ticket.php`
 | Line | Filter (BEFORE) | AFTER (Laravel) | Status |

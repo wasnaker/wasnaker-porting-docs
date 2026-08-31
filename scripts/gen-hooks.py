@@ -112,7 +112,7 @@ def map_action(name):
     if name in SPINE_DEFERRED:
         return f"— ({SPINE_DEFERRED[name]})", '⏳ Spine'
     if name.startswith('before_upload_'):
-        return '— (validasi FileService)', '⏳ Spine'
+        return '`Spine\\Events\\FileUploading`', '✅ ported'
     if name.startswith('before_remove_'):
         return '— (menunggu fitur Spine)', '⏳ Spine'
     if name in SKIP_FORCE or any(k in name for k in FRONTEND_KW):

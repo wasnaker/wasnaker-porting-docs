@@ -4,7 +4,7 @@
 
 ## A. BACKEND — do_action (wajib ada di backend)
 
-## ### A.1 Sudah di-port ke Spine (6) ✅
+## ### A.1 Sudah di-port ke Spine (20) ✅
 
 | Hook | Frekuensi | AFTER | Status |
 |---|---|---|---|
@@ -14,6 +14,20 @@
 | `module_installed` | 1 | `Spine\Events\ModuleInstalled` | ✅ ported |
 | `module_deactivated` | 1 | `Spine\Events\ModuleDeactivated` | ✅ ported |
 | `module_activated` | 1 | `Spine\Events\ModuleActivated` | ✅ ported |
+| `before_upload_ticket_attachment` | 1 | `Spine\Events\FileUploading` | ✅ ported |
+| `before_upload_staff_profile_image` | 1 | `Spine\Events\FileUploading` | ✅ ported |
+| `before_upload_signature_image_attachment` | 1 | `Spine\Events\FileUploading` | ✅ ported |
+| `before_upload_project_discussion_comment_attachment` | 1 | `Spine\Events\FileUploading` | ✅ ported |
+| `before_upload_project_attachment` | 1 | `Spine\Events\FileUploading` | ✅ ported |
+| `before_upload_newsfeed_attachment` | 1 | `Spine\Events\FileUploading` | ✅ ported |
+| `before_upload_iso_logo_attachment` | 1 | `Spine\Events\FileUploading` | ✅ ported |
+| `before_upload_favicon_attachment` | 1 | `Spine\Events\FileUploading` | ✅ ported |
+| `before_upload_expense_attachment` | 1 | `Spine\Events\FileUploading` | ✅ ported |
+| `before_upload_estimate_request_attachment` | 1 | `Spine\Events\FileUploading` | ✅ ported |
+| `before_upload_contract_attachment` | 1 | `Spine\Events\FileUploading` | ✅ ported |
+| `before_upload_contact_profile_image` | 1 | `Spine\Events\FileUploading` | ✅ ported |
+| `before_upload_company_logo_attachment` | 1 | `Spine\Events\FileUploading` | ✅ ported |
+| `before_upload_client_attachment` | 1 | `Spine\Events\FileUploading` | ✅ ported |
 
 ## ### A.2 Native Laravel (19) ✅
 
@@ -39,7 +53,7 @@
 | `after_client_logout` | 1 | `Illuminate\Auth\Events\Logout` | ✅ native |
 | `admin_init` | 1 | `ServiceProvider::boot()` | ✅ native |
 
-## ### A.3 Deferred di Spine (33) ⏳
+## ### A.3 Deferred di Spine (19) ⏳
 
 | Hook | Frekuensi | AFTER | Status |
 |---|---|---|---|
@@ -54,20 +68,6 @@
 | `pdf_construct` | 1 | — (PdfService (lifecycle)) | ⏳ Spine |
 | `pdf_close` | 1 | — (PdfService (lifecycle)) | ⏳ Spine |
 | `edit_logged_in_staff_profile` | 1 | — (CRUD staff (app konsumen)) | ⏳ Spine |
-| `before_upload_ticket_attachment` | 1 | — (validasi FileService) | ⏳ Spine |
-| `before_upload_staff_profile_image` | 1 | — (validasi FileService) | ⏳ Spine |
-| `before_upload_signature_image_attachment` | 1 | — (validasi FileService) | ⏳ Spine |
-| `before_upload_project_discussion_comment_attachment` | 1 | — (validasi FileService) | ⏳ Spine |
-| `before_upload_project_attachment` | 1 | — (validasi FileService) | ⏳ Spine |
-| `before_upload_newsfeed_attachment` | 1 | — (validasi FileService) | ⏳ Spine |
-| `before_upload_iso_logo_attachment` | 1 | — (validasi FileService) | ⏳ Spine |
-| `before_upload_favicon_attachment` | 1 | — (validasi FileService) | ⏳ Spine |
-| `before_upload_expense_attachment` | 1 | — (validasi FileService) | ⏳ Spine |
-| `before_upload_estimate_request_attachment` | 1 | — (validasi FileService) | ⏳ Spine |
-| `before_upload_contract_attachment` | 1 | — (validasi FileService) | ⏳ Spine |
-| `before_upload_contact_profile_image` | 1 | — (validasi FileService) | ⏳ Spine |
-| `before_upload_company_logo_attachment` | 1 | — (validasi FileService) | ⏳ Spine |
-| `before_upload_client_attachment` | 1 | — (validasi FileService) | ⏳ Spine |
 | `before_update_backup_options` | 1 | — (SettingUpdated saat settings-save) | ⏳ Spine |
 | `before_staff_change_language` | 1 | — (CRUD staff (app konsumen)) | ⏳ Spine |
 | `before_remove_staff_profile_image` | 1 | — (menunggu fitur Spine) | ⏳ Spine |

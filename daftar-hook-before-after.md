@@ -86,19 +86,19 @@ Status: `✅ ported` = event Spine, `✅ native` = Laravel bawaan, `⏳ Spine` =
 ### `application/helpers/upload_helper.php`
 | Line | Hook (BEFORE) | AFTER (Spine) | Status |
 |---|---|---|---|
-| 39 | `hooks()->do_action('before_upload_estimate_request_attachment')` | — (validasi FileService) | ⏳ Spine |
-| 117 | `hooks()->do_action('before_upload_newsfeed_attachment')` | — (validasi FileService) | ⏳ Spine |
-| 165 | `hooks()->do_action('before_upload_project_attachment')` | — (validasi FileService) | ⏳ Spine |
-| 277 | `hooks()->do_action('before_upload_contract_attachment')` | — (validasi FileService) | ⏳ Spine |
-| 511 | `hooks()->do_action('before_upload_client_attachment')` | — (validasi FileService) | ⏳ Spine |
-| 567 | `hooks()->do_action('before_upload_expense_attachment')` | — (validasi FileService) | ⏳ Spine |
-| 602 | `hooks()->do_action('before_upload_ticket_attachment')` | — (validasi FileService) | ⏳ Spine |
-| 655 | `hooks()->do_action('before_upload_company_logo_attachment')` | — (validasi FileService) | ⏳ Spine |
-| 709 | `hooks()->do_action('before_upload_signature_image_attachment')` | — (validasi FileService) | ⏳ Spine |
-| 752 | `hooks()->do_action('before_upload_favicon_attachment')` | — (validasi FileService) | ⏳ Spine |
-| 789 | `hooks()->do_action('before_upload_staff_profile_image')` | — (validasi FileService) | ⏳ Spine |
-| 857 | `hooks()->do_action('before_upload_contact_profile_image')` | — (validasi FileService) | ⏳ Spine |
-| 938 | `hooks()->do_action('before_upload_project_discussion_comment_attachment')` | — (validasi FileService) | ⏳ Spine |
+| 39 | `hooks()->do_action('before_upload_estimate_request_attachment')` | `Spine\Events\FileUploading` | ✅ ported |
+| 117 | `hooks()->do_action('before_upload_newsfeed_attachment')` | `Spine\Events\FileUploading` | ✅ ported |
+| 165 | `hooks()->do_action('before_upload_project_attachment')` | `Spine\Events\FileUploading` | ✅ ported |
+| 277 | `hooks()->do_action('before_upload_contract_attachment')` | `Spine\Events\FileUploading` | ✅ ported |
+| 511 | `hooks()->do_action('before_upload_client_attachment')` | `Spine\Events\FileUploading` | ✅ ported |
+| 567 | `hooks()->do_action('before_upload_expense_attachment')` | `Spine\Events\FileUploading` | ✅ ported |
+| 602 | `hooks()->do_action('before_upload_ticket_attachment')` | `Spine\Events\FileUploading` | ✅ ported |
+| 655 | `hooks()->do_action('before_upload_company_logo_attachment')` | `Spine\Events\FileUploading` | ✅ ported |
+| 709 | `hooks()->do_action('before_upload_signature_image_attachment')` | `Spine\Events\FileUploading` | ✅ ported |
+| 752 | `hooks()->do_action('before_upload_favicon_attachment')` | `Spine\Events\FileUploading` | ✅ ported |
+| 789 | `hooks()->do_action('before_upload_staff_profile_image')` | `Spine\Events\FileUploading` | ✅ ported |
+| 857 | `hooks()->do_action('before_upload_contact_profile_image')` | `Spine\Events\FileUploading` | ✅ ported |
+| 938 | `hooks()->do_action('before_upload_project_discussion_comment_attachment')` | `Spine\Events\FileUploading` | ✅ ported |
 
 ### `application/hooks/InitHook.php`
 | Line | Hook (BEFORE) | AFTER (Spine) | Status |

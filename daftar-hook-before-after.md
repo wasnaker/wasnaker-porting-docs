@@ -1214,8 +1214,8 @@ Status: `✅ ported` = event Spine, `✅ native` = Laravel bawaan, `⏳ Spine` =
 ### `application/helpers/relation_helper.php`
 | Line | Filter (BEFORE) | AFTER (Laravel) | Status |
 |---|---|---|---|
-| 144 | `hooks()->apply_filters('get_relation_data', …)` | Pipeline / Eloquent model events | ⏳ |
-| 330 | `hooks()->apply_filters('relation_values', …)` | Pipeline / Eloquent model events | ⏳ |
+| 144 | `hooks()->apply_filters('get_relation_data', …)` | `Spine\Events\RelationResolving` (mutasi payload) | ✅ ported |
+| 330 | `hooks()->apply_filters('relation_values', …)` | `Spine\Events\RelationResolving` (mutasi payload) | ✅ ported |
 | 411 | `hooks()->apply_filters('init_relation_options', …)` | — (frontend Next.js) | SKIP |
 
 ### `application/helpers/sales_helper.php`

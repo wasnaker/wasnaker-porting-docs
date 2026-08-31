@@ -105,6 +105,8 @@ FILTER_SPINE = {
     'after_format_datetime': 'DateFormatting (mutasi payload)',
     'before_sql_date_format': 'DateFormatting (mutasi payload)',
     'to_sql_date_formatted': 'DateFormatting (mutasi payload)',
+    'get_relation_data': 'RelationResolving (mutasi payload)',
+    'relation_values': 'RelationResolving (mutasi payload)',
     'pdf_format_array': 'PdfCreating (mutasi payload)',
     'pdf_signature_break_lines': 'PdfCreating (mutasi payload)',
     'proposal_html_pdf_data': 'PdfCreating (mutasi payload)',

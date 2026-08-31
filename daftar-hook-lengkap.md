@@ -728,7 +728,7 @@
 | `schedule_status_color_class` | 1 | — (frontend Next.js) | SKIP |
 | `schedule_number_format` | 1 | Pipeline / Eloquent model events | ⏳ |
 | `sales_number_format` | 1 | Pipeline / Eloquent model events | ⏳ |
-| `relation_values` | 1 | Pipeline / Eloquent model events | ⏳ |
+| `relation_values` | 1 | `Spine\Events\RelationResolving` (mutasi payload) | ✅ ported |
 | `register_merge_fields` | 1 | Pipeline / Eloquent model events | ⏳ |
 | `recurring_task_status` | 1 | Pipeline / Eloquent model events | ⏳ |
 | `quotations_relation_table_sql_columns` | 1 | — (frontend Next.js) | SKIP |
@@ -871,7 +871,7 @@
 | `get_task` | 1 | Pipeline / Eloquent model events | ⏳ |
 | `get_styling_areas` | 1 | — (frontend Next.js) | SKIP |
 | `get_sms_gateways` | 1 | Pipeline / Eloquent model events | ⏳ |
-| `get_relation_data` | 1 | Pipeline / Eloquent model events | ⏳ |
+| `get_relation_data` | 1 | `Spine\Events\RelationResolving` (mutasi payload) | ✅ ported |
 | `get_projects_tasks` | 1 | Pipeline / Eloquent model events | ⏳ |
 | `get_option` | 1 | — (frontend Next.js) | SKIP |
 | `get_notes` | 1 | Pipeline / Eloquent model events | ⏳ |

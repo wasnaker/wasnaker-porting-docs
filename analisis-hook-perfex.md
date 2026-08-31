@@ -166,3 +166,271 @@ modules/
 *Dokumen dibuat berdasarkan inspeksi `application/hooks/`, `application/config/hooks.php`,
 `application/third_party/action_hooks.php`, dan `application/helpers/core_hooks_helper.php`,
 27 Agustus 2026.*
+---
+
+## Lampiran A — Inventaris Hook app.ciptamasjaya.co.id (ground truth, 31 Agustus 2026)
+
+Inventaris diambil dari **`application/` saja (core Perfex kustom) — hook dari `modules/` TIDAK dibaca** (hook kustom bisnis licence/inspection/schedule milik module, di-port bersama modulnya nanti).
+
+| Kategori | Jumlah | Keputusan porting |
+|----------|--------|-------------------|
+| BACKEND (event) | 195 | → **Laravel Events** di package Spine (`src/Events/`) atau modul |
+| FRONTEND (view/UI) | 160 | → skip (frontend Next.js; API tidak render HTML) |
+| INFRA (lifecycle) | 35 | → ServiceProvider / Middleware / native Laravel |
+| **Total** | **390** | |
+
+> Sumber: `grep -rhoE "do_action('[^']+'" application/` — 390 hook unik (sebelumnya 526 termasuk module).
+
+
+### 1. BACKEND hooks → Laravel Events (195)
+
+Ini hook yang **harus tersedia sebagai event di backend** (package Spine untuk yang generik, modul untuk yang domain). Nama event Laravel mengikuti konvensi `Domain\Verb` (mis. `after_add_task` → `TaskCreated`), listener didaftarkan di `EventServiceProvider` modul.
+
+```text
+5x after_update_task
+4x after_add_task
+3x lead_created
+3x after_ticket_status_changed
+3x after_staff_login
+2x task_status_changed
+2x project_status_changed
+2x lead_status_changed
+2x email_template_sent
+2x contact_created
+2x before_user_reset_password
+2x before_staff_login
+2x after_user_reset_password
+2x after_payment_added
+2x after_contact_login
+1x ticket_created
+1x task_timer_started
+1x task_timer_deleted
+1x task_follower_added
+1x task_deleted
+1x task_comment_updated
+1x task_comment_deleted
+1x task_comment_added
+1x task_checklist_item_finished
+1x task_checklist_item_created
+1x task_assignee_added
+1x staff_render_permissions
+1x staff_profile_access
+1x staff_member_updated
+1x staff_member_profile_updated
+1x staff_member_deleted
+1x staff_member_created
+1x smtp_test_email_success
+1x smtp_test_email_failed
+1x sms_trigger_triggered
+1x set_password_email_sent
+1x public_ticket_start
+1x public_ticket_end
+1x proposal_sent
+1x proposal_declined
+1x proposal_created
+1x proposal_converted_to_invoice
+1x proposal_converted_to_estimate
+1x proposal_accepted
+1x project_copied
+1x pre_deactivate_module
+1x pre_activate_module
+1x notification_created
+1x note_updated
+1x note_deleted
+1x note_created
+1x non_existent_user_login_attempt
+1x new_template_added
+1x new_tag_created
+1x module_deactivated
+1x module_activated
+1x lead_marked_as_lost
+1x lead_marked_as_junk
+1x lead_created_from_email_integration
+1x lead_converted_to_customer
+1x item_updated
+1x item_deleted
+1x item_created
+1x item_coppied
+1x invoice_unmarked_as_cancelled
+1x invoice_status_changed
+1x invoice_sent
+1x invoice_overdue_reminder_sent
+1x invoice_marked_as_cancelled
+1x invoice_due_reminder_sent
+1x invoice_copied
+1x inactive_user_login_attempt
+1x forgot_password_email_sent
+1x failed_to_send_email_template
+1x failed_login_attempt
+1x expense_converted_to_invoice
+1x existing_lead_email_inserted_from_email_integration
+1x estimate_sent
+1x estimate_requests_created
+1x estimate_request_status_changed
+1x estimate_request_assigned_changed
+1x estimate_declined
+1x estimate_converted_to_invoice
+1x estimate_accepted
+1x edit_logged_in_staff_profile
+1x customers_area_knowledge_base_construct
+1x customer_vault_entry_deleted
+1x customer_updated_company_info
+1x customer_subscribed_to_subscription
+1x customer_group_deleted
+1x credits_applied
+1x credit_note_status_changed
+1x credit_note_sent
+1x credit_note_refund_updated
+1x credit_note_refund_deleted
+1x credit_note_refund_created
+1x created_credit_note_from_invoice
+1x contact_updated
+1x contact_status_changed
+1x contact_email_verified_but_requires_admin_confirmation
+1x contact_email_verified
+1x contact_deleted
+1x client_status_changed
+1x before_update_note
+1x before_unpin_post
+1x before_tickets_email_templates
+1x before_ticket_deleted
+1x before_template_deleted
+1x before_tasks_email_templates
+1x before_subscriptions_table
+1x before_subscriptions_email_templates
+1x before_staff_myprofile
+1x before_staff_email_templates
+1x before_send_test_smtp_email
+1x before_save_completed_checklist_visibility
+1x before_render_payment_gateway_settings
+1x before_render_invoice_template
+1x before_remove_project_file
+1x before_proposals_email_templates
+1x before_projects_email_templates
+1x before_pin_post
+1x before_payment_deleted
+1x before_notifications_email_templates
+1x before_leads_settings
+1x before_leads_email_templates
+1x before_leads_email_integration_form
+1x before_lead_email_activity
+1x before_lead_deleted
+1x before_invoices_email_templates
+1x before_invoice_deleted
+1x before_get_payment_gateways
+1x before_gdpr_email_templates
+1x before_estimates_email_templates
+1x before_estimate_request_email_templates
+1x before_estimate_request_deleted
+1x before_estimate_deleted
+1x before_delete_ticket_reply
+1x before_delete_staff_member
+1x before_delete_post
+1x before_delete_note
+1x before_delete_department
+1x before_delete_contact
+1x before_delete_announcement
+1x before_customers_email_templates
+1x before_credit_notes_email_templates
+1x before_credit_note_deleted
+1x before_contracts_email_templates
+1x before_contract_deleted
+1x before_confirmation_identity_fields
+1x before_compile_scripts_assets
+1x before_client_login
+1x before_client_deleted
+1x before_check_recurring_tasks
+1x app_client_assets_added
+1x app_client_assets
+1x app_admin_assets_added
+1x app_admin_assets
+1x announcement_updated
+1x announcement_deleted
+1x announcement_created
+1x after_update_project
+1x after_update_credit_note
+1x after_ticket_reply_added
+1x after_template_updated
+1x after_template_deleted
+1x after_system_info_files_permissions
+1x after_single_knowledge_base_article_customers_area
+1x after_render_invoice_template
+1x after_proposal_updated
+1x after_leads_settings
+1x after_lead_email_activity
+1x after_kb_groups_customers_area
+1x after_invoice_updated
+1x after_invoice_added
+1x after_expense_updated
+1x after_expense_added
+1x after_estimate_updated
+1x after_estimate_added
+1x after_email_templates
+1x after_department_added
+1x after_customers_area_files
+1x after_customer_billing_and_shipping_tab
+1x after_customer_admins_tab
+1x after_credit_note_deleted
+1x after_create_credit_note
+1x after_contract_updated
+1x after_contract_added
+1x after_confirmation_identity_fields
+1x after_client_updated
+1x after_client_deleted
+1x after_client_added
+1x after_check_recurring_tasks
+1x after_add_project
+1x after_add_discussion_comment
+1x admin_area_after_project_progress
+```
+
+### 2. INFRA hooks → native Laravel (35)
+
+```text
+2x after_clients_area_init
+1x pre_upgrade_database
+1x pre_uninstall_module
+1x pre_admin_init
+1x pdf_construct
+1x pdf_close
+1x modules_loaded
+1x module_uninstalled
+1x module_installed
+1x module_
+1x model_init
+1x deprecated_hook_run
+1x deprecated_function_run
+1x database_updated
+1x clients_init
+1x before_update_database
+1x before_settings_group_view
+1x before_perform_update
+1x before_cron_run
+1x auto_upgrade_failed_to_extract_zip_file
+1x app_init
+1x app_base_after_construct_action
+1x after_settings_group_view
+1x after_settings_e_sign_fields
+1x after_pdf_signature_settings_fields
+1x after_finance_settings_tabs_content
+1x after_finance_settings_last_tab
+1x after_cron_settings_last_tab_content
+1x after_cron_settings_last_tab
+1x after_cron_run
+1x after_client_register_logged_in
+1x after_client_register
+1x admin_init
+1x admin_auth_init
+1x After_Hooks_Setup
+```
+
+### 3. FRONTEND hooks → skip (160)
+
+Hook view/UI (render sidebar, tab, widget, form, logo, dsb.) **tidak di-port** — frontend adalah SPA Next.js yang konsumsi API, bukan HTML server-rendered. Contoh: `forms_table_start`, `before_remove_contact_profile_image`, `web_to_lead_form_start`, `customers_content_container_start`, `header_action`, `after_misc_settings`.
+
+
+### 4. Catatan
+
+- Klasifikasi berbasis pola nama + review manual 40 hook ambigu (semua terklasifikasi).
+- Saat mem-port tiap modul, jalankan ulang inventaris di `modules/<modul>/` — hook domain modul (mis. `licence_html_viewed`) di-port bersama modulnya.
+- Aturan konversi tetap mengikuti Bagian C di atas: `do_action` → `event()`, `add_action` → listener, `apply_filters` → event-mutation/Pipeline.

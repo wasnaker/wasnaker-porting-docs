@@ -4,10 +4,12 @@
 
 ## A. BACKEND — do_action (wajib ada di backend)
 
-## ### A.1 Sudah di-port ke Spine (22) ✅
+## ### A.1 Sudah di-port ke Spine (28) ✅
 
 | Hook | Frekuensi | AFTER | Status |
 |---|---|---|---|
+| `before_remove_iso_logo` | 2 | `Spine\Events\FileDeleting` | ✅ ported |
+| `before_remove_contact_profile_image` | 2 | `Spine\Events\FileDeleting` | ✅ ported |
 | `sms_trigger_triggered` | 1 | `Spine\Events\SmsSent` | ✅ ported |
 | `pdf_construct` | 1 | `Spine\Events\PdfCreating` | ✅ ported |
 | `pdf_close` | 1 | `Spine\Events\PdfCreated` | ✅ ported |
@@ -30,6 +32,10 @@
 | `before_upload_contact_profile_image` | 1 | `Spine\Events\FileUploading` | ✅ ported |
 | `before_upload_company_logo_attachment` | 1 | `Spine\Events\FileUploading` | ✅ ported |
 | `before_upload_client_attachment` | 1 | `Spine\Events\FileUploading` | ✅ ported |
+| `before_remove_staff_profile_image` | 1 | `Spine\Events\FileDeleting` | ✅ ported |
+| `before_remove_project_file` | 1 | `Spine\Events\FileDeleting` | ✅ ported |
+| `before_remove_favicon` | 1 | `Spine\Events\FileDeleting` | ✅ ported |
+| `before_remove_company_logo` | 1 | `Spine\Events\FileDeleting` | ✅ ported |
 
 ## ### A.2 Native Laravel (19) ✅
 
@@ -55,12 +61,10 @@
 | `after_client_logout` | 1 | `Illuminate\Auth\Events\Logout` | ✅ native |
 | `admin_init` | 1 | `ServiceProvider::boot()` | ✅ native |
 
-## ### A.3 Deferred di Spine (17) ⏳
+## ### A.3 Deferred di Spine (11) ⏳
 
 | Hook | Frekuensi | AFTER | Status |
 |---|---|---|---|
-| `before_remove_iso_logo` | 2 | — (menunggu fitur Spine) | ⏳ Spine |
-| `before_remove_contact_profile_image` | 2 | — (menunggu fitur Spine) | ⏳ Spine |
 | `before_cron_run` | 2 | — (cron Spine) | ⏳ Spine |
 | `staff_profile_access` | 1 | — (CRUD staff (app konsumen)) | ⏳ Spine |
 | `staff_member_updated` | 1 | — (CRUD staff (app konsumen)) | ⏳ Spine |
@@ -70,10 +74,6 @@
 | `edit_logged_in_staff_profile` | 1 | — (CRUD staff (app konsumen)) | ⏳ Spine |
 | `before_update_backup_options` | 1 | — (SettingUpdated saat settings-save) | ⏳ Spine |
 | `before_staff_change_language` | 1 | — (CRUD staff (app konsumen)) | ⏳ Spine |
-| `before_remove_staff_profile_image` | 1 | — (menunggu fitur Spine) | ⏳ Spine |
-| `before_remove_project_file` | 1 | — (menunggu fitur Spine) | ⏳ Spine |
-| `before_remove_favicon` | 1 | — (menunggu fitur Spine) | ⏳ Spine |
-| `before_remove_company_logo` | 1 | — (menunggu fitur Spine) | ⏳ Spine |
 | `before_delete_staff_member` | 1 | — (CRUD staff (app konsumen)) | ⏳ Spine |
 | `after_cron_run` | 1 | — (cron Spine) | ⏳ Spine |
 

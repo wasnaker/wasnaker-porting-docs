@@ -120,7 +120,7 @@ Status: `✅ ported` = event Spine, `✅ native` = Laravel bawaan, `⏳ Spine` =
 | Line | Hook (BEFORE) | AFTER (Spine) | Status |
 |---|---|---|---|
 | 19 | `hooks()->do_action('after_clients_area_init')` | — (frontend Next.js) | SKIP |
-| 1139 | `hooks()->do_action('before_remove_contact_profile_image')` | — (menunggu fitur Spine) | ⏳ Spine |
+| 1139 | `hooks()->do_action('before_remove_contact_profile_image')` | `Spine\Events\FileDeleting` | ✅ ported |
 
 ### `application/controllers/Contacts.php`
 | Line | Hook (BEFORE) | AFTER (Spine) | Status |
@@ -246,8 +246,8 @@ Status: `✅ ported` = event Spine, `✅ native` = Laravel bawaan, `⏳ Spine` =
 ### `application/controllers/admin/Settings.php`
 | Line | Hook (BEFORE) | AFTER (Spine) | Status |
 |---|---|---|---|
-| 175 | `hooks()->do_action('before_remove_company_logo')` | — (menunggu fitur Spine) | ⏳ Spine |
-| 197 | `hooks()->do_action('before_remove_favicon')` | — (menunggu fitur Spine) | ⏳ Spine |
+| 175 | `hooks()->do_action('before_remove_company_logo')` | `Spine\Events\FileDeleting` | ✅ ported |
+| 197 | `hooks()->do_action('before_remove_favicon')` | `Spine\Events\FileDeleting` | ✅ ported |
 
 ### `application/controllers/admin/Staff.php`
 | Line | Hook (BEFORE) | AFTER (Spine) | Status |
@@ -258,7 +258,7 @@ Status: `✅ ported` = event Spine, `✅ native` = Laravel bawaan, `⏳ Spine` =
 | 148 | `hooks()->do_action('before_save_hidden_table_columns')` | — (frontend Next.js) | SKIP |
 | 157 | `hooks()->do_action('before_staff_change_language')` | — (CRUD staff (app konsumen)) | ⏳ Spine |
 | 208 | `hooks()->do_action('edit_logged_in_staff_profile')` | — (CRUD staff (app konsumen)) | ⏳ Spine |
-| 246 | `hooks()->do_action('before_remove_staff_profile_image')` | — (menunggu fitur Spine) | ⏳ Spine |
+| 246 | `hooks()->do_action('before_remove_staff_profile_image')` | `Spine\Events\FileDeleting` | ✅ ported |
 | 288 | `hooks()->do_action('staff_profile_access')` | — (CRUD staff (app konsumen)) | ⏳ Spine |
 | 442 | `hooks()->do_action('before_save_completed_checklist_visibility')` | — (frontend Next.js) | SKIP |
 
@@ -329,7 +329,7 @@ Status: `✅ ported` = event Spine, `✅ native` = Laravel bawaan, `⏳ Spine` =
 | 1198 | `hooks()->do_action('contact_deleted')` | — | ⏳ modul |
 | 1318 | `hooks()->do_action('contact_status_changed')` | — | ⏳ modul |
 | 1345 | `hooks()->do_action('client_status_changed')` | — | ⏳ modul |
-| 1666 | `hooks()->do_action('before_remove_contact_profile_image')` | — (menunggu fitur Spine) | ⏳ Spine |
+| 1666 | `hooks()->do_action('before_remove_contact_profile_image')` | `Spine\Events\FileDeleting` | ✅ ported |
 
 ### `application/models/Contracts_model.php`
 | Line | Hook (BEFORE) | AFTER (Spine) | Status |
@@ -457,7 +457,7 @@ Status: `✅ ported` = event Spine, `✅ native` = Laravel bawaan, `⏳ Spine` =
 ### `application/models/Projects_model.php`
 | Line | Hook (BEFORE) | AFTER (Spine) | Status |
 |---|---|---|---|
-| 479 | `hooks()->do_action('before_remove_project_file')` | — (menunggu fitur Spine) | ⏳ Spine |
+| 479 | `hooks()->do_action('before_remove_project_file')` | `Spine\Events\FileDeleting` | ✅ ported |
 | 851 | `hooks()->do_action('after_add_project')` | — | ⏳ modul |
 | 1049 | `hooks()->do_action('project_status_changed')` | — | ⏳ modul |
 | 1067 | `hooks()->do_action('after_update_project')` | — | ⏳ modul |

@@ -117,7 +117,7 @@ def map_action(name):
     if name.startswith('before_upload_'):
         return '`Spine\\Events\\FileUploading`', '✅ ported'
     if name.startswith('before_remove_'):
-        return '— (menunggu fitur Spine)', '⏳ Spine'
+        return '`Spine\\Events\\FileDeleting`', '✅ ported'
     if name in SKIP_FORCE or any(k in name for k in FRONTEND_KW):
         return '— (frontend Next.js)', 'SKIP'
     if any(k in name for k in INFRA_KW):

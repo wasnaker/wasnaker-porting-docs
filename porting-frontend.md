@@ -47,7 +47,8 @@ Prinsip: modul mendaftar (manifest), core merender (registry) — pola dari apli
 - [x] Tab core Misc (upload size, activity log retention, table defaults — position 40)
 - [x] Tab core SMS (driver select + Twilio creds) — SmsService override config dari settings (sms_driver/sms_twilio_*), fallback config/sms.php
 - [ ] Tab core Realtime — DEFERRED: bangun saat Reverb dipakai sungguhan
-- [ ] Halaman Sample modul (GET/POST /api/v1/sample)
+- [x] Registry modul: GET /api/v1/modules/extensions → Sidebar render menu Modul + Dashboard render widget (sample-items, area right-4)
+- [x] Halaman Sample modul (GET/POST /api/v1/sample — menu modul href /sample)
 
 ## Catatan keputusan
 - Registry menu/widget: config-driven dulu → upgrade ke API-driven (manifest) saat modul di-port. Sudah jalan API-nya; frontend tinggal konsumsi.

@@ -18,8 +18,8 @@ Prinsip: modul mendaftar (manifest), core merender (registry) — pola dari apli
 - [x] Komponen UI dasar (Button, Input, Card, Badge, PageHeader, dll) — lib/ui.tsx
 - [x] Layout 2 panel: Sidebar kiri + konten kanan
 - [x] Topbar (judul halaman aktif "Spine / {page}")
-- [ ] Theme toggle dark/light (next-themes)
-- [ ] User dropdown di Topbar (Profile/Settings/Logout — data /auth/me)
+- [x] Theme toggle dark/light (next-themes)
+- [x] User dropdown di Topbar (Profile/Settings/Logout — data /auth/me)
 - [ ] Toggle sidebar (collapse)
 - [ ] Search global ⌘K (nunggu hook global_search_*)
 

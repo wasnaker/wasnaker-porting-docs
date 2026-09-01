@@ -44,7 +44,8 @@ Prinsip: modul mendaftar (manifest), core merender (registry) — pola dari apli
 - [x] Tab core Email (SMTP: host/port/user/pass/encryption/from) + tombol Test SMTP (field type action → /api/v1/mail/test)
 - [x] Tab core General, Company Information, Localization (position 5/10/15)
 - [x] Tab core PDF (font/size/logo width/heading colors — position 30)
-- [ ] Tab core berikutnya (bertahap): Tags, SMS, Realtime, Misc (file: laravelspine/src/Config/settings-tabs.php)
+- [x] Tab core Misc (upload size, activity log retention, table defaults — position 40)
+- [ ] Tab core berikutnya (bertahap): SMS (perlu jembatan settings→config SmsService), Realtime (saat Reverb aktif)
 - [ ] Halaman Sample modul (GET/POST /api/v1/sample)
 
 ## Catatan keputusan

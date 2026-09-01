@@ -42,7 +42,9 @@ Prinsip: modul mendaftar (manifest), core merender (registry) — pola dari apli
 - [x] Settings, Meta, Tags, QR Code, Number to Word, PDF, Activity Logs
 - [x] Settings dari manifest modul: GET /api/v1/settings/schema → tab + field generic → PUT per key
 - [x] Tab core Email (SMTP: host/port/user/pass/encryption/from) + tombol Test SMTP (field type action → /api/v1/mail/test)
-- [ ] Tab core berikutnya (bertahap): General, Company, PDF, Tags, SMS, Realtime, Misc (file: laravelspine/src/Config/settings-tabs.php)
+- [x] Tab core General, Company Information, Localization (position 5/10/15)
+- [x] Tab core PDF (font/size/logo width/heading colors — position 30)
+- [ ] Tab core berikutnya (bertahap): Tags, SMS, Realtime, Misc (file: laravelspine/src/Config/settings-tabs.php)
 - [ ] Halaman Sample modul (GET/POST /api/v1/sample)
 
 ## Catatan keputusan

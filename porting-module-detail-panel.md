@@ -1,8 +1,23 @@
 # Porting — Detail Panel Master-Detail (list + panel kanan bertab)
 
-Status: **helper induk SELESAI** (1 Sep 2026) — `lib/master-detail.tsx` + kontrak `detail_tabs` di manifest + endpoint per-item
-Sumber pola: legacy `application/views/admin/clients/` + `application/libraries/App_tabs.php`
-Target: halaman module (contoh: Sample) — list item di kiri, klik → panel kanan dengan tabs
+Status: **KOREKSI POLA** (1 Sep 2026) — pola modul bisnis = DataTable + halaman detail full-width (quotations), BUKAN split panel kiri-kanan (clients)
+Sumber pola: legacy `modules/quotations/` (modul bisnis) — `manage_table.php` + `quotation.php`
+Target: halaman module (contoh: Sample) — DataTable item, klik → detail full-width
+
+## KOREKSI (baca modul quotations sebagai ground truth)
+
+Pola yang BENAR untuk modul bisnis (quotations, inspections, billings, licences):
+- **List**: `manage_table.php` = DataTable penuh full-width (`render_datatable`) + tombol `toggle_small_view` (toggle tampilan, bukan split panel)
+- **Detail**: klik baris → halaman terpisah (`view_quotation/$id` → `quotation.php`) full-width (`col-md-12`): header info (col-md-6 + col-md-6) + tabel item (`_add_edit_items`) + total (`bottom-transaction`)
+- TIDAK ADA tabs di detail quotation — detail full-width dengan kolom informasi
+
+Pola clients (list kiri + panel kanan bertab via `tabs.php`) = pola untuk **entity dengan banyak tab relasi** (contacts/invoices/projects), bukan pola default modul.
+
+## Implementasi di Spine (sesuai koreksi)
+
+- `/sample`: DataTable item (ID, Nama, Dibuat) — TANPA form create di atasnya
+- Klik baris → detail full-width (bukan panel kanan) — meniru `quotation.php`
+- Helper `MasterDetail` (list kiri + panel kanan) → JANGAN dipakai untuk modul; cadangan untuk entity bertab banyak bila dibutuhkan
 
 ## Pola legacy (referensi)
 
@@ -31,9 +46,9 @@ $tab = [
 Modul menambah tab: `app_tabs->add_customer_profile_tab($slug, $tab)` → `$this->add($slug, $tab, 'customer_profile')`.
 Contoh tab bawaan client: profile, contacts, invoices, estimates, payments, projects, proposals, contracts, expenses, vault, etc.
 
-## Pemetaan ke Spine (rencana)
+## Pemetaan ke Spine (sesuai koreksi pola)
 
-### Backend — SELESAI
+### Backend — SELESAI (kontrak tetap valid)
 - Kontrak manifest modul `detail_tabs` (opsional) — sudah diimplementasikan:
 ```php
 'detail_tabs' => [
@@ -47,17 +62,19 @@ Contoh tab bawaan client: profile, contacts, invoices, estimates, payments, proj
 ],
 ```
 - `extensions()` di ModuleController menyertakan `detail_tabs` per modul (key = lowercase nama modul) — satu request untuk menu + widgets + detail_tabs.
+- Kontrak `detail_tabs` tetap berguna untuk **halaman detail full-width** (padanan section `_add_edit_items` / kolom info quotation.php) — tab opsional, bukan keharusan.
 
-### Frontend (nextjs-spine) — SELESAI (helper induk)
-- `lib/master-detail.tsx`: komponen `MasterDetail` generik — list kiri + panel kanan bertab; konten tab di-fetch dari `tab.api` (placeholder `{id}` diganti id item); dipakai semua modul tanpa perulangan.
-- Halaman modul tinggal: fetch list + `<MasterDetail items={items} tabs={detail_tabs["<modul>"]} />`.
-- Contoh terpasang: `/sample` (tab overview → GET /sample/{id}, tab activity → GET /sample/{id}/activity-logs).
+### Frontend (nextjs-spine)
+- `/sample`: **DataTable** item (ID, Nama, Dibuat) — tanpa form create di atas (padanan manage_table.php) — SELESAI
+- Klik baris → detail **full-width** (bukan panel kanan) — mengikuti quotation.php — BELUM
+- `lib/master-detail.tsx` (list kiri + panel kanan bertab): **cadangan**, hanya untuk entity bertab banyak bila dibutuhkan — JANGAN dipakai modul bisnis
 
 ## Catatan keputusan
+- Pola modul bisnis = **DataTable + detail full-width** (quotations sebagai ground truth).
 - `badge` (per-item) di-skip dulu — tambah saat ada kebutuhan nyata (YAGNI).
-- Tab konten = data dari `tab.api` (API-driven), bukan komponen React per modul (sama seperti keputusan settings fields generic).
-- Visibilitas tab per-role/setting: tunda — sama seperti filter_client_visible_tabs, butuh konsep role dulu.
+- Visibilitas tab per-role/setting: tunda — butuh konsep role dulu.
 
 ## File terkait
 - Sample module manifest: `<path-to-modules>/boilerplates/Sample/manifest.php`
-- Halaman Sample saat ini: `app/sample/page.tsx` (list + form create — belum ada detail panel)
+- Halaman Sample saat ini: `app/sample/page.tsx` (DataTable — detail full-width menyusul)
+- Referensi legacy: `<path-to-app>/modules/quotations/views/admin/quotations/manage_table.php` + `quotation.php`

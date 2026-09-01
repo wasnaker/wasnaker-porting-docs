@@ -53,3 +53,4 @@ Prinsip: modul mendaftar (manifest), core merender (registry) — pola dari apli
 ## Catatan keputusan
 - Registry menu/widget: config-driven dulu → upgrade ke API-driven (manifest) saat modul di-port. Sudah jalan API-nya; frontend tinggal konsumsi.
 - Jangan commit hostname .lan / path internal di repo publik.
+- Hook CRUD entity: Spine memakai 6 event GENERIC (EntityCreating/Created, EntityUpdating/Updated, EntityDeleting/Deleted) dengan entityType + changes (diff old→new) + prevent() — MENGGANTIKAN pola legacy 100+ hook per entity (after_contract_added, after_estimate_updated, dst). Model cukup `use HasLifecycleHooks`; listener filter `$event->entityType`. Pola status-change (estimate_accepted, task_status_changed) = kasus khusus EntityUpdated dengan `changes['status']`. Contoh: modul Sample (LogEntityActivity).

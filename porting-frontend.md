@@ -45,7 +45,8 @@ Prinsip: modul mendaftar (manifest), core merender (registry) — pola dari apli
 - [x] Tab core General, Company Information, Localization (position 5/10/15)
 - [x] Tab core PDF (font/size/logo width/heading colors — position 30)
 - [x] Tab core Misc (upload size, activity log retention, table defaults — position 40)
-- [ ] Tab core berikutnya (bertahap): SMS (perlu jembatan settings→config SmsService), Realtime (saat Reverb aktif)
+- [x] Tab core SMS (driver select + Twilio creds) — SmsService override config dari settings (sms_driver/sms_twilio_*), fallback config/sms.php
+- [ ] Tab core Realtime — DEFERRED: bangun saat Reverb dipakai sungguhan
 - [ ] Halaman Sample modul (GET/POST /api/v1/sample)
 
 ## Catatan keputusan

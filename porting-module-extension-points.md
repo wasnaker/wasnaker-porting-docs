@@ -32,4 +32,4 @@ Tanggal: 1 Sep 2026.
 
 - Saat porting modul bisnis (inspections, billings, licences, dll): manifest harus isi `widgets[]` DAN `settings[]`.
 - `perfex_dashboard` = contoh modul yang menambah menu sidebar — manifest `menu[]`.
-- Graph ini tersedia di http://graphify-aapanel.lan/graph-app-ciptamasjaya-modules.html
+- Graph ini tersedia di `graph-app-ciptamasjaya-modules.html` (lihat dashboard graphify internal).

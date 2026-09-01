@@ -1,6 +1,6 @@
 # Porting — Detail Panel Master-Detail (list + panel kanan bertab)
 
-Status: **tercatat, belum diimplementasikan** (1 Sep 2026)
+Status: **helper induk SELESAI** (1 Sep 2026) — `lib/master-detail.tsx` + kontrak `detail_tabs` di manifest + endpoint per-item
 Sumber pola: legacy `application/views/admin/clients/` + `application/libraries/App_tabs.php`
 Target: halaman module (contoh: Sample) — list item di kiri, klik → panel kanan dengan tabs
 
@@ -33,32 +33,25 @@ Contoh tab bawaan client: profile, contacts, invoices, estimates, payments, proj
 
 ## Pemetaan ke Spine (rencana)
 
-### Backend
-- Perluas kontrak manifest modul dengan `detail_tabs` (opsional):
+### Backend — SELESAI
+- Kontrak manifest modul `detail_tabs` (opsional) — sudah diimplementasikan:
 ```php
 'detail_tabs' => [
     [
         'slug'     => 'overview',
         'label'    => 'Overview',
-        'icon'     => 'eye',
+        'icon'     => '👁️',
         'api'      => '/api/v1/sample/{id}/overview',   // data konten tab
         'position' => 10,
     ],
-    [
-        'slug'     => 'activity',
-        'label'    => 'Activity',
-        'icon'     => 'clock',
-        'api'      => '/api/v1/sample/{id}/activity-logs',
-        'position' => 20,
-    ],
 ],
 ```
-- Endpoint baru (kalau perlu): `GET /api/v1/{resource}/{id}/tabs` → tab yang berlaku untuk item tsb + badge (padanan get_customer_profile_tabs + filter_client_visible_tabs).
+- `extensions()` di ModuleController menyertakan `detail_tabs` per modul (key = lowercase nama modul) — satu request untuk menu + widgets + detail_tabs.
 
-### Frontend (nextjs-spine)
-- Halaman module list (kiri) → klik item → panel kanan muncul (URL `?id=N` atau `/module/N`).
-- Panel kanan: header item + nav tabs (dari kontrak) + konten tab (fetch `tab.api`).
-- Komponen generik di `lib/` (padanan `render_dashboard_widgets` — render apa yang dikirim kontrak).
+### Frontend (nextjs-spine) — SELESAI (helper induk)
+- `lib/master-detail.tsx`: komponen `MasterDetail` generik — list kiri + panel kanan bertab; konten tab di-fetch dari `tab.api` (placeholder `{id}` diganti id item); dipakai semua modul tanpa perulangan.
+- Halaman modul tinggal: fetch list + `<MasterDetail items={items} tabs={detail_tabs["<modul>"]} />`.
+- Contoh terpasang: `/sample` (tab overview → GET /sample/{id}, tab activity → GET /sample/{id}/activity-logs).
 
 ## Catatan keputusan
 - `badge` (per-item) di-skip dulu — tambah saat ada kebutuhan nyata (YAGNI).

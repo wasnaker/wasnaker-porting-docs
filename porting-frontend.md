@@ -40,6 +40,7 @@ Prinsip: modul mendaftar (manifest), core merender (registry) — pola dari apli
 
 ### Contoh halaman (API nyata)
 - [x] Settings, Meta, Tags, QR Code, Number to Word, PDF, Activity Logs
+- [x] Settings dari manifest modul: GET /api/v1/settings/schema → tab + field generic → PUT per key
 - [ ] Halaman Sample modul (GET/POST /api/v1/sample)
 
 ## Catatan keputusan

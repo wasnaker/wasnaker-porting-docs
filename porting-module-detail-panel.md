@@ -66,5 +66,5 @@ Contoh tab bawaan client: profile, contacts, invoices, estimates, payments, proj
 - Visibilitas tab per-role/setting: tunda — sama seperti filter_client_visible_tabs, butuh konsep role dulu.
 
 ## File terkait
-- Sample module manifest: `/www/wwwroot/laravelspine/modules/boilerplates/Sample/manifest.php`
+- Sample module manifest: `<path-to-modules>/boilerplates/Sample/manifest.php`
 - Halaman Sample saat ini: `app/sample/page.tsx` (list + form create — belum ada detail panel)

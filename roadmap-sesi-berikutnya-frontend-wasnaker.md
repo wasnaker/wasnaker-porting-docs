@@ -26,16 +26,23 @@
   module-extensions, dashboard-state, use-pagination-limit — sudah 0
   dependensi shell) + `components/spine/*` (pakai tailgrids/core) +
   `components/dashboard/*`.
-- **KEPUTUSAN CALENDAR/EVENTS (2026-09-02): modul Spine utuh (jalur 2).**
-  Widget calendar legacy (`dashboard/widgets/calendar.php` + utilities
-  calendar, default area `left-8`) TIDAK dibuat sbg widget non-modul —
-  kerangka frontend sengaja tidak punya kategori itu (katalog = manifest
-  modul). Events/calendar = modul `Events` (backend Spine: entity + API +
-  manifest mendaftarkan widget calendar, area default left-8). Frontend:
-  komponen widget calendar (fullcalendar — @fullcalendar/* sudah di deps
-  NextAdmin) didaftarkan di widget-registry utk id widget dari manifest
-  Events. Posisi di roadmap: kandidat modul produksi (bisa sebelum/paralel
-  Quotations — keputusan saat eksekusi).
+- **KEPUTUSAN CALENDAR/EVENTS & TODOS (2026-09-02): widget dashboard = dari
+  MODUL, bukan widget non-modul.** Kerangka frontend sengaja tidak punya
+  kategori widget non-modul (katalog = manifest modul). Widget inti legacy
+  yang berdiri di atas fitur mandiri → modul masing-masing:
+  - Events/calendar: modul `Events` — entity + API + manifest widget
+    calendar (default area `left-8`). Ground truth: `dashboard/widgets/
+    calendar.php`, `utilities/{calendar,calendar_template,calendar_filters}.
+    php`, Utilities controller (events + Google calendar).
+  - Todos: modul `Todo` — widget todos (default area `right-4`), daftar
+    unfinished+finished per user, toggle selesai, drag-reorder, modal
+    new/edit. Ground truth: `dashboard/widgets/todos.php`, `controllers/
+    admin/Todo.php`, `models/Todo_model.php`, `views/admin/todos/_todo.php`
+    (data $todos/$todos_finished disiapkan Dashboard controller).
+  Frontend: komponen widget calendar (fullcalendar, @fullcalendar/* sudah
+  di deps) & widget todos didaftarkan di widget-registry utk id dari
+  manifest modul. Posisi: kandidat modul produksi (urutan vs Quotations
+  diputuskan saat eksekusi).
   Package layer portable DI-EKSTRAK DARI NEXTADMIN (`services/spine/*` +
   `components/spine/*` + `components/dashboard/*`), bukan rombak nextjs-spine
   lama. Rencana eksekusi (nama kerja repo: `spine-frontend`, path-repo):

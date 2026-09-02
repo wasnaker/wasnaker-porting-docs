@@ -26,7 +26,16 @@
   module-extensions, dashboard-state, use-pagination-limit — sudah 0
   dependensi shell) + `components/spine/*` (pakai tailgrids/core) +
   `components/dashboard/*`.
-- **KEPUTUSAN: POLA 1 DISETUJUI (2026-09-02) — eksekusi BELUM dijalankan.**
+- **KEPUTUSAN CALENDAR/EVENTS (2026-09-02): modul Spine utuh (jalur 2).**
+  Widget calendar legacy (`dashboard/widgets/calendar.php` + utilities
+  calendar, default area `left-8`) TIDAK dibuat sbg widget non-modul —
+  kerangka frontend sengaja tidak punya kategori itu (katalog = manifest
+  modul). Events/calendar = modul `Events` (backend Spine: entity + API +
+  manifest mendaftarkan widget calendar, area default left-8). Frontend:
+  komponen widget calendar (fullcalendar — @fullcalendar/* sudah di deps
+  NextAdmin) didaftarkan di widget-registry utk id widget dari manifest
+  Events. Posisi di roadmap: kandidat modul produksi (bisa sebelum/paralel
+  Quotations — keputusan saat eksekusi).
   Package layer portable DI-EKSTRAK DARI NEXTADMIN (`services/spine/*` +
   `components/spine/*` + `components/dashboard/*`), bukan rombak nextjs-spine
   lama. Rencana eksekusi (nama kerja repo: `spine-frontend`, path-repo):

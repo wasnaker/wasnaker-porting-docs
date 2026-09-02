@@ -25,9 +25,16 @@
   dikerjakan DI NextAdmin: `services/spine/*` (api, auth-context,
   module-extensions, dashboard-state, use-pagination-limit — sudah 0
   dependensi shell) + `components/spine/*` (pakai tailgrids/core) +
-  `components/dashboard/*`. Ekstraksi jadi package path-repo DITUNDA sampai
-  ada konsumen kedua nyata (YAGNI — konsumen saat ini cuma NextAdmin;
-  TailAdmin = native reference, bukan target).
+  `components/dashboard/*`.
+- **RENCANA PAKET LAYER (ide sesi ini, BELUM diputuskan — lanjut diskusi)**:
+  spine.lan diganti shell TailAdmin → konsumen kedua NYATA (wasnaker-frontend
+  + TailAdmin spine.lan sama-sama require satu package layer). Wacana: ekstrak
+  SEKARANG (masih sedikit modul di atasnya). Dua opsi sumber: (1) REKOMENDASI:
+  ekstrak layer dari NextAdmin (kode teruji E2E; tantangan: netralkan design
+  token krn NextAdmin/TailAdmin token beda — komponen package tak boleh pakai
+  token shell mana pun); (2) rombak nextjs-spine lama jadi package (nama/repo
+  ada, tapi retheme + NextAdmin migrasi dari kode matang = lebih mahal).
+  nextjs-spine lama tetap app demo sampai spine.lan pindah.
 
 ## 2. Langkah 1 — Setup frontend baru
 

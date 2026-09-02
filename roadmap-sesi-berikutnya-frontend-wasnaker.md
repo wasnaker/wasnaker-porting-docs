@@ -46,12 +46,13 @@
   TARGET & REPO (default belum final — user offline; rekomendasi): modul
   produksi = repo tersendiri sbg sumber (Sample/SampleTasks bisa numpang
   boilerplates krn cuma contoh). Spine = nwidart/laravel-modules; distribusi
-  resmi via zip upload (ModuleService::install, ZipArchive). USULAN: 1 repo
-  monorepo (mis. `laravelspine/spine-modules`) berisi `Modules/Events` +
-  `Modules/Todo` + calon modul lain — 1 sumber, 1 artifact flow (preseden:
-  Sample+SampleTasks satu repo). Install: spine.lan (staging) → wasnaker-core
-  (produksi, Modules/ belum ada). Repo per modul kalau versioning independen
-  dibutuhkan.
+  resmi via zip upload (ModuleService::install, ZipArchive). KEPUTUSAN POLA
+  REPO (2026-09-02): repo per modul, nama kebab-case lowercase —
+  `wasnaker/spine-calendar` & `wasnaker/spine-todo` (bukan SpineCalendar /
+  spine_todo — konsisten dgn laravelspine/apidocs, nextjs-spine, konvensi
+  composer). Nama MODUL internal tetap PascalCase (Modules/Events,
+  Modules/Todo) — pola nwidart spt Sample/SampleTasks. Install: spine.lan
+  (staging) → wasnaker-core (produksi, Modules/ belum ada).
   Package layer portable DI-EKSTRAK DARI NEXTADMIN (`services/spine/*` +
   `components/spine/*` + `components/dashboard/*`), bukan rombak nextjs-spine
   lama. Rencana eksekusi (nama kerja repo: `spine-frontend`, path-repo):

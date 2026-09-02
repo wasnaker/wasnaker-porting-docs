@@ -26,15 +26,29 @@
   module-extensions, dashboard-state, use-pagination-limit — sudah 0
   dependensi shell) + `components/spine/*` (pakai tailgrids/core) +
   `components/dashboard/*`.
-- **RENCANA PAKET LAYER (ide sesi ini, BELUM diputuskan — lanjut diskusi)**:
-  spine.lan diganti shell TailAdmin → konsumen kedua NYATA (wasnaker-frontend
-  + TailAdmin spine.lan sama-sama require satu package layer). Wacana: ekstrak
-  SEKARANG (masih sedikit modul di atasnya). Dua opsi sumber: (1) REKOMENDASI:
-  ekstrak layer dari NextAdmin (kode teruji E2E; tantangan: netralkan design
-  token krn NextAdmin/TailAdmin token beda — komponen package tak boleh pakai
-  token shell mana pun); (2) rombak nextjs-spine lama jadi package (nama/repo
-  ada, tapi retheme + NextAdmin migrasi dari kode matang = lebih mahal).
-  nextjs-spine lama tetap app demo sampai spine.lan pindah.
+- **KEPUTUSAN: POLA 1 DISETUJUI (2026-09-02) — eksekusi BELUM dijalankan.**
+  Package layer portable DI-EKSTRAK DARI NEXTADMIN (`services/spine/*` +
+  `components/spine/*` + `components/dashboard/*`), bukan rombak nextjs-spine
+  lama. Rencana eksekusi (nama kerja repo: `spine-frontend`, path-repo):
+  - Tahap A: repo package + pindah `services/spine` (sudah 0 dependensi shell).
+  - Tahap B: pindah komponen visual + primitif yang dipakai (badge/button/
+    card/field/input/input-group/table/skeleton dari tailgrids/core + cn) +
+    ganti import `@/components/common/header/icons` (shell) dgn ikon lokal.
+  - Tahap C: NextAdmin konsumsi via path-repo: `next.config transpilePackages`,
+    tailwind content include pkg, import `theme.css`, hapus folder lama.
+  - Tahap D: build + E2E 14/14.
+  - Tahap E: konsumen kedua = TailAdmin utk spine.lan (nextjs-spine lama
+    pensiun setelah itu).
+  TEMUAN PENTING (biaya netralisasi): SEMUA lapisan visual pakai token
+  semantic CSS shell — tailgrids/core (`bg-badge-*-background`, dll) &
+  komponen (`text-text-primary`, `bg-card-background`, `border-card-border`,
+  `icon-*`, `primary-*`) yang didefinisikan via `@theme` di `globals.css`
+  NextAdmin. Utility custom hanya ter-generate bila token ada di @theme
+  konsumen → package WAJIB membawa `theme.css` berisi `@theme` token netral
+  (prefix `spine-*`) + `:root` default; konsumen `@import` di css-nya; shell
+  bisa override var utk menyamakan identitas visual. Tailwind v4: file css
+  package ikut di-scan utk utility. React 19 + @tanstack/react-query +
+  @dnd-kit/react + sonner = peerDeps.
 
 ## 2. Langkah 1 — Setup frontend baru
 

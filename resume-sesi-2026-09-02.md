@@ -120,3 +120,18 @@ Catatan pitfall: `Collection::where('done')` = where key, bukan nilai → pakai
 - PHPUnit belum dipasang (keputusan sesi) — verifikasi via skrip ad-hoc
 - Next steps: porting modul legacy (inspections, licences, quotations...), evaluasi
   scaffold dengan modul nyata multi-entity (Equipments, Customers)
+
+## Keputusan frontend wasnaker (9 Sep 2026)
+
+- Backend Spine sudah frontend-agnostic — ganti frontend TIDAK menyentuh backend
+  (kontrak `/api/v1/*` + manifest + Entity events tetap)
+- **Base frontend wasnaker = NextAdmin free** (open-source, v2.0.0, Next.js 16,
+  TanStack Table + React Aria + Recharts + semantic tokens) — BUKAN nextjs-spine
+- `tailadmin.lan` (TailAdmin 2.3.0) dan `nextadmin.lan` (NextAdmin 2.0.0) di
+  /www/wwwroot sudah terpasang sebagai NATIVE reference — JANGAN disentuh/dipakai
+  langsung; frontend wasnaker di-clone fresh dari repo resmi ke lokasi baru
+- Pola yang dibawa dari nextjs-spine (diimplementasi ulang dengan primitives
+  NextAdmin): SmallTable (DataTable + panel detail bertab + mode kecil + hash #id),
+  TabContent (array→tabel, objek→dl, inlineData, SWR cache, skeleton),
+  usePaginationLimit (setting tables_pagination_limit), semantic class names
+- Konvensi UI tetap: header STATUS|#ID|TITLE, parent title, ulid hidden

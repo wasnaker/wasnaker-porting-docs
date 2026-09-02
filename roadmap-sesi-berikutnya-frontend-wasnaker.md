@@ -43,11 +43,15 @@
   di deps) & widget todos didaftarkan di widget-registry utk id dari
   manifest modul. Posisi: kandidat modul produksi (urutan vs Quotations
   diputuskan saat eksekusi).
-  TARGET INSTANCE (default, belum dieksekusi — user offline saat konfirmasi):
-  staging di `spine.lan` dulu (bareng Sample, uji widget dashboard via E2E),
-  lalu pindah/install ke `wasnaker-core` (produksi) setelah widget terbukti.
-  Modul TIDAK perlu repo sendiri — folder `Modules/{Events,Todo}` di
-  konsumen via `module:make-spine`; repo per modul hanya saat distribusi.
+  TARGET & REPO (default belum final — user offline; rekomendasi): modul
+  produksi = repo tersendiri sbg sumber (Sample/SampleTasks bisa numpang
+  boilerplates krn cuma contoh). Spine = nwidart/laravel-modules; distribusi
+  resmi via zip upload (ModuleService::install, ZipArchive). USULAN: 1 repo
+  monorepo (mis. `laravelspine/spine-modules`) berisi `Modules/Events` +
+  `Modules/Todo` + calon modul lain — 1 sumber, 1 artifact flow (preseden:
+  Sample+SampleTasks satu repo). Install: spine.lan (staging) → wasnaker-core
+  (produksi, Modules/ belum ada). Repo per modul kalau versioning independen
+  dibutuhkan.
   Package layer portable DI-EKSTRAK DARI NEXTADMIN (`services/spine/*` +
   `components/spine/*` + `components/dashboard/*`), bukan rombak nextjs-spine
   lama. Rencana eksekusi (nama kerja repo: `spine-frontend`, path-repo):

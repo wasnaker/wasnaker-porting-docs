@@ -14,6 +14,20 @@
   nextjs-spine). Backend Spine frontend-agnostic — TIDAK disentuh.
 - `tailadmin.lan` (TailAdmin 2.3.0) & `nextadmin.lan` (NextAdmin 2.0.0) =
   native reference, JANGAN diubah.
+- **KEPUTUSAN ARSITEKTUR (sesi lanjutan 2026-09-02)**: nextjs-spine lama
+  (`/www/wwwroot/nextjs-spine`) TERLALU BESAR karena dibangun sebagai app utuh
+  sebelum shell ada. Ia pensiun sbg REFERENSI pola; demo spine.lan tetap
+  jalan. CATATAN: pola `lib/master-detail.tsx` (list + panel bertab) SUDAH
+  tergantikan oleh `SmallTable` NextAdmin (TanStack, mode kecil 5/12 + panel
+  7/12, hash #id, tab dari detail_tabs) + `TabContent` — tidak ada gap
+  fungsional adaptor tersisa; verifikasi paritas = halaman modul produksi.
+  berikutnya (layer portable, bisa dipasang di shell mana pun) = layer yg
+  dikerjakan DI NextAdmin: `services/spine/*` (api, auth-context,
+  module-extensions, dashboard-state, use-pagination-limit — sudah 0
+  dependensi shell) + `components/spine/*` (pakai tailgrids/core) +
+  `components/dashboard/*`. Ekstraksi jadi package path-repo DITUNDA sampai
+  ada konsumen kedua nyata (YAGNI — konsumen saat ini cuma NextAdmin;
+  TailAdmin = native reference, bukan target).
 
 ## 2. Langkah 1 — Setup frontend baru
 
@@ -50,7 +64,55 @@ Yang DIBANGUN ulang di NextAdmin (implementasi ulang, bukan copy kode):
    - SWR cache per URL + skeleton shimmer (bukan teks "Memuat...")
 5. Konsumsi `detail_tabs` + `extend_detail_tabs` dari extensions.
 
-## 4. Langkah 3 — Modul pertama produksi
+## 4. Langkah 3 — Kerangka dashboard widget (INFRA, sebelum modul bisnis)
+
+✅ **SELESAI sesi 2026-09-02** (commit `702fe1a` — lokasi:
+`/www/wwwroot/wasnaker.lan/wasnaker-frontend`, file di bawah). Backend sudah final
+(state per user + katalog widget di Spine, terverifikasi):
+
+- Kontrak: GET/PUT `/api/v1/dashboard/order`, PUT `.../visibility`,
+  POST `.../reset`; area layout BEBAS (frontend yang define grid);
+  area default per widget dari manifest modul
+  (`extensions.widgets`: `{id, area, title, api}`).
+- Semantik merge (dari `application/helpers/widgets_helper.php`): layout
+  null → semua di area default; layout ada → render saved + FALLBACK widget
+  tak-tertempatkan ke area default-nya; visibility hide.
+
+Yang DIBANGUN di NextAdmin (`/www/wwwroot/wasnaker.lan/wasnaker-frontend`):
+1. Registry widget React: map widgetId → komponen; katalog "yang ADA" dari
+   `extensions.widgets`; widget terdaftar tanpa komponen → kartu placeholder
+   (modul boleh daftar manifest duluan). — `src/components/dashboard/widget-registry.tsx`
+2. Halaman dashboard (home) jadi host: grid area frontend = 8 area base
+   legacy (`top-12` → `middle-left/right-6` → `left-8/right-4` →
+   `bottom-×3`), urutan = posisi di dashboard.php. Lebar kolom DITURUNKAN
+   dari suffix id (grid 12) → area 3/4/6 kolom tinggal definisikan id
+   (akhiran `-4`/`-3`/`-2`). Area efektif = base + area default widget di
+   katalog modul + area di layout user (append di bawah — KEPUTUSAN:
+   posisi sisip tengah via konvensi blok ditunda sampai modul produksi
+   nyata butuh). — `src/app/(with-layouts)/(dashboard)/(home)/page.tsx`
+3. Merge render sesuai semantik di atas. — `src/components/dashboard/dashboard-merge.ts`
+   (pure, self-check `node dashboard-merge.js` setelah tsc: 12 assert)
+4. Hook state (SWR): GET/PUT order, PUT visibility, POST reset. —
+   `src/services/spine/dashboard-state.ts` (react-query; key cache HARUS
+   `["spine","dashboard",token]` exact agar optimistic update kena)
+5. DnD antar-area + reorder (@dnd-kit/react sudah di deps) → PUT state penuh
+   per drop; area kosong → `'empty'` (backend terima + normalisasi). —
+   `src/components/dashboard/dashboard-grid.tsx` + `dashboard-widget-card.tsx`
+   (item: `useSortable({id,index,group:area,type:'item',accept:'item'})`;
+   kolom: `useDroppable` CollisionPriority.Low; update state HANYA di
+   onDragEnd via cache optimistic — plugin OptimisticSorting update
+   `source.index/group` final; drop ke kolom kosong = branch target
+   `type==='column'` → append akhir)
+6. Dropzone visuals: area valid terlihat saat drag (kotak dashed, pola
+   legacy `.placeholder-dashboard-widgets`) + toggle "preview widgetable
+   area" (widget disembunyikan, semua area kosong tampil — pola WordPress).
+7. Visibility toggle per widget: panel "Widgets" (checkbox, padanan
+   screen-options legacy — WAJIB ada karena tombol eye di kartu yang hidden
+   tak terjangkau) + tombol eye per kartu (sembunyikan cepat).
+8. Uji dengan widget Sample (sudah terdaftar di backend) → bukti kerangka
+   hidup; verifikasi ad-hoc `hermes-verify-*` (DnD E2E).
+
+## 5. Langkah 4 — Modul pertama produksi
 
 - Pilih modul legacy pertama untuk di-port (usulan: **Quotations** — paling
   kompleks di legacy, ground truth ada di `/www/wwwroot/app.ciptamasjaya.co.id/`
